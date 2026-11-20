@@ -230,6 +230,15 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 }
 @media (max-width:900px) and (max-height:640px){.card .sub{display:none}}
 
+
+@media (max-width:760px){
+.gi figcaption{left:8px;bottom:8px;right:auto;font-size:11px;line-height:1.3;padding:4px 8px;border-radius:7px;max-width:calc(100% - 16px)}
+.gi .badge{top:8px;left:8px;font-size:9px;padding:2px 7px}
+.card .cr img{object-position:50% 16%}
+.live{aspect-ratio:9/15}
+.vp{height:auto;aspect-ratio:9/15}
+.siterow .browser .bar .livetag{display:none}
+}
 /* ===== case sheet ===== */
 .sheet{position:fixed;inset:0;z-index:90;pointer-events:none}
 .sheet .sc{position:absolute;inset:0;background:rgba(5,6,9,.6);backdrop-filter:blur(6px);opacity:0;transition:opacity .6s}
@@ -774,9 +783,11 @@ new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$$('img[dat
 const ECO={full:B+'3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg',mob:B+'468375d5-1a46-4c99-8dd1-7baed32f75d2.jpg'};
 const PX={hero:B+'df28eec2-3d49-4ce0-a330-79f2acd945fe.jpg',url:'https://pixelhaven.store/',full:B+'77c18eb7-19e3-4cb3-9267-1a3ce0c2753f.jpg',mob:B+'f1ce2364-298d-4442-9e77-4db074dcaf74.jpg'};
 const liveH=(url,dom,title)=>`<div class="browser" data-cur="Try it"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live · click around</span></div><div class="live" data-live="${url}"><iframe title="${esc(title)} — live site" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="ld">Loading the live site…</div></div></div>`;
-const shotH=(full,dom,title,url)=>url?`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="vp"><img src="${full}" alt="Full-page screenshot of ${esc(title)}" loading="lazy"></div><span class="visit">Visit the live store ↗</span></a>`:`<div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span></div><div class="vp"><img src="${full}" alt="Full-page screenshot of ${esc(title)}" loading="lazy"></div></div>`;
+const mobOf=f=>f===PX.full?PX.mob:f===ECO.full?ECO.mob:f===MM.full?MM.mob:'';
+const pic=(full,alt)=>{const m=mobOf(full);return `<picture>${m?`<source media="(max-width:760px)" srcset="${m}">`:''}<img src="${full}" alt="${alt}" loading="lazy"></picture>`};
+const shotH=(full,dom,title,url)=>url?`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="vp">${pic(full,'Full-page screenshot of '+esc(title))}</div><span class="visit">Visit the live store ↗</span></a>`:`<div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span></div><div class="vp">${pic(full,'Full-page screenshot of '+esc(title))}</div></div>`;
 const heroLinkH=(img,dom,title,url)=>`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="hv"><img src="${img}" alt="${esc(title)} homepage" loading="lazy"></div><span class="visit">Visit the live store ↗</span></a>`;
-function fitLive(root=document){$$('.live',root).forEach(l=>{const f=$('iframe',l);if(f)f.style.transform=`scale(${l.clientWidth/1440})`})}
+function fitLive(root=document){const m=innerWidth<=760,VW=m?390:1440;$$('.live',root).forEach(l=>{const f=$('iframe',l);if(!f)return;const k=l.clientWidth/VW;f.style.width=VW+'px';f.style.height=(m?Math.ceil(l.clientHeight/k):900)+'px';f.style.transform=`scale(${k})`})}
 function wireLive(root=document){fitLive(root);$$('.live',root).forEach(l=>{if(l.dataset.wired)return;l.dataset.wired=1;const f=$('iframe',l);f.addEventListener('load',()=>l.classList.add('ok'));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!f.src)f.src=l.dataset.live;io.disconnect()}}),{rootMargin:'300px'});io.observe(l)})}
 function wireShots(root=document){$$('.vp',root).forEach(vp=>{const i=$('img',vp);const set=()=>vp.style.setProperty('--scroll',Math.max(0,i.offsetHeight-vp.offsetHeight)+'px');i.addEventListener('load',set);set()})}
