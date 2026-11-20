@@ -220,30 +220,65 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (max-width:860px){.cs-body{grid-template-columns:1fr;gap:36px;padding:40px 20px 70px}.cs-hero{padding:34px 20px 0}.cs-media{margin:30px 20px 0}.sheet .top{padding:14px 20px}.film li{grid-template-columns:1fr;gap:6px}.cs-media.tall{grid-template-columns:1fr 1fr}.cs-next{padding:24px 20px 32px}}
 
 /* ===== reel (pinned horizontal) ===== */
-.reel{position:relative;background:var(--night)}
-.pin{position:sticky;top:0;height:100vh;overflow:hidden;display:flex;flex-direction:column;justify-content:center}
-.reel-head{display:flex;justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:34px}
-.reel-head h2{font-family:var(--disp);font-weight:800;font-size:clamp(44px,6.6vw,110px);line-height:.86;letter-spacing:-.055em}
-.reel-head h2 .it{color:var(--lime);font-weight:400}
-.reel-head p{color:var(--dim);max-width:38ch}
-.track{display:flex;gap:18px;padding-left:40px;will-change:transform;align-items:flex-end}
-.grp{display:flex;flex-direction:column;gap:12px;flex:none}
-.grp .lab{display:flex;justify-content:space-between;gap:16px;color:var(--dim)}
-.grp .lab b{color:var(--paper);font-weight:500}
-.grp .items{display:flex;gap:10px;align-items:flex-end}
-.rv{position:relative;height:clamp(300px,52vh,520px);border-radius:12px;overflow:hidden;background:var(--night3);cursor:pointer;flex:none}
-.rv.v{aspect-ratio:9/16}.rv.p{aspect-ratio:3/4}.rv.s{aspect-ratio:4/5}.rv.q{aspect-ratio:1/1}
-.rv img,.rv video{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
-.rv:hover img,.rv:hover video{transform:scale(1.05)}
-.rv figcaption{position:absolute;left:10px;right:10px;bottom:10px;font-size:12px;padding:6px 10px;border-radius:8px;background:rgba(11,13,18,.62);backdrop-filter:blur(8px);opacity:0;transform:translateY(8px);transition:opacity .4s,transform .5s var(--ease)}
-.rv:hover figcaption{opacity:1;transform:none}
-.rv .badge{position:absolute;top:10px;left:10px;background:rgba(11,13,18,.62);backdrop-filter:blur(8px);border-radius:99px;padding:3px 9px}
-.endcap{flex:none;width:min(520px,80vw);height:clamp(300px,52vh,520px);border-radius:12px;background:var(--lime);color:var(--ink);padding:34px;display:flex;flex-direction:column;justify-content:space-between}
-.endcap b{font-family:var(--disp);font-weight:800;font-size:clamp(60px,8vw,120px);line-height:.85;letter-spacing:-.06em;display:block}
-.endcap p{font-size:17px;max-width:30ch}
-.prog{height:2px;background:var(--faint);margin:30px 40px 0;position:relative}
-.prog i{position:absolute;left:0;top:0;bottom:0;width:var(--p,0%);background:var(--lime)}
-@media (max-width:860px){.reel{height:auto!important}.pin{position:relative;height:auto;padding:90px 0}.track{overflow-x:auto;scroll-snap-type:x mandatory;padding:0 20px 10px;transform:none!important;scrollbar-width:none}.track::-webkit-scrollbar{display:none}.rv{height:380px;scroll-snap-align:start}.prog{display:none}.reel-head{flex-direction:column;align-items:flex-start}}
+/* ===== gallery (tabs) ===== */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.tabs button{display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px;border-radius:99px;border:1px solid var(--faint);color:var(--dim);font-weight:500;transition:background .35s,color .35s,border-color .35s}
+.tabs button:hover{border-color:var(--paper);color:var(--paper)}
+.tabs button[aria-selected=true]{background:var(--paper);color:var(--ink);border-color:var(--paper)}
+.tabs small{font-family:var(--mono);font-size:10px;opacity:.6}
+.tabnote{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:18px;color:var(--dim)}
+.tabnote b{color:var(--paper);font-weight:500}
+.panel{display:none;gap:12px}
+.panel.on{display:grid;animation:gup .8s var(--ease) both}
+@keyframes gup{from{opacity:0;transform:translateY(24px)}}
+.p-mm{grid-template-columns:repeat(4,minmax(0,1fr))}
+.p-hd{grid-template-columns:repeat(4,minmax(0,1fr))}
+.p-fa{grid-template-columns:repeat(3,minmax(0,1fr))}
+.p-fl{grid-template-columns:repeat(4,minmax(0,1fr))}
+.gi{position:relative;border-radius:14px;overflow:hidden;background:var(--night3);cursor:pointer;margin:0}
+.gi.wide{grid-column:span 2;aspect-ratio:16/9}
+.gi.r34{aspect-ratio:3/4}.gi.r916{aspect-ratio:9/16}.gi.r45{aspect-ratio:4/5}.gi.r11{aspect-ratio:1/1}
+.gi img,.gi video{width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease)}
+.gi:hover img,.gi:hover video{transform:scale(1.04)}
+.gi.cut{background:#e9e9e7}.gi.cut img{object-fit:contain;padding:12%}
+.gi figcaption{position:absolute;left:12px;bottom:12px;right:60px;font-size:13px;padding:6px 11px;border-radius:8px;background:rgba(11,13,18,.62);backdrop-filter:blur(8px);width:max-content;max-width:calc(100% - 72px)}
+.gi .badge{position:absolute;top:12px;left:12px;background:rgba(11,13,18,.62);backdrop-filter:blur(8px);border-radius:99px;padding:3px 9px}
+.snd{position:absolute;right:12px;bottom:12px;width:44px;height:44px;border-radius:50%;background:rgba(11,13,18,.7);backdrop-filter:blur(8px);display:grid;place-items:center;color:#fff;transition:background .3s,color .3s,transform .4s var(--spring);z-index:2}
+.snd:hover{transform:scale(1.08)}
+.snd.on{background:var(--lime);color:var(--ink)}
+.snd svg{width:20px;height:20px}
+@media (max-width:860px){.p-mm,.p-hd,.p-fl{grid-template-columns:1fr 1fr}.p-fa{grid-template-columns:1fr 1fr}.gi.wide{grid-column:1/-1}}
+
+/* live site frame */
+.live{position:relative;overflow:hidden;background:#fff;aspect-ratio:16/10}
+.live iframe{position:absolute;left:0;top:0;width:1440px;height:900px;border:0;transform-origin:0 0;background:#fff}
+.live .ld{position:absolute;inset:0;display:grid;place-items:center;background:#ecebe6;color:#666;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;transition:opacity .5s}
+.live.ok .ld{opacity:0;pointer-events:none}
+.livetag{display:inline-flex;align-items:center;gap:8px;margin-left:auto;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:#1a7f37;white-space:nowrap}
+.livetag i{width:7px;height:7px;border-radius:50%;background:#28c940;animation:ping2 1.8s infinite}
+@keyframes ping2{70%{box-shadow:0 0 0 6px rgba(40,201,64,0)}0%{box-shadow:0 0 0 0 rgba(40,201,64,.6)}}
+.cs-media.frame{aspect-ratio:auto;background:none;overflow:visible}
+.cs-media.frame .browser{box-shadow:0 40px 90px -40px rgba(14,17,23,.5),0 0 0 1px var(--line)}
+.openfull{display:inline-flex;margin-top:14px;font-family:var(--mono);font-size:11px;letter-spacing:.09em;text-transform:uppercase;text-decoration:underline;text-underline-offset:4px}
+
+/* plain-language flows */
+.flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:44px 40px 0}
+.flow .fc{background:#fff;border:1px solid var(--line);border-radius:16px;padding:24px 22px;display:flex;flex-direction:column;gap:10px}
+.flow .fc .n{font-family:var(--disp);font-weight:800;font-size:44px;letter-spacing:-.05em;line-height:1;color:var(--blue2)}
+.flow .fc b{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.03em;line-height:1.1}
+.flow .fc p{font-size:15px;color:#3a3e46}
+.ba{display:grid;gap:12px;margin:44px 40px 0}
+.ba .row{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1fr) minmax(0,1fr);gap:12px}
+.ba .q{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.03em;line-height:1.15;padding:22px 4px}
+.ba .bf,.ba .af{border-radius:14px;padding:20px 22px;font-size:15px}
+.ba .bf{background:var(--paper2);color:#55585f}
+.ba .af{background:var(--ink);color:var(--paper)}
+.ba .bf span,.ba .af span{display:block;font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;margin-bottom:8px}
+.ba .af span{color:var(--lime)}
+.checks{list-style:none;display:grid;gap:8px;margin-top:8px}
+.checks li{display:flex;gap:12px;align-items:flex-start;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 16px;font-size:15px}
+.checks li::before{content:"✓";flex:none;width:22px;height:22px;border-radius:50%;background:var(--blue2);color:#fff;display:grid;place-items:center;font-size:12px;margin-top:1px}
+@media (max-width:860px){.flow{grid-template-columns:1fr 1fr;margin:30px 20px 0}.ba{margin:30px 20px 0}.ba .row{grid-template-columns:1fr}.ba .q{padding:10px 0 0}}
 
 /* lightbox */
 .lb{position:fixed;inset:0;z-index:120;background:rgba(5,6,9,.94);display:none;align-items:center;justify-content:center;padding:40px}
@@ -404,7 +439,7 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
     <div class="go2"><span class="arrow">→</span><span class="mono">Show me the hiring view</span></div>
   </button>
   <button class="door" data-pick="biz">
-    <div class="bg"><img src="" data-src="https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/1a571586-5681-4dc0-8cd0-b3da66eb692d.jpg" alt=""></div>
+    <div class="bg"><img src="" data-src="https://cdn.jsdelivr.net/gh/KDunn909/portfolio-media@main/images/fashion-knit-night.jpg" alt=""></div>
     <div><span class="tag2 mono">I run a business</span><h2>Grow <span class="it">your</span> brand.</h2>
       <ul><li>AI product photos and model shots that look like a real shoot</li><li>Short-form product videos built for TikTok, Reels and ads</li><li>Shopify stores and landing pages built to convert</li><li>Paid ads management for home-services and DTC brands</li></ul></div>
     <div class="go2"><span class="arrow">→</span><span class="mono">Show me the client view</span></div>
@@ -421,14 +456,14 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
 <div class="peek" id="peek" aria-hidden="true"></div>
 
 <!-- ============ REEL ============ -->
-<section class="reel" id="reel" aria-label="AI creative reel">
-  <div class="pin" id="pin">
-    <div class="wrap reel-head"><div><div class="kick mono"><b>02</b><span>AI creative production</span></div><h2>Made without <span class="it">a camera.</span></h2></div><p>Every frame on this rail is AI-generated: fashion ads, UGC-style ads, product reels, website imagery, flat lays and a full launch catalog. Click anything to view it full size.</p></div>
-    <div class="track" id="track"></div>
-    <div class="prog"><i id="rprog"></i></div>
+<section class="sec" id="reel" aria-label="AI creative">
+  <div class="wrap">
+    <div class="shead"><div><div class="kick mono"><b>02</b><span>AI creative production</span></div><h2>Made without <span class="it">a camera.</span></h2></div><p>Every photo and video here is AI-generated. Pick a project, tap anything to see it full size, and turn the sound on for the ads.</p></div>
+    <div class="tabs mono" id="tabs" role="tablist" aria-label="Creative projects"></div>
+    <div class="tabnote" id="tabnote"></div>
+    <div id="gal"></div>
   </div>
 </section>
-
 <!-- ============ SITES ============ -->
 <section class="sec light" id="sites" aria-label="Websites">
   <div class="wrap">
@@ -529,14 +564,17 @@ const copy=()=>{const ok=()=>toast('Email copied — talk soon');if(navigator.cl
 $('#copyTop').onclick=copy;$('#copyMail').onclick=copy;
 
 /* ===== hero wall ===== */
+const HS='https://cdn.jsdelivr.net/gh/KDunn909/portfolio-media@b08fd7d1f57a68a4ab9243be4c69680da9b48a23/videos/';
+const hs=k=>HS+k+'-sound.mp4';
+const MX={tunnel:B+'c8ec5ea1-0e3b-4de6-bef5-83cf40b5bb86.jpg',gas:B+'3f8b9710-bc26-4b04-9b64-65eeaf2418bf.jpg',mesh:B+'d6757acf-e8da-4580-8871-cdf71dcea0cb.webp',drift:B+'39abad2d-2528-4ffe-922c-e32958863adf.webp',visor:B+'41568310-da97-4001-ae53-3e0b4cb30a0d.webp',beanie:B+'9b201483-2299-4dfc-a7a2-caad126f70ef.webp',relay:B+'90953098-173e-4f15-8526-8f163e1884bf.webp'};
 const WALL=[
- [['v',hv('hoodie-fan-swap.mp4'),hv('hoodie-fan-swap.jpg')],['p',img('014')],['c',MM.halo],['p',sh('fashion-knit-night.jpg')]],
- [['p',img('038')],['v',vid('v1'),img('p1')],['p',fl('flatlay-sherpa-coat.jpg')],['p',MM.garage]],
- [['v',hv('onesie-bedroom.mp4'),hv('onesie-bedroom.jpg')],['p',sh('fashion-leather-studio.jpg')],['p',img('027')],['c',MM.carrier]],
- [['p',MM.hero],['v',MM.sub,MM.store],['p',img('063')],['p',sh('fashion-denim-street.jpg')]],
- [['p',img('016')],['c',MM.static],['v',hv('hoodie-studio.mp4'),hv('hoodie-studio.jpg')],['p',img('142')]],
- [['v',vid('v3'),img('p3')],['p',sh('fashion-pink-harbor.jpg')],['p',fl('flatlay-monaco-hoodie.jpg')],['p',img('010')]],
- [['p',img('154')],['v',hv('onesie-crib.mp4'),hv('onesie-crib.jpg')],['c',MM.sling],['p',img('087')]]
+ [['v',hv('hoodie-fan-swap.mp4'),hv('hoodie-fan-swap.jpg')],['p',sh('fashion-knit-night.jpg')],['c',MM.halo],['p',MM.garage]],
+ [['p',sh('fashion-leather-studio.jpg')],['c',MM.carrier],['p',fl('flatlay-sherpa-coat.jpg')],['v',MM.sub,MM.store]],
+ [['v',hv('hoodie-studio.mp4'),hv('hoodie-studio.jpg')],['p',MX.gas],['c',MX.relay],['p',sh('fashion-pink-harbor.jpg')]],
+ [['p',MM.store],['p',sh('fashion-denim-street.jpg')],['c',MM.static],['p',fl('flatlay-fur-crop.jpg')]],
+ [['c',MX.drift],['v',hv('hoodie-stairwell.mp4'),hv('hoodie-stairwell.jpg')],['p',sh('fashion-aviator-overhead.jpg')],['p',MM.garage]],
+ [['p',fl('flatlay-monaco-hoodie.jpg')],['p',sh('fashion-linen-studio.jpg')],['c',MM.sling],['p',MX.gas]],
+ [['v',hv('hoodie-closeups.mp4'),hv('hoodie-closeups.jpg')],['c',MX.visor],['p',fl('flatlay-crinkle-set.jpg')],['c',MX.mesh]]
 ];
 const tileH=([t,s,p])=>t==='v'?`<div class="tile v"><video muted loop playsinline autoplay preload="metadata" poster="${p}" src="${s}"></video></div>`:t==='c'?`<div class="tile cut"><img src="${s}" alt=""></div>`:`<div class="tile"><img src="${s}" alt="" decoding="async"></div>`;
 $('#wall').innerHTML=WALL.map(col=>`<div class="col">${col.map(tileH).join('')}${col.map(tileH).join('')}</div>`).join('');
@@ -584,110 +622,124 @@ requestAnimationFrame(()=>setLens(saved));addEventListener('resize',()=>setLens(
 new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$$('img[data-src]',e.target).forEach(i=>i.src=i.dataset.src);o.disconnect()}}),{rootMargin:'400px'}).observe($('.doors'));
 
 /* ===== CASES ===== */
+/* live site frames */
+const ECO={full:B+'3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg',mob:B+'468375d5-1a46-4c99-8dd1-7baed32f75d2.jpg'};
+const PX={full:B+'63e3afbe-3aae-4961-b832-0a1860192178.jpg',mob:B+'f1ce2364-298d-4442-9e77-4db074dcaf74.jpg'};
+const liveH=(url,dom,title)=>`<div class="browser" data-cur="Try it"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live · click around</span></div><div class="live" data-live="${url}"><iframe title="${esc(title)} — live site" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="ld">Loading the live site…</div></div></div>`;
+const shotH=(full,dom,title)=>`<div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span></div><div class="vp"><img src="${full}" alt="Full-page screenshot of ${esc(title)}" loading="lazy"></div></div>`;
+function fitLive(root=document){$$('.live',root).forEach(l=>{const f=$('iframe',l);if(f)f.style.transform=`scale(${l.clientWidth/1440})`})}
+function wireLive(root=document){fitLive(root);$$('.live',root).forEach(l=>{if(l.dataset.wired)return;l.dataset.wired=1;const f=$('iframe',l);f.addEventListener('load',()=>l.classList.add('ok'));
+  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!f.src)f.src=l.dataset.live;io.disconnect()}}),{rootMargin:'300px'});io.observe(l)})}
+function wireShots(root=document){$$('.vp',root).forEach(vp=>{const i=$('img',vp);const set=()=>vp.style.setProperty('--scroll',Math.max(0,i.offsetHeight-vp.offsetHeight)+'px');i.addEventListener('load',set);set()})}
+addEventListener('resize',()=>{fitLive();wireShots()});
+
+/* ===== CASES ===== */
 const CASES=[
- {id:'mm',flag:1,t:'The Matrix Market',sub:'A multi-page streetwear storefront, designed and built in one afternoon',tags:['Web design','AI imagery','Concept'],res:'6 pages · 1 day',peek:['v',MM.demo,MM.poster],
-  h:'A <span class="it">PacSun-level</span> storefront, built in an afternoon.',lede:'I closed my clothing brand in 2024. To show what one person with the right AI stack can ship, I rebuilt it as a full concept storefront: brand, photography, video and a working site.',
-  media:`<video src="${MM.demo}" poster="${MM.poster}" muted loop playsinline autoplay controls></video>`,
-  film:[['Situation','A streetwear brand competing with mall giants needs campaign photography, product shots, video and a site that feels expensive. Normally that is an agency, a studio and weeks of work.'],['The call','Design it like a brand, not a template. One visual concept (after-dark, chrome and infrared), one type system, and interactions that make browsing feel like an event.'],['Execution','12 transparent product cutouts and 6 campaign photos made in MotionSites, campaign video and a 360° product turntable made in Higgsfield, then a six-page site with a 3D product rail, shop filters, product pages, a lookbook, a working bag and a members club page, hosted on Lovable.'],['Result','A storefront a hiring manager can click through end to end. Everything on it, including every model and product, is AI-generated, and it says so in the footer.']],
-  kpis:[['6','pages with shared bag and routing',1],['18','AI images for the build',1],['4','AI videos, including a 360° turntable'],['$1.06','spent on image generation']],
-  chips:['Claude','MotionSites','Higgsfield','Seedance','Lovable','HTML / CSS / JS'],note:`<a href="/matrix-market/" target="_blank" rel="noopener">Open the live site ↗</a> · Concept only: no real products are sold.`},
- {id:'eco',t:'EcoSmart Home Services',sub:'Built a home-services marketing department from zero',tags:['Paid media','Attribution','CRO'],res:'$222K / 90 days',peek:['i',B+'3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg'],
-  h:'From zero to <span class="it">$222K</span> in 90 days.',lede:'EcoSmart hired me as Marketing Director with no team, no tracking and no paid acquisition in place. I built all of it and owned the funnel from ad to booked job.',
-  media:`<img src="${B}3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg" alt="EcoSmart Home Services landing page" style="object-position:top">`,
-  film:[['Situation','No marketing function, no attribution, and lead flow that depended on referrals.'],['The call','Judge everything by profit per lead, not clicks. I built call tracking and attribution myself so every number could be defended.'],['Execution','Google, Meta and Yelp campaigns, conversion-focused landing pages under constant testing, and AI-driven lead booking and follow-up built with Claude, GPT and n8n.'],['Adjustment','Three months in, the data showed margin was concentrated in specific service lines. I moved spend there.']],
-  kpis:[['$222K','gross profit, first 90 days',1],['568%','ROI over the same period',1],['140','qualified leads, first 90 days'],['$40K → $103K','monthly profit after reallocating']],
-  chips:['Google Ads','Meta Ads','Yelp','Call tracking','Landing page CRO','n8n'],note:'Now running Meta ads and landing page testing for a roofing company across CT, RI and Western Mass.'},
- {id:'cat',t:'Launch catalog, no photoshoot',sub:'A full women\'s matching-sets catalog made with AI',tags:['AI creative','Ecommerce'],res:'160+ images',peek:['i',img('014')],
-  h:'A full catalog. <span class="it">Zero</span> photoshoots.',lede:'A new women\'s matching-sets brand needed PacSun-level product photography for its entire launch catalog. I built the production process that made it.',
-  media:`<div class="cs-media tall" style="margin:0"><img src="${img('017')}" alt="Flat lay"><img src="${img('016')}" alt="Studio shot"><img src="${img('022')}" alt="Fabric detail"><img src="${img('014')}" alt="Lifestyle"></div>`,tall:1,
-  film:[['Situation','Dozens of outfits, every garment had to match the supplier exactly, and the set needed perfect continuity across every image.'],['The call','Use real models, with their written consent, as AI references. Then choose the image model for each job: one for realism, another for fine text and texture.'],['Execution','A repeatable four-shot recipe per outfit (flat lay, studio, detail, lifestyle) with locked prompts for lighting, backdrop and pose. For product video, I remake proven viral formats with the product in one continuous AI render.']],
-  kpis:[['160+','catalog images in one session',1],['4','shot types per outfit'],['0','photoshoots, studios or rentals',1],['1','session start to finish']],
-  chips:['Higgsfield','GPT Image 2','Nano Banana','Seedance 2.5','Kling','ffmpeg'],note:'More of this work is on the creative rail below.'},
- {id:'px',t:'PixelHaven store system',sub:'A repeatable four-step system for launching Shopify stores',tags:['Shopify','Systems','AI agents'],res:'Live store',peek:['v',vid('v1'),img('p1')],
-  h:'Store launches, <span class="it">systemised.</span>',lede:'Most stores get built by hand, and each build means a fresh round of mistakes. I turned launching a one-product store into a four-step workflow, with AI configuring the back end through Shopify\'s API.',
-  media:`<video src="${vid('v2')}" poster="${img('p2')}" muted loop playsinline autoplay></video>`,
-  film:[['Situation','Testing products fast requires stores that launch fast and still convert.'],['The call','Standardise everything: one intake form, one conversion-tested page layout, and one QA checklist.'],['Execution','An AI agent sets up products, variants, bundle discounts, shipping and policies through the Shopify API. The storefront follows a mobile-first spec with pixel tracking and page-speed targets built in.'],['Live example','PixelHaven, a one-product store selling the PixelGlow Lantern and shipping orders internationally. The lantern reels are its ad creative.']],
-  term:1,chips:['Shopify','Storefront API','Lovable','Claude','DSers','Meta / TikTok pixels'],note:'<a href="https://pixelhaven.store/" target="_blank" rel="noopener">Visit pixelhaven.store ↗</a>'},
- {id:'tt',t:'TikTok Shop content engine',sub:'An AI video pipeline that posts 10 a day',tags:['Short-form','AI video'],res:'10 videos / day',peek:['v',hv('hoodie-fan-swap.mp4'),hv('hoodie-fan-swap.jpg')],
-  h:'Ten videos a day, <span class="it">by design.</span>',lede:'Organic short-form is a volume game, and most brands can\'t produce enough. I built a pipeline that runs from product research to finished video and stays within platform rules.',
-  media:`<div class="cs-media tall" style="margin:0"><video src="${hv('hoodie-fan-swap.mp4')}" muted loop playsinline autoplay></video><video src="${hv('onesie-backyard.mp4')}" muted loop playsinline autoplay></video><video src="${vid('v4')}" muted loop playsinline autoplay></video><video src="${hv('hoodie-closeups.mp4')}" muted loop playsinline autoplay></video></div>`,tall:1,
-  film:[['Situation','Winning on TikTok Shop takes daily volume, and the platform punishes sloppy content.'],['The call','Run it like a factory: research data picks the products, and locked prompt templates keep quality consistent.'],['Execution','Product research in Kalodata, AI scene and video generation, text overlays, then posting. After testing what gets flagged, I wrote a compliance playbook covering AI labels, price claims and safe zones for on-screen text.'],['Result','Accepted into TikTok Shop\'s Affiliate Creator Pilot Program and graduated to uncapped daily posting.']],
-  kpis:[['10/day','AI videos in production',1],['Uncapped','posting after graduating the pilot']],
-  chips:['TikTok Shop','Kalodata','Higgsfield','Kling','CapCut','GMV Max']},
- {id:'auto',t:'Automation & AI operations',sub:'Systems that keep running while I work on something else',tags:['n8n','Claude API'],res:'Always on',peek:['t'],
-  h:'The busywork, <span class="it">automated.</span>',lede:'I build the tooling behind the marketing so the team spends its hours on decisions, not busywork. I also train AI models, so I know where these tools are reliable and where they quietly aren\'t.',
-  term:2,
-  film:[['Lead ops','AI-driven lead booking and automated follow-up at EcoSmart that cut speed-to-lead and lowered cost per acquisition.'],['Outbound','n8n workflows that sourced and contacted roofing and HVAC contractors for my home-services lead-gen agency.'],['Content','A clipping system with a human approval dashboard that finds, cuts, captions and schedules short-form clips.'],['Ops','Business dashboards with a built-in AI advisor that flags what to fix or double down on.']],
-  chips:['n8n','Claude API','Claude Code','GPT','FastAPI'],note:'As a Generalist AI Specialist at Mercor, I\'ve completed hundreds of tasks evaluating frontier model output for AI labs.'},
- {id:'fb',t:'Football coaching platform',sub:'A subscription sports-education venture, idea to launch plan',tags:['Strategy','Financial model'],res:'In development',peek:['g'],
+ {id:'mm',flag:1,t:'The Matrix Market',sub:'A multi-page streetwear storefront, designed and built in one afternoon',tags:['Web design','AI imagery','Concept'],res:'6 pages · 1 day',peek:['i',MM.hero],
+  h:'A <span class="it">PacSun-level</span> storefront, built in an afternoon.',lede:'I closed my clothing brand in 2024. To show what one person with the right AI stack can ship, I rebuilt it as a full concept storefront: brand, photography, video and a working site. The window below is the real, live site. Click around.',
+  media:()=>`<div class="cs-media frame">${liveH('/matrix-market/index.html','kevin-dunn.lovable.app/matrix-market','The Matrix Market')}<a class="openfull" href="/matrix-market/" target="_blank" rel="noopener">Open it full screen ↗</a></div>`,
+  film:[['Situation','A streetwear brand competing with mall giants needs campaign photography, product shots, video and a site that feels expensive. Normally that is an agency, a studio and weeks of work.'],['The call','Design it like a brand, not a template. One visual concept (after-dark, chrome and infrared), one type system, and interactions that make browsing feel like an event.'],['Execution','12 product cutouts and 6 campaign photos made in MotionSites, campaign video and a 360° product turntable made in Higgsfield, then a six-page site with a 3D product rail, shop filters, product pages, a lookbook, a working bag and a members club page.'],['Result','A storefront you can click through end to end. Every model and product on it is AI-generated, and the footer says so.']],
+  kpis:[['6','pages with a shared bag',1],['18','AI images for the build',1],['4','AI videos, including a 360° turntable'],['$1.06','spent on image generation']],
+  chips:['Claude','MotionSites','Higgsfield','Seedance','Lovable'],note:'Concept only: no real products are sold.'},
+ {id:'eco',t:'EcoSmart Home Services',sub:'Built a home-services marketing department from zero',tags:['Paid media','Lead generation','Landing pages'],res:'$222K / 90 days',peek:['i',ECO.full],
+  h:'From zero to <span class="it">$222K</span> in 90 days.',lede:'EcoSmart hired me as Marketing Director with no team, no tracking and no paid advertising. I built all of it and owned the whole path from ad to booked job. Below is the landing page I built, live.',
+  media:()=>`<div class="cs-media frame">${liveH('https://ecosmarthomeservices.com/','ecosmarthomeservices.com','EcoSmart Home Services')}<a class="openfull" href="https://ecosmarthomeservices.com/" target="_blank" rel="noopener">Open it full screen ↗</a></div>`,
+  film:[['Situation','No marketing team, no way to see which ads brought in jobs, and leads that depended on word of mouth.'],['The call','Judge everything by profit per lead, not clicks. I set up call tracking myself so every number could be backed up.'],['Execution','Google, Meta and Yelp ads, landing pages that were tested and improved every week, and automatic lead booking and follow-up.'],['Adjustment','Three months in, the numbers showed most of the profit came from a few services. I moved the ad budget there.']],
+  kpis:[['$222K','gross profit, first 90 days',1],['568%','return on ad spend and costs',1],['140','qualified leads, first 90 days'],['$40K → $103K','monthly profit after moving budget']],
+  chips:['Google Ads','Meta Ads','Yelp','Call tracking','Landing pages'],note:'Now running Meta ads and landing page testing for a roofing company across CT, RI and Western Mass.'},
+ {id:'cat',t:'Fashion photography, no photoshoot',sub:'On-model and product photos made with AI, built to match the real garment',tags:['AI photography','Ecommerce'],res:'160+ images / session',peek:['i',sh('fashion-leather-studio.jpg')],
+  h:'Studio-quality photos. <span class="it">No</span> studio.',lede:'Fashion brands need a constant supply of on-model, lifestyle and product photos. I built a process that makes them with AI, matched to the real garment, without booking a photographer, models or a location.',
+  media:()=>`<div class="cs-media tall">${['fashion-leather-studio','fashion-denim-street','fashion-knit-night','fashion-pink-harbor'].map(k=>`<img src="${sh(k+'.jpg')}" alt="AI fashion photo">`).join('')}</div><div class="cs-media tall" style="margin-top:4px">${['flatlay-sherpa-coat','flatlay-crinkle-set','flatlay-fur-crop','flatlay-monaco-hoodie'].map(k=>`<img src="${fl(k+'.jpg')}" alt="AI flat-lay product photo">`).join('')}</div>`,
+  film:[['Situation','Every garment has to look exactly like the real product, and a whole collection has to look like it came from one shoot.'],['The call','Use real models, with their written consent, as references. Then pick the right AI model for each job: one for realism, another for fine texture and detail.'],['Execution','A repeatable recipe for each outfit (flat lay, studio, close-up detail, lifestyle) with the lighting, backdrop and pose locked in so every image matches.']],
+  kpis:[['160+','images made in one session',1],['4','shot types per outfit'],['0','photoshoots, studios or rentals',1],['Same day','from product to finished photos']],
+  chips:['Higgsfield','GPT Image','Nano Banana','Seedance'],note:'More of this work is in the "Made without a camera" section below.'},
+ {id:'px',t:'PixelHaven',sub:'A one-product Shopify store, launched with a repeatable system',tags:['Shopify','Store launch'],res:'Live store',peek:['i',PX.full],
+  h:'Store launches, <span class="it">systemised.</span>',lede:'Most online stores get built by hand, and every build repeats the same mistakes. I turned launching a one-product store into a four-step process, with AI doing the setup work inside Shopify.',
+  media:()=>`<div class="cs-media frame">${shotH(PX.full,'pixelhaven.store','PixelHaven')}<a class="openfull" href="https://pixelhaven.store/" target="_blank" rel="noopener">Visit pixelhaven.store ↗</a></div>`,
+  film:[['Situation','Testing new products quickly needs stores that launch quickly and still sell.'],['The call','Standardise everything: one intake form, one tested page layout, and one checklist before launch.'],['Execution','AI sets up the products, sizes and colors, bundle discounts, shipping and store policies. The store is designed phone-first, with ad tracking and fast page loads built in.'],['Live example','PixelHaven sells the PixelGlow Lantern and ships orders internationally.']],
+  checks:['Product, options and photos set up','Bundle offer: buy 2 save 15%, buy 3 save 20%','Free gift added to bundles','Free worldwide shipping','Store policies drafted for review','Test order and ad tracking checked before launch'],
+  chips:['Shopify','Lovable','Claude','DSers']},
+ {id:'tt',t:'TikTok Shop content engine',sub:'A content system that produces and posts 10 videos a day',tags:['Short-form','Content system'],res:'10 videos / day',peek:['g','10/day'],
+  h:'Ten videos a day, <span class="it">by design.</span>',lede:'Selling on TikTok Shop takes a lot of videos, and most brands can\'t make enough. I built a system that goes from picking the product to posting the finished video, while staying inside TikTok\'s rules.',
+  media:()=>`<div class="flow">${[['01','Find what sells','A research tool shows which products are already selling, so every video starts with proven demand.'],['02','Make the video','AI creates the scenes and video from templates that keep the quality consistent.'],['03','Check the rules','A checklist I wrote after testing what TikTok flags: AI labels, price claims, and where text can go.'],['04','Post every day','Ten videos a day, tracked so the winners get more budget.']].map(s=>`<div class="fc"><span class="n">${s[0]}</span><b>${s[1]}</b><p>${s[2]}</p></div>`).join('')}</div>`,
+  film:[['Situation','Winning on TikTok Shop takes daily volume, and the platform punishes sloppy content.'],['The call','Run it like a factory: data picks the products, and fixed templates keep quality consistent.'],['Result','Accepted into TikTok Shop\'s Affiliate Creator Pilot Program and moved up to unlimited daily posting.']],
+  kpis:[['10/day','videos in production',1],['Unlimited','daily posting after the pilot']],
+  chips:['TikTok Shop','Kalodata','Higgsfield','CapCut']},
+ {id:'auto',t:'Automation for small teams',sub:'The repetitive work, handled automatically',tags:['Automation','AI'],res:'Hours back',peek:['g','On autopilot'],
+  h:'The busywork, <span class="it">automated.</span>',lede:'Most small businesses lose hours every week to the same tasks: chasing leads, building lists, editing content, digging through reports. I set up systems that handle that work, so the team spends its time on customers.',
+  media:()=>`<div class="ba">${[['A lead comes in after hours','Sits in the inbox until someone checks it the next morning, and often books with a competitor.','Gets an automatic reply and a link to book right away. The team gets the details before they start their day.'],['Finding new clients','Hours spent building lists and sending emails one at a time.','A system finds the right local businesses and sends the first outreach, so the team only talks to people who reply.'],['Keeping up with social media','Every clip is found, cut and captioned by hand.','Clips are found, cut and captioned automatically. A person approves each one before it posts.'],['Knowing what to fix','Digging through spreadsheets and ad dashboards.','A simple dashboard with an AI advisor that flags what to fix and what to spend more on.']].map(r=>`<div class="row"><div class="q">${r[0]}</div><div class="bf"><span>Before</span>${r[1]}</div><div class="af"><span>After</span>${r[2]}</div></div>`).join('')}</div>`,
+  film:[['At EcoSmart','Automatic lead booking and follow-up got back to new leads faster and lowered the cost of each new customer.'],['For my agency','Workflows that found and contacted roofing and HVAC contractors.'],['Why I\'m careful','As a Generalist AI Specialist at Mercor, I\'ve completed hundreds of tasks evaluating AI output for AI labs. I know where these tools are reliable and where they need a person checking.']],
+  chips:['n8n','Claude','GPT','Dashboards']},
+ {id:'fb',t:'Football coaching platform',sub:'A subscription sports-education venture, from idea to launch plan',tags:['Strategy','Business plan'],res:'In development',peek:['g','90 days'],
   h:'Blank page to <span class="it">yes.</span>',lede:'I\'m the operator on an in-development football coaching community being built with former NFL players. I built the full business case to bring partners on board.',
-  film:[['Deliverables','Business plan, three-scenario financial model, curriculum map, community architecture, objection playbook, founding-partner pitch deck and a 90-day launch roadmap.'],['Go-to-market','Four acquisition channels, a 30% recurring creator-affiliate program, and a team-plan sales motion aimed at high school programs.'],['Why it matters','I can take a business from a blank page to numbers, positioning and a plan partners say yes to.']],
-  kpis:[['3','financial model scenarios',1],['90-day','launch roadmap'],['4','acquisition channels'],['30%','recurring affiliate program']],
+  film:[['Deliverables','Business plan, three-scenario financial model, curriculum, community design, answers to partner objections, a pitch deck and a 90-day launch plan.'],['Go-to-market','Four ways to find members, a 30% recurring creator-affiliate program, and team plans sold to high school programs.'],['Why it matters','I can take a business from a blank page to numbers, positioning and a plan partners say yes to.']],
+  kpis:[['3','financial model scenarios',1],['90-day','launch plan'],['4','member acquisition channels'],['30%','recurring affiliate program']],
   chips:['Financial modeling','Pitch decks','Pricing','Community']}
 ];
 $('#workList').innerHTML=CASES.map((c,i)=>`<li><button class="wrow${c.flag?' flag':''}" data-case="${i}" data-cur="Open case"><span class="mono">${String(i+1).padStart(2,'0')}</span><span class="t">${esc(c.t)}<small>${esc(c.sub)}</small></span><span class="tags">${c.tags.map(t=>`<span>${esc(t)}</span>`).join('')}</span><span class="res">${esc(c.res)}</span><span class="ar">→</span></button></li>`).join('');
 // peek
 const peek=$('#peek');let pkx=0,pky=0,px2=0,py2=0,pkOn=false;
-const peekH=p=>p[0]==='v'?`<video src="${p[1]}" poster="${p[2]}" muted loop playsinline autoplay></video>`:p[0]==='i'?`<img src="${p[1]}" alt="" style="object-position:top">`:p[0]==='t'?`<div class="term" style="height:100%;border-radius:0;min-height:0;font-size:11px"><span class="k">$</span> n8n run lead-followup<br><span class="o">→ 14 new leads</span><br><span class="ok">✓ booked 6 audits</span><br><span class="k">$</span> clip-engine --approve<br><span class="ok">✓ 9 clips scheduled</span></div>`:`<div style="position:absolute;inset:0;background:var(--blue2);display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:64px;letter-spacing:-.05em">90 days</div>`;
+const peekH=p=>p[0]==='i'?`<img src="${p[1]}" alt="" style="object-position:top">`:`<div style="position:absolute;inset:0;background:var(--blue2);display:grid;place-items:center;font-family:var(--disp);font-weight:800;font-size:56px;letter-spacing:-.05em;color:#fff">${p[1]}</div>`;
 $('#workList').addEventListener('pointerover',e=>{const r=e.target.closest('.wrow');if(!r||TOUCH)return;const c=CASES[r.dataset.case];if(peek.dataset.k!==r.dataset.case){peek.innerHTML=peekH(c.peek);peek.dataset.k=r.dataset.case}peek.classList.add('on');pkOn=true});
 $('#workList').addEventListener('pointerleave',()=>{peek.classList.remove('on');pkOn=false});
 addEventListener('pointermove',e=>{pkx=e.clientX;pky=e.clientY},{passive:true});
 (function pl(){px2+=(pkx-px2)*.12;py2+=(pky-py2)*.12;if(pkOn)peek.style.left=px2+'px',peek.style.top=py2+'px';requestAnimationFrame(pl)})();
 // sheet
 const sheet=$('#sheet'),pn=$('#pn');let curCase=0,lastF=null;
-const TERM1=`<div class="term" aria-label="Store launch configuration receipt"><div class="o">store-launch · config receipt</div><br><span class="k">preflight</span> shop, plan, conflicts ....... <span class="ok">ok</span><br><span class="k">product</span> variants, SKUs, media ...... <span class="ok">ok</span><br><span class="k">offer</span> buy 2 −15% · buy 3 −20% .... <span class="ok">ok</span><br><span class="k">gift</span> free gift on bundles ....... <span class="ok">ok</span><br><span class="k">shipping</span> free worldwide ............. <span class="ok">ok</span><br><span class="k">policies</span> drafts for review .......... <span class="ok">ok</span><br><span class="k">publish</span> all channels ............... <span class="ok">ok</span><br><span class="k">qa</span> test order + pixel check ... <span class="ok">ok</span></div>`;
-const TERM2=`<div class="term" aria-label="Automation log"><div class="o">ops · tonight's runs</div><br><span class="k">$</span> lead-followup --source=ads<br><span class="o">  14 new leads · speed-to-lead 2m</span><br><span class="ok">  ✓ 6 energy audits booked</span><br><span class="k">$</span> outbound --vertical=roofing,hvac<br><span class="o">  sourced 120 contractors · sequenced</span><br><span class="k">$</span> clip-engine --awaiting-approval<br><span class="ok">  ✓ 9 clips captioned and scheduled</span><br><span class="k">$</span> advisor --weekly<br><span class="o">  flag: CPL up 18% on Meta set B → pause</span></div>`;
 function openCase(i){curCase=i;const c=CASES[i],nx=CASES[(i+1)%CASES.length];lastF=document.activeElement;
  pn.innerHTML=`<div class="top"><span class="mono">Case ${String(i+1).padStart(2,'0')} / ${String(CASES.length).padStart(2,'0')} · ${c.tags.join(' · ')}</span><button class="x" data-x aria-label="Close case study">✕</button></div>
  <div class="cs-hero"><h3>${c.h}</h3><p>${c.lede}</p></div>
- ${c.media?(c.tall?`<div class="cs-media tall">${c.media.replace(/^<div class="cs-media tall" style="margin:0">|<\/div>$/g,'')}</div>`:`<div class="cs-media">${c.media}</div>`):''}
+ ${c.media?c.media():''}
  <div class="cs-body"><div><ul class="film">${c.film.map(f=>`<li><span>${f[0]}</span><p>${f[1]}</p></li>`).join('')}</ul></div>
- <div>${c.kpis?`<div class="kpis">${c.kpis.map(k=>`<div class="${k[2]?'hot':''}"><b>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`:''}${c.term===1?TERM1:c.term===2?TERM2:''}<div class="chips">${c.chips.map(x=>`<span>${x}</span>`).join('')}</div>${c.note?`<div class="note">${c.note}</div>`:''}</div></div>
+ <div>${c.kpis?`<div class="kpis">${c.kpis.map(k=>`<div class="${k[2]?'hot':''}"><b>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`:''}${c.checks?`<span class="mono" style="color:var(--blue2)">What the system sets up</span><ul class="checks">${c.checks.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}<div class="chips">${c.chips.map(x=>`<span>${x}</span>`).join('')}</div>${c.note?`<div class="note">${c.note}</div>`:''}</div></div>
  <div class="cs-next"><span class="mono">Next case</span><button data-next>${esc(nx.t)} <span>→</span></button></div>`;
- pn.scrollTop=0;sheet.classList.add('on');sheet.setAttribute('aria-hidden','false');document.body.classList.add('lock');setTimeout(()=>$('.x',pn).focus(),60)}
+ pn.scrollTop=0;sheet.classList.add('on');sheet.setAttribute('aria-hidden','false');document.body.classList.add('lock');requestAnimationFrame(()=>{wireLive(pn);wireShots(pn)});setTimeout(()=>$('.x',pn).focus(),60)}
 function closeCase(){sheet.classList.remove('on');sheet.setAttribute('aria-hidden','true');document.body.classList.remove('lock');setTimeout(()=>{if(!sheet.classList.contains('on'))pn.innerHTML=''},900);lastF&&lastF.focus&&lastF.focus()}
 $('#workList').addEventListener('click',e=>{const r=e.target.closest('.wrow');if(r){peek.classList.remove('on');openCase(+r.dataset.case)}});
 sheet.addEventListener('click',e=>{if(e.target.closest('[data-x]'))closeCase();else if(e.target.closest('[data-next]'))openCase((curCase+1)%CASES.length)});
 
-/* ===== REEL ===== */
-const R=[
- {l:'The Matrix Market',s:'Concept streetwear · 2026',it:[['v',MM.tt,MM.halo,'360° product turntable','q'],['p',MM.hero,0,'Campaign hero'],['v',MM.sub,MM.store,'Lookbook clip'],['c',MM.halo,0,'Transparent product cutout'],['p',MM.garage,0,'Lookbook · Level P4']]},
- {l:'Funnel Hood Hoodie',s:'AI fashion ads',it:[['v',hv('hoodie-fan-swap.mp4'),hv('hoodie-fan-swap.jpg'),'Viral format remake · ceiling-fan outfit swap'],['v',hv('hoodie-studio.mp4'),hv('hoodie-studio.jpg'),'Studio product ad'],['v',hv('hoodie-closeups.mp4'),hv('hoodie-closeups.jpg'),'Close-up detail ad'],['v',hv('hoodie-stairwell.mp4'),hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad']]},
- {l:'Teddy Bear Baby Onesie',s:'AI UGC ads',it:[['v',hv('onesie-bedroom.mp4'),hv('onesie-bedroom.jpg'),'Bedroom reveal'],['v',hv('onesie-backyard.mp4'),hv('onesie-backyard.jpg'),'Backyard crawl'],['v',hv('onesie-crib.mp4'),hv('onesie-crib.jpg'),'Crib peekaboo']]},
- {l:'PixelGlow Lantern',s:'AI product reels',it:[1,2,3,4,5].map(n=>['v',vid('v'+n),img('p'+n),['Desk setup reel','Color-cycle reel','Wall-mount reel','Close-up reel','POV reel'][n-1]])},
- {l:'Fashion brand',s:'AI website imagery',it:[['fashion-denim-street','Denim jacket, golden hour'],['fashion-leather-studio','Patent leather, studio'],['fashion-aviator-overhead','Aviators, overhead'],['fashion-linen-studio','Linen set, studio'],['fashion-knit-night','Knit set, night street'],['fashion-pink-harbor','Pink dress, harbor']].map(([k,c])=>['p',sh(k+'.jpg'),0,c,'s'])},
- {l:'Product photography',s:'AI flat lays',it:[['flatlay-sherpa-coat','Sherpa coat'],['flatlay-crinkle-set','Crinkle set'],['flatlay-fur-crop','Faux fur crop'],['flatlay-monaco-hoodie','Embroidered hoodie']].map(([k,c])=>['p',fl(k+'.jpg'),0,c,'q'])},
- {l:"Women's matching sets",s:'AI launch catalog',it:[['017','1 · Flat lay'],['016','2 · Studio, on model'],['022','3 · Fabric detail'],['014','4 · Lifestyle'],['010','Dinner party'],['038','Cocktail bar'],['040','Holiday party'],['063','Lounge set'],['087','Velour tracksuit'],['123','Striped knit'],['142','Autumn street'],['151','Cream knit'],['154','Burgundy zip'],['027','Gold satin']].map(([k,c])=>['p',img(k),0,c])}
+/* ===== GALLERY ===== */
+const G=[
+ {k:'mm',l:'The Matrix Market',s:'Concept streetwear · campaign, product and video',cls:'p-mm',it:[
+  ['p',MM.hero,0,'Campaign hero · rooftop','wide'],['v',MM.tt,MM.halo,'360° product turntable','wide'],
+  ['v',MM.sub,MM.store,'Lookbook clip · last train','r34'],['p',MM.garage,0,'Lookbook · Level P4','r34'],['p',MM.store,0,'Lookbook · open 24h','r34'],['c',MM.halo,0,'Product cutout · Halo puffer','r34']]},
+ {k:'hd',l:'Funnel Hood Hoodie',s:'AI fashion ads · tap the speaker for sound',cls:'p-hd',it:[
+  ['a','hoodie-fan-swap',hv('hoodie-fan-swap.jpg'),'Viral format remake · ceiling-fan outfit swap','r916'],['a','hoodie-studio',hv('hoodie-studio.jpg'),'Studio product ad','r916'],['a','hoodie-closeups',hv('hoodie-closeups.jpg'),'Close-up detail ad','r916'],['a','hoodie-stairwell',hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad','r916']]},
+ {k:'fa',l:'Fashion brand',s:'AI website imagery',cls:'p-fa',it:[['fashion-denim-street','Denim jacket, golden hour'],['fashion-leather-studio','Patent leather, studio'],['fashion-aviator-overhead','Aviators, overhead'],['fashion-linen-studio','Linen set, studio'],['fashion-knit-night','Knit set, night street'],['fashion-pink-harbor','Pink dress, harbor']].map(([k,c])=>['p',sh(k+'.jpg'),0,c,'r45'])},
+ {k:'fl',l:'Product flat lays',s:'AI product photography',cls:'p-fl',it:[['flatlay-sherpa-coat','Sherpa coat'],['flatlay-crinkle-set','Crinkle set'],['flatlay-fur-crop','Faux fur crop'],['flatlay-monaco-hoodie','Embroidered hoodie']].map(([k,c])=>['p',fl(k+'.jpg'),0,c,'r45'])}
 ];
-const FLAT=[];
-$('#track').innerHTML=R.map(g=>`<div class="grp"><div class="lab mono"><b>${esc(g.l)}</b><span>${esc(g.s)}</span></div><div class="items">${g.it.map(it=>{const i=FLAT.push({it,g})-1;const [t,s,p,c,shape]=it;const cls=shape||(t==='v'?'v':'p');
- const m=t==='v'?`<video data-src="${s}" poster="${p}" muted loop playsinline preload="none" aria-label="${esc(c)}"></video>`:t==='c'?`<img src="${s}" alt="${esc(c)}" loading="lazy" style="object-fit:contain;background:#e9e9e7;padding:14%">`:`<img src="${s}" alt="${esc(c)}" loading="lazy">`;
- return `<figure class="rv ${cls}" data-i="${i}" data-cur="${t==='v'?'Play':'View'}">${m}${t==='v'?'<span class="badge mono">Video</span>':''}<figcaption>${esc(c)}</figcaption></figure>`}).join('')}</div></div>`).join('')+`<div class="endcap"><span class="mono">That's the rail</span><b>0<br>shoots.</b><p>No studio, no crew, no rentals. Just a repeatable process and the right model for each job.</p></div>`;
-// play videos when visible
-const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){if(!v.src&&v.dataset.src)v.src=v.dataset.src;if(!RM)v.play().catch(()=>{})}else v.pause()}),{rootMargin:'0px 200px'});
-$$('#track video').forEach(v=>vio.observe(v));
-// pinned horizontal scroll
-const reel=$('#reel'),track=$('#track'),pin=$('#pin');
-function sizeReel(){if(innerWidth<=860){reel.style.height='';track.style.transform='';return}const dist=track.scrollWidth-innerWidth+80;reel.style.height=(innerHeight+dist)+'px'}
-function onReel(){if(innerWidth<=860)return;const r=reel.getBoundingClientRect(),dist=track.scrollWidth-innerWidth+80,p=Math.min(1,Math.max(0,-r.top/(reel.offsetHeight-innerHeight)));track.style.transform=`translate3d(${-p*dist}px,0,0)`;$('#rprog').style.setProperty('--p',(p*100)+'%')}
-addEventListener('scroll',onReel,{passive:true});addEventListener('resize',()=>{sizeReel();onReel()});addEventListener('load',()=>{sizeReel();onReel()});sizeReel();
+const FLAT=[];const SVG_OFF='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="m23 9-6 6M17 9l6 6"/></svg>',SVG_ON='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 5 6 9H2v6h4l5 4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14"/></svg>';
+$('#tabs').innerHTML=G.map((g,i)=>`<button role="tab" id="tab-${g.k}" aria-controls="pan-${g.k}" aria-selected="${i===0}">${esc(g.l)} <small>${g.it.length}</small></button>`).join('');
+$('#gal').innerHTML=G.map((g,gi)=>`<div class="panel ${g.cls}${gi===0?' on':''}" id="pan-${g.k}" role="tabpanel" aria-labelledby="tab-${g.k}">${g.it.map(it=>{const i=FLAT.push({it,g})-1;const [t,s,p,c,shape]=it;
+  const m=t==='v'?`<video data-src="${s}" poster="${p}" muted loop playsinline preload="none" aria-label="${esc(c)}"></video><span class="badge mono">Video</span>`:t==='a'?`<video data-src="${hs(s)}" poster="${p}" muted loop playsinline preload="none" aria-label="${esc(c)}"></video><button class="snd" data-snd aria-label="Turn sound on for ${esc(c)}">${SVG_OFF}</button>`:`<img src="${s}" alt="${esc(c)}" loading="lazy">`;
+  return `<figure class="gi ${shape}${t==='c'?' cut':''}" data-i="${i}" data-cur="${t==='v'||t==='a'?'Play':'View'}">${m}<figcaption>${esc(c)}</figcaption></figure>`}).join('')}</div>`).join('');
+const setNote=g=>{$('#tabnote').innerHTML=`<b>${esc(g.l)}</b><span class="mono">${esc(g.s)}</span>`};setNote(G[0]);
+const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting&&v.closest('.panel.on')){if(!v.src&&v.dataset.src)v.src=v.dataset.src;if(!RM)v.play().catch(()=>{})}else v.pause()}),{threshold:.2});
+const watch=()=>$$('#gal video').forEach(v=>{vio.unobserve(v);vio.observe(v)});watch();
+function muteAll(except){$$('#gal video').forEach(v=>{if(v!==except){v.muted=true;const b=v.parentNode.querySelector('.snd');if(b){b.classList.remove('on');b.innerHTML=SVG_OFF}}})}
+$('#tabs').addEventListener('click',e=>{const b=e.target.closest('[role=tab]');if(!b)return;const k=b.id.slice(4);muteAll();$$('#tabs [role=tab]').forEach(x=>x.setAttribute('aria-selected',x===b));$$('#gal .panel').forEach(p=>p.classList.toggle('on',p.id==='pan-'+k));setNote(G.find(g=>g.k===k));$$('#gal video').forEach(v=>v.pause());watch()});
+$('#tabs').addEventListener('keydown',e=>{if(e.key!=='ArrowRight'&&e.key!=='ArrowLeft')return;const t=$$('#tabs [role=tab]'),i=t.findIndex(x=>x===document.activeElement),n=t[(i+(e.key==='ArrowRight'?1:-1)+t.length)%t.length];n.focus();n.click()});
 // lightbox
 const lb=$('#lb');let li=0;
-function showLb(i){li=(i+FLAT.length)%FLAT.length;const {it,g}=FLAT[li];const [t,s,p,c]=it;$('#lbm').innerHTML=t==='v'?`<video src="${s}" poster="${p}" autoplay loop playsinline controls muted></video>`:`<img src="${s}" alt="${esc(c)}"${t==='c'?' style="background:#e9e9e7;padding:40px"':''}>`;$('#lbc').textContent=`${g.l} · ${c}`;lb.classList.add('on');lb.setAttribute('aria-hidden','false');document.body.classList.add('lock')}
+function showLb(i){muteAll();li=(i+FLAT.length)%FLAT.length;const {it,g}=FLAT[li];const [t,s,p,c]=it;const src=t==='a'?hs(s):s;
+ $('#lbm').innerHTML=t==='v'||t==='a'?`<video src="${src}" poster="${p}" autoplay loop playsinline controls></video>`:`<img src="${s}" alt="${esc(c)}"${t==='c'?' style="background:#e9e9e7;padding:40px"':''}>`;
+ $('#lbc').textContent=`${g.l} · ${c}${t==='a'?' · sound on':''}`;lb.classList.add('on');lb.setAttribute('aria-hidden','false');document.body.classList.add('lock');
+ const v=$('#lbm video');if(v){v.play().catch(()=>{v.muted=true;v.play().catch(()=>{})})}}
 function hideLb(){lb.classList.remove('on');lb.setAttribute('aria-hidden','true');$('#lbm').innerHTML='';if(!sheet.classList.contains('on'))document.body.classList.remove('lock')}
-$('#track').addEventListener('click',e=>{const f=e.target.closest('.rv');if(f)showLb(+f.dataset.i)});
+$('#gal').addEventListener('click',e=>{const sb=e.target.closest('[data-snd]');if(sb){e.stopPropagation();const v=sb.parentNode.querySelector('video');if(!v.src)v.src=v.dataset.src;const on=v.muted;muteAll(v);v.muted=!on;sb.classList.toggle('on',on);sb.innerHTML=on?SVG_ON:SVG_OFF;sb.setAttribute('aria-label',(on?'Turn sound off':'Turn sound on'));if(on){v.currentTime=0;v.play().catch(()=>{})}return}
+ const f=e.target.closest('.gi');if(f)showLb(+f.dataset.i)});
 $('#lbp').onclick=()=>showLb(li-1);$('#lbn').onclick=()=>showLb(li+1);lb.addEventListener('click',e=>{if(e.target===lb||e.target.closest('[data-lbx]'))hideLb()});
 addEventListener('keydown',e=>{if(e.key==='Escape'){if(lb.classList.contains('on'))hideLb();else if(sheet.classList.contains('on'))closeCase()}if(lb.classList.contains('on')){if(e.key==='ArrowRight')showLb(li+1);if(e.key==='ArrowLeft')showLb(li-1)}});
 
 /* ===== SITES ===== */
 const SITES=[
- {d:'kevin-dunn.lovable.app/matrix-market',full:MM.full,mob:MM.mob,k:'Concept storefront · 2026',t:'The Matrix Market',p:'A six-page streetwear storefront with a 3D product rail, shop filters, product pages, a lookbook and a working bag. Every image and video on it is AI-generated.',dl:[['Pages','Home, shop, 12 product pages, lookbook, story, club'],['Built with','Claude, MotionSites, Higgsfield and Lovable'],['Detail','360° product turntable, shop-the-look receipt, lens-style page transitions']],url:'/matrix-market/',cta:'Open the site'},
- {d:'pixelhaven.store',full:B+'63e3afbe-3aae-4961-b832-0a1860192178.jpg',mob:B+'f1ce2364-298d-4442-9e77-4db074dcaf74.jpg',k:'One-product Shopify store',t:'PixelHaven',p:'A single-product store for the PixelGlow Lantern, launched with my repeatable store system. Live and shipping orders internationally.',dl:[['Offer','1, 2 or 3 lanterns with tiered discounts and a free gift on bundles'],['Design','Custom pixel-art brand, built to match the product and its audience'],['Creative','Product imagery and ad videos made with AI']],url:'https://pixelhaven.store/',cta:'Visit site'},
- {d:'ecosmarthomeservices.com',full:B+'3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg',mob:B+'468375d5-1a46-4c99-8dd1-7baed32f75d2.jpg',k:'Home-services landing page',t:'EcoSmart Home Services',p:'A lead-generation landing page I designed and built for a Connecticut energy-efficiency contractor while I ran its marketing.',dl:[['Conversion','Free-quote and energy-audit calls to action above the fold and on every page'],['Trust','Utility program approvals, certifications, licensing and Google reviews up front'],['Results','$222K gross profit and 140 qualified leads in my first 90 days, at a 568% ROI']],url:'https://ecosmarthomeservices.com/',cta:'Visit site'}
+ {live:'/matrix-market/index.html',d:'kevin-dunn.lovable.app/matrix-market',mob:MM.mob,k:'Concept storefront · 2026',t:'The Matrix Market',p:'A six-page streetwear storefront with a 3D product rail, shop filters, product pages, a lookbook and a working bag. The window on the left is the live site. Click around.',dl:[['Pages','Home, shop, 12 product pages, lookbook, story, club'],['Built with','Claude, MotionSites, Higgsfield and Lovable'],['Detail','360° product turntable, shop-the-look receipt, page transitions']],url:'/matrix-market/',cta:'Open full screen'},
+ {live:'https://ecosmarthomeservices.com/',d:'ecosmarthomeservices.com',mob:ECO.mob,k:'Home-services landing page',t:'EcoSmart Home Services',p:'A lead-generation landing page I designed and built for a Connecticut energy-efficiency contractor while I ran its marketing. Live on the left.',dl:[['Conversion','Free-quote and energy-audit buttons above the fold and on every page'],['Trust','Utility program approvals, certifications, licensing and Google reviews up front'],['Results','$222K gross profit and 140 qualified leads in my first 90 days, at a 568% ROI']],url:'https://ecosmarthomeservices.com/',cta:'Visit site'},
+ {full:PX.full,d:'pixelhaven.store',mob:PX.mob,k:'One-product Shopify store',t:'PixelHaven',p:'A single-product store for the PixelGlow Lantern, launched with my repeatable store system. Live and shipping orders internationally. Shopify doesn\'t allow stores to be embedded, so hover the screen to scroll the full page.',dl:[['Offer','1, 2 or 3 lanterns with tiered discounts and a free gift on bundles'],['Design','Custom pixel-art brand, built to match the product and its audience'],['Mobile','Designed phone-first, where most of the traffic comes from']],url:'https://pixelhaven.store/',cta:'Visit site'}
 ];
-$('#siteList').innerHTML=SITES.map(s=>`<article class="siterow rv-up"><div class="sm"><div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(s.d)}</span></div><div class="vp"><img src="${s.full}" alt="Full-page screenshot of ${esc(s.t)}" loading="lazy"></div></div><div class="phone"><img src="${s.mob}" alt="${esc(s.t)} on a phone" loading="lazy"></div></div>
+$('#siteList').innerHTML=SITES.map(s=>`<article class="siterow rv-up"><div class="sm">${s.live?liveH(s.live,s.d,s.t):shotH(s.full,s.d,s.t)}<div class="phone"><img src="${s.mob}" alt="${esc(s.t)} on a phone" loading="lazy"></div></div>
  <div class="st"><span class="mono" style="color:var(--blue2)">${esc(s.k)}</span><h3>${esc(s.t)}</h3><p>${esc(s.p)}</p><dl>${s.dl.map(d=>`<div><dt>${d[0]}</dt><dd>${esc(d[1])}</dd></div>`).join('')}</dl><a class="cta" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.cta} ↗</a></div></article>`).join('');
-$$('.vp').forEach(vp=>{const i=$('img',vp);const set=()=>vp.style.setProperty('--scroll',Math.max(0,i.offsetHeight-vp.offsetHeight)+'px');i.addEventListener('load',set);addEventListener('resize',set);set()});
+wireLive($('#siteList'));wireShots($('#siteList'));
 
 /* ===== reveals ===== */
 const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.15});
