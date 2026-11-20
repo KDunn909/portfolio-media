@@ -110,9 +110,9 @@ header.nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:cen
 
 /* ===== THE RAIL (product carousel) ===== */
 .rail{background:radial-gradient(120% 80% at 50% 38%,#26262b 0%,#111113 46%,#0b0b0c 75%);color:#fff;overflow:hidden;position:relative;padding-bottom:70px}
-.rail .shead{position:relative;z-index:3}
-.ghost{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);white-space:nowrap;font-stretch:125%;font-weight:900;font-size:clamp(90px,17vw,280px);letter-spacing:-.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.09);pointer-events:none;z-index:0;transition:opacity .4s}
-.ghost.swap{animation:gswap .9s var(--ease)}
+.rail .shead{position:relative;z-index:3}.rail .shead p{color:rgba(255,255,255,.62)}
+.ghostt{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);white-space:nowrap;font-stretch:125%;font-weight:900;font-size:clamp(90px,17vw,280px);letter-spacing:-.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.09);pointer-events:none;z-index:0;transition:opacity .4s}
+.ghostt.swap{animation:gswap .9s var(--ease)}
 @keyframes gswap{from{opacity:0;letter-spacing:.05em}}
 .stage{position:relative;height:clamp(440px,52vw,640px);perspective:1800px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;z-index:2}
 .stage.drag{cursor:grabbing}
@@ -603,7 +603,7 @@ function home(){
 
 <section class="rail" aria-label="Drop 07 product rail">
   <div class="wrap"><div class="shead"><div><span class="idx mono">01 — The rail</span><h2>Spin the <em>drop.</em></h2></div><p>Eight pieces on one rail. Drag, swipe or use the arrows. Tap the piece out front to see it up close.</p></div></div>
-  <div class="ghost" id="ghost" aria-hidden="true"></div>
+  <div class="ghostt" id="ghost" aria-hidden="true"></div>
   <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Drop 07 pieces. Arrow keys rotate, Enter opens.">
     <span class="hint mono">← Drag to rotate →</span>
     <div class="spot"></div><div class="floor"></div>
@@ -678,7 +678,7 @@ ${foot}`,
   const R=()=>Math.max(240,Math.min(620,stage.clientWidth*.4)),CW=()=>Math.max(170,Math.min(340,stage.clientWidth*.22));
   function layout(){const r=R();stage.style.setProperty('--cw',CW()+'px');
    items.forEach((el,i)=>{const a=((((i*step-rot)%360)+540)%360)-180;const rad=a*Math.PI/180;const z=Math.cos(rad),x=Math.sin(rad)*r;
-    const s=.55+.45*((z+1)/2);el.style.transform=`translate3d(${x}px,${(1-z)*-18}px,${(z-1)*r*.6}px) scale(${s.toFixed(3)})`;
+    const s=.42+.58*Math.pow((z+1)/2,1.7);el.style.transform=`translate3d(${x}px,${(1-z)*-18}px,${(z-1)*r*.6}px) scale(${s.toFixed(3)})`;
     el.style.opacity=(z<-.2?Math.max(0,.25+(z+1)*.5):.35+.65*((z+1)/2)).toFixed(2);el.style.zIndex=Math.round((z+1)*100);el.classList.toggle('front',Math.abs(a)<step/2)})}
   function setActive(){const a=((Math.round(goal/step)%N)+N)%N;if(a===active)return;active=a;const p=RAIL[a];
    const n=$('#rName',root);n.innerHTML=`${esc(p.name)}<small>${esc(p.sub)} · ${CATS[p.cat]}</small>`;n.classList.remove('swap');void n.offsetWidth;n.classList.add('swap');
@@ -758,7 +758,7 @@ function product(id){
   <div class="gal">
     <div class="g big" id="gBig" title="Click to zoom"><img class="cut" id="gCut" src="${p.img}" alt="${esc(p.name)} in ${esc(p.sub)}"><span class="lbl mono">01 · Studio</span></div>
     <div class="g dk"><img class="ph" src="${p.wild}" alt="${esc(p.name)} styled on model" loading="lazy"><span class="lbl mono">02 · In the wild</span></div>
-    <div class="g dk"><img class="ph" src="${p.cat==='outerwear'?M.zip:p.cat==='bottoms'?M.gas:p.cat==='accessories'?M.store:M.garage}" alt="Campaign detail" loading="lazy"><span class="lbl mono">03 · Campaign</span></div>
+    <div class="g dk"><img class="ph" src="${({outerwear:[M.zip,M.garage],bottoms:[M.garage,M.gas],accessories:[M.store,M.gas],tops:[M.garage,M.gas]})[p.cat].find(x=>x!==p.wild)}" alt="Campaign detail" loading="lazy"><span class="lbl mono">03 · Campaign</span></div>
   </div>
   <div class="buy">
     <div class="crumb mono"><a href="#/shop">Shop</a> / <a href="#/shop/${p.cat}">${CATS[p.cat]}</a></div>
@@ -844,7 +844,7 @@ function story(){return {title:'Story',html:`
   <div class="reveal"><span class="idx mono">Est. 2023 · Los Angeles</span><p class="big2">The Matrix Market started as a <em>side door</em> — a pop-up rail in a friend's garage, stocked with whatever we could cut and sew in a weekend.</p>
    <div class="body2"><p>We grew up on Y2K catalogues, mall culture and late-night TV, and wanted clothes that felt like that era looked: shiny, a bit too big, built for going out and staying out.</p><p>Every drop is a short run designed around one idea, made once and never restocked. When it's gone, we move on to the next signal.</p></div></div>
 </section>
-<section class="macro"><img src="${M.studio}" alt="" loading="lazy"><p class="q">“Make it once, make it right, then let it go.”</p></section>
+<section class="macro"><img src="${M.gas}" alt="" loading="lazy"><p class="q">“Make it once, make it right, then let it go.”</p></section>
 <section class="wrap"><div class="shead"><div><span class="idx mono">The drops</span><h2>Seven <em>signals.</em></h2></div><p>Every drop since the garage. Hover to scan the archive.</p></div>
  <div class="tl">${[['01','Static','Washed fleece and the first heavyweight hoodie.','2023'],['02','Dial-up','Tracksuits in dial-tone grey.','2023'],['03','Screensaver','Graphic tees printed in liquid chrome.','2024'],['04','Food court','Cargo everything. The one that sold out in nine minutes.','2024'],['05','Ringtone','Baby tees, bead chains, the first accessories.','2025'],['06','Buffering','Denim, finally done right.','2025'],['07','Signal','Mirror puffers and the night-shift campaign.','Now']].map(r=>`<div class="row${r[3]==='Now'?' now':''}"><span class="mono">Drop ${r[0]}</span><b>${r[1]}</b><p>${r[2]}</p><span class="mono">${r[3]}</span></div>`).join('')}</div></section>
 <section class="wrap"><div class="vals">${[['01','Short runs','Most pieces are made in runs of a few hundred. No restocks, no endless sale rack.'],['02','Heavier fabric','380gsm hoodies, 13oz denim and nylon that holds its shape. Built to be worn hard.'],['03','After dark','We shoot at night because that is when the clothes are worn. Every campaign starts after sundown.']].map(v=>`<div class="reveal"><span class="mono" style="color:var(--signal)">${v[0]}</span><b>${v[1]}</b><p>${v[2]}</p></div>`).join('')}</div></section>
