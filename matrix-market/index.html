@@ -62,7 +62,7 @@ header.nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:cen
 .live{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:5px 12px}
 .live i{width:7px;height:7px;border-radius:50%;background:var(--signal);box-shadow:0 0 0 0 var(--signal);animation:ping 1.6s infinite}
 @keyframes ping{70%{box-shadow:0 0 0 8px rgba(255,77,31,0)}100%{box-shadow:0 0 0 0 rgba(255,77,31,0)}}
-.hero h1{font-stretch:125%;font-weight:900;font-size:clamp(84px,17.5vw,300px);line-height:.78;letter-spacing:-.05em;text-transform:uppercase;margin-left:-.04em;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(0,0,0,.45))}
+.hero h1{font-stretch:125%;font-weight:900;font-size:clamp(56px,17.5vw,300px);line-height:.78;letter-spacing:-.05em;text-transform:uppercase;margin-left:-.04em;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(0,0,0,.45))}
 .hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:22px;flex-wrap:wrap}
 .hero p.lede{max-width:34ch;font-size:18px;line-height:1.45;color:rgba(255,255,255,.86)}
 .hero p.lede em{font-family:var(--serif);font-style:italic;font-size:1.25em;color:#fff}
@@ -240,8 +240,8 @@ footer{background:var(--bone);padding-top:70px;overflow:hidden}
 .cline button{font-family:var(--mono);font-size:10px;text-decoration:underline}
 .empty{color:var(--mute);text-align:center;padding:60px 0}
 .subtot{display:flex;justify-content:space-between;font-weight:700;margin-bottom:14px}
-.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,140%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;z-index:90;transition:transform .5s var(--spring);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
-.toast.on{transform:translate(-50%,0)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,240%);visibility:hidden;background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;z-index:90;transition:transform .5s var(--spring);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.toast.on{transform:translate(-50%,0);visibility:visible}
 
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
 </style>
@@ -451,7 +451,7 @@ const items=$$('.item'),dots=$$('#dots button');
 function radius(){const w=stage.clientWidth;return Math.max(220,Math.min(560,w*.36))}
 function cw(){const w=stage.clientWidth;return Math.max(170,Math.min(360,w*.24))}
 function layout(){const R=radius();stage.style.setProperty('--cw',cw()+'px');
- items.forEach((el,i)=>{const a=i*step-rot;const rad=a*Math.PI/180;const near=Math.max(0,Math.cos(rad));const d=Math.abs(((a%360)+540)%360-180);const front=180-d;
+ items.forEach((el,i)=>{const a=((((i*step-rot)%360)+540)%360)-180;const rad=a*Math.PI/180;const near=Math.max(0,Math.cos(rad));const d=Math.abs(((a%360)+540)%360-180);const front=180-d;
   el.style.transform=`rotateY(${i*step}deg) translateZ(${R}px) rotateY(${-i*step}deg) rotateY(${a*.35}deg)`;
   const blur=Math.max(0,(180-front)/180*6-.2);el.querySelector('img').style.filter=`blur(${blur.toFixed(2)}px) brightness(${(.78+.22*near).toFixed(2)})`;el.style.zIndex=Math.round(near*100)})
  car.style.transform=`translateZ(${-R}px) rotateY(${-rot}deg)`}
