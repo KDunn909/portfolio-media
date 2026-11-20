@@ -205,7 +205,31 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .vis .vday div{flex:1;border-radius:14px;padding:16px;background:rgba(14,17,23,.08)}
 .vis .vday b{display:block;font-family:var(--disp);font-weight:800;font-size:34px;letter-spacing:-.04em}
 .deck-foot{display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-top:10px;color:var(--dim)}
-@media (max-width:900px){.card{position:relative;top:0!important;grid-template-columns:1fr;min-height:0;transform:none!important;filter:none!important}.card .cl{padding:30px 22px}.card .cr{min-height:300px;order:-1}}
+@media (max-width:900px){
+.card{display:flex;flex-direction:column;height:min(calc(100svh - 128px),660px);min-height:0;margin-bottom:22px;border-radius:22px}
+.card .cr{order:-1;flex:1 1 auto;min-height:0;margin:10px 10px 0;border-radius:15px}
+.card .cl{flex:0 0 auto;padding:16px 18px 18px;gap:12px}
+.card .cl .top span+span{display:none}
+.card h3{font-size:clamp(27px,8vw,40px);margin-top:8px}
+.card .sub{font-size:14px;margin-top:8px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card .met{display:flex;align-items:baseline;gap:10px}
+.card .met b{font-size:clamp(34px,10vw,48px);flex:0 0 auto}
+.card .met span{margin-top:0;font-size:13px;line-height:1.3}
+.card .open{height:42px;padding:0 16px;font-size:13px;margin-top:12px}
+.vis{padding:16px;gap:8px}
+.vis .vrow:nth-child(n+3){display:none}
+.vis .vb{padding:11px 12px;font-size:12.5px}
+.vis b{font-size:clamp(34px,10vw,48px)!important}
+.vis>span:last-child{font-size:13px}
+.card .cr .wf.mini .nd{width:auto;min-width:0;padding:5px 7px;border-radius:10px}
+.card .cr .wf.mini .nd .ic{width:16px;height:16px;font-size:9px;margin-bottom:2px}
+.card .cr .wf.mini .nd b{font-size:10.5px}
+.card .cr .wf.mini .core{width:44%}
+.card .cr .wf.mini .core small{font-size:10px}
+.card .cr .wf.mini .core b{font-size:26px;margin:4px 0}
+}
+@media (max-width:900px) and (max-height:640px){.card .sub{display:none}}
+
 
 /* ===== case sheet ===== */
 .sheet{position:fixed;inset:0;z-index:90;pointer-events:none}
@@ -335,7 +359,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .browser .bar i:nth-child(1){background:#ff6058}.browser .bar i:nth-child(2){background:#ffbd2e}.browser .bar i:nth-child(3){background:#28c940}
 .browser .bar .u{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-left:12px;background:#fff;border-radius:7px;padding:5px 12px;font-size:12px;color:#555;font-family:var(--mono);max-width:320px}
 .vp{height:clamp(300px,34vw,500px);overflow:hidden;position:relative}
-.vp img{width:100%;transition:transform 7s cubic-bezier(.45,0,.55,1)}
+.vp picture{display:block}.vp img{display:block;width:100%;transition:transform 7s cubic-bezier(.45,0,.55,1)}
 .browser:hover .vp img{transform:translateY(calc(-1 * var(--scroll,0px)))}
 .phone{position:absolute;right:0;bottom:-30px;width:clamp(120px,13vw,190px);aspect-ratio:9/19.5;border-radius:26px;border:6px solid var(--ink);overflow:hidden;background:#fff;box-shadow:0 30px 60px -20px rgba(14,17,23,.5);transform:rotate(3deg);transition:transform .8s var(--ease)}
 .siterow:hover .phone{transform:rotate(0) translateY(-10px)}
@@ -490,7 +514,16 @@ footer a:hover{color:var(--lime)}
 [data-for]{transition:opacity .4s}
 body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire].lens-only{display:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.ln>span,.rv-up,.step{transform:none!important;opacity:1!important}}
-</style>
+
+@media (max-width:760px){
+.gi figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;left:8px;bottom:8px;right:auto;font-size:11px;line-height:1.3;padding:4px 8px;border-radius:7px;max-width:calc(100% - 16px)}
+.gi:has(.snd) figcaption{max-width:calc(100% - 62px)}
+.gi .badge{top:8px;left:8px;font-size:9px;padding:2px 7px}
+.card .cr img{object-position:50% 16%}
+.live{aspect-ratio:9/15}
+.vp{height:auto;aspect-ratio:9/15}
+.siterow .browser .bar .livetag{display:none}
+}</style>
 </head>
 <body data-lens="hire">
 
@@ -751,9 +784,11 @@ new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$$('img[dat
 const ECO={full:B+'3523854f-c59f-4bd4-8149-81f0acbb1fc3.jpg',mob:B+'468375d5-1a46-4c99-8dd1-7baed32f75d2.jpg'};
 const PX={hero:B+'df28eec2-3d49-4ce0-a330-79f2acd945fe.jpg',url:'https://pixelhaven.store/',full:B+'77c18eb7-19e3-4cb3-9267-1a3ce0c2753f.jpg',mob:B+'f1ce2364-298d-4442-9e77-4db074dcaf74.jpg'};
 const liveH=(url,dom,title)=>`<div class="browser" data-cur="Try it"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live · click around</span></div><div class="live" data-live="${url}"><iframe title="${esc(title)} — live site" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe><div class="ld">Loading the live site…</div></div></div>`;
-const shotH=(full,dom,title,url)=>url?`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="vp"><img src="${full}" alt="Full-page screenshot of ${esc(title)}" loading="lazy"></div><span class="visit">Visit the live store ↗</span></a>`:`<div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span></div><div class="vp"><img src="${full}" alt="Full-page screenshot of ${esc(title)}" loading="lazy"></div></div>`;
+const mobOf=f=>f===PX.full?PX.mob:f===ECO.full?ECO.mob:f===MM.full?MM.mob:'';
+const pic=(full,alt)=>{const m=mobOf(full);return `<picture>${m?`<source media="(max-width:760px)" srcset="${m}">`:''}<img src="${full}" alt="${alt}" loading="lazy"></picture>`};
+const shotH=(full,dom,title,url)=>url?`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="vp">${pic(full,'Full-page screenshot of '+esc(title))}</div><span class="visit">Visit the live store ↗</span></a>`:`<div class="browser" data-cur="Scroll"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span></div><div class="vp">${pic(full,'Full-page screenshot of '+esc(title))}</div></div>`;
 const heroLinkH=(img,dom,title,url)=>`<a class="browser golink" href="${url}" target="_blank" rel="noopener noreferrer" data-cur="Visit"><div class="bar"><i></i><i></i><i></i><span class="u">${esc(dom)}</span><span class="livetag"><i></i>Live store · click to open</span></div><div class="hv"><img src="${img}" alt="${esc(title)} homepage" loading="lazy"></div><span class="visit">Visit the live store ↗</span></a>`;
-function fitLive(root=document){$$('.live',root).forEach(l=>{const f=$('iframe',l);if(f)f.style.transform=`scale(${l.clientWidth/1440})`})}
+function fitLive(root=document){const m=innerWidth<=760,VW=m?390:1440;$$('.live',root).forEach(l=>{const f=$('iframe',l);if(!f)return;const k=l.clientWidth/VW;f.style.width=VW+'px';f.style.height=(m?Math.ceil(l.clientHeight/k):900)+'px';f.style.transform=`scale(${k})`})}
 function wireLive(root=document){fitLive(root);$$('.live',root).forEach(l=>{if(l.dataset.wired)return;l.dataset.wired=1;const f=$('iframe',l);f.addEventListener('load',()=>l.classList.add('ok'));
   const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){if(!f.src)f.src=l.dataset.live;io.disconnect()}}),{rootMargin:'300px'});io.observe(l)})}
 function wireShots(root=document){$$('.vp',root).forEach(vp=>{const i=$('img',vp);const set=()=>vp.style.setProperty('--scroll',Math.max(0,i.offsetHeight-vp.offsetHeight)+'px');i.addEventListener('load',set);set()})}
@@ -835,12 +870,12 @@ const visH=(v,c)=>v[0]==='i'?`<img src="${v[1]}" alt="" loading="lazy" style="ob
  v[0]==='wf'?wfH(true):v[0]==='flow'?`<div class="vis">${[['01','Find what sells'],['02','Make the video'],['03','Check the rules'],['04','Post every day']].map(x=>`<div class="vstep"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`:
  v[0]==='ba'?`<div class="vis">${[['A lead comes in after hours','Reply and booking link sent right away'],['Finding new clients','Outreach goes out automatically'],['Social clips','Cut and captioned for approval'],['Weekly numbers','AI flags what to fix']].map(x=>`<div class="vrow"><div class="vb" style="background:rgba(14,17,23,.08)"><span>Task</span>${x[0]}</div><div class="vb" style="background:var(--ink);color:var(--paper)"><span style="color:var(--lime);opacity:1">Now</span>${x[1]}</div></div>`).join('')}</div>`:
  `<div class="vis" style="background:radial-gradient(90% 80% at 70% 20%,rgba(67,97,255,.35),transparent 60%)"><span class="mono" style="display:inline-flex;align-self:flex-start;background:var(--lime);color:var(--ink);padding:5px 12px;border-radius:99px">Coming soon</span><b style="font-family:var(--disp);font-weight:800;font-size:clamp(44px,5vw,84px);letter-spacing:-.06em;line-height:.85">Built with<br><span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--lime)">NFL</span> players.</b><span style="opacity:.7;max-width:34ch">A subscription football coaching community, coached by people who played at the highest level.</span></div>`;
-$('#deck').innerHTML=CASES.map((c,i)=>{const m=META[c.id];return `<article class="card ${m[0]}" data-case="${i}" style="top:${96+i*14}px" data-cur="Open case" tabindex="0" role="button" aria-label="Open case study: ${esc(c.t)}">
+$('#deck').innerHTML=CASES.map((c,i)=>{const m=META[c.id];return `<article class="card ${m[0]}" data-case="${i}" style="top:${(innerWidth<=900?74+i*9:96+i*14)}px" data-cur="Open case" tabindex="0" role="button" aria-label="Open case study: ${esc(c.t)}">
  <div class="cl"><div><div class="top mono"><span>Case ${String(i+1).padStart(2,'0')}${c.flag?' · New':''}${c.soon?' · Coming soon':''}</span><span>${esc(c.tags.join(' · '))}</span></div><h3>${esc(c.t)}</h3><p class="sub">${esc(c.sub)}</p></div>
  <div><div class="met"><b>${m[1]}</b><span>${esc(m[2])}</span></div>${c.id==='px'?`<span class="open">Visit the live store <span aria-hidden="true">↗</span></span> <button class="open alt" data-case-open>Case study</button>`:`<span class="open">Open the case study <span aria-hidden="true">→</span></span>`}</div></div>
  <div class="cr">${visH(m[3],c)}</div></article>`}).join('');
 const cards=$$('#deck .card');wireWF($('#deck'));
-function deckFx(){if(innerWidth<=900||RM)return;cards.forEach((c,i)=>{const n=cards[i+1];if(!n){c.style.transform='';c.style.filter='';return}const top=parseFloat(c.style.top),nt=n.getBoundingClientRect().top,ct=c.getBoundingClientRect().top;const over=Math.max(0,Math.min(1,(ct+c.offsetHeight*.6-nt)/(c.offsetHeight*.6)));c.style.transform=`scale(${1-over*.05})`;c.style.filter=`brightness(${1-over*.35})`})}
+function deckFx(){if(RM)return;cards.forEach((c,i)=>{const n=cards[i+1];if(!n){c.style.transform='';c.style.filter='';return}const top=parseFloat(c.style.top),nt=n.getBoundingClientRect().top,ct=c.getBoundingClientRect().top;const over=Math.max(0,Math.min(1,(ct+c.offsetHeight*.6-nt)/(c.offsetHeight*.6)));c.style.transform=`scale(${1-over*.05})`;c.style.filter=`brightness(${1-over*.35})`})}
 addEventListener('scroll',deckFx,{passive:true});deckFx();
 // sheet
 const sheet=$('#sheet'),pn=$('#pn');let curCase=0,lastF=null;
@@ -862,7 +897,7 @@ const G=[
   ['p',MM.hero,0,'Campaign hero · rooftop','wide'],['v',MM.tt,MM.halo,'360° product turntable','wide'],
   ['v',MM.sub,MM.store,'Lookbook clip · last train','r34'],['p',MM.garage,0,'Lookbook · Level P4','r34'],['p',MM.store,0,'Lookbook · open 24h','r34'],['c',MM.halo,0,'Product cutout · Halo puffer','r34']]},
  {k:'hd',l:'Funnel Hood Hoodie',s:'AI fashion ads · tap the speaker for sound',cls:'p-hd',it:[
-  ['a','hoodie-fan-swap',hv('hoodie-fan-swap.jpg'),'Viral format remake · ceiling-fan outfit swap','r916'],['a','hoodie-studio',hv('hoodie-studio.jpg'),'Studio product ad','r916'],['a','hoodie-closeups',hv('hoodie-closeups.jpg'),'Close-up detail ad','r916'],['a','hoodie-stairwell',hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad','r916']]},
+  ['a','hoodie-fan-swap',hv('hoodie-fan-swap.jpg'),'Fan outfit swap','r916'],['a','hoodie-studio',hv('hoodie-studio.jpg'),'Studio product ad','r916'],['a','hoodie-closeups',hv('hoodie-closeups.jpg'),'Close-up detail ad','r916'],['a','hoodie-stairwell',hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad','r916']]},
  {k:'fa',l:'Fashion brand',s:'AI website imagery',cls:'p-fa',it:[['fashion-denim-street','Denim jacket, golden hour'],['fashion-leather-studio','Patent leather, studio'],['fashion-aviator-overhead','Aviators, overhead'],['fashion-linen-studio','Linen set, studio'],['fashion-knit-night','Knit set, night street'],['fashion-pink-harbor','Pink dress, harbor']].map(([k,c])=>['p',sh(k+'.jpg'),0,c,'r45'])},
  {k:'fl',l:'Product flat lays',s:'AI product photography',cls:'p-fl',it:[['flatlay-sherpa-coat','Sherpa coat'],['flatlay-crinkle-set','Crinkle set'],['flatlay-fur-crop','Faux fur crop'],['flatlay-monaco-hoodie','Embroidered hoodie']].map(([k,c])=>['p',fl(k+'.jpg'),0,c,'r45'])}
 ];
