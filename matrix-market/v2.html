@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Matrix Market — Drop 07: Signal</title>
+<meta name="description" content="Y2K-born streetwear for the after-hours. Concept storefront designed and built by Kevin Dunn.">
+<meta name="theme-color" content="#0b0b0c">
+<meta property="og:title" content="The Matrix Market — Drop 07: Signal">
+<meta property="og:description" content="Y2K-born streetwear for the after-hours. Concept storefront by Kevin Dunn.">
+<meta property="og:image" content="https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/31f0403e-8341-4bf3-91af-b2b1286d74ce.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://d2ol7oe51mr4n9.cloudfront.net">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&family=Instrument+Serif:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#0b0b0c;--ink2:#141416;--bone:#ecebe6;--studio:#e9e9e7;--paper:#fbfaf7;--mute:#77767a;--line:rgba(11,11,12,.12);
+  --signal:#ff4d1f;--chrome:linear-gradient(180deg,#fff 0%,#c9ccd2 34%,#6d7178 52%,#e9eaec 70%,#9ea2a9 100%);
+  --wide:"Archivo",system-ui,sans-serif;--serif:"Instrument Serif",Georgia,serif;--mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --ease:cubic-bezier(.16,1,.3,1);--spring:cubic-bezier(.34,1.56,.64,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bone);color:var(--ink);font-family:var(--wide);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video{display:block;max-width:100%}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--signal);outline-offset:3px}
+.mono{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase}
+.wrap{max-width:1440px;margin:0 auto;padding:0 32px}
+@media (max-width:700px){.wrap{padding:0 18px}}
+.wide{font-stretch:125%;font-weight:900;text-transform:uppercase;letter-spacing:-.045em;line-height:.86}
+em.s,.s{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;letter-spacing:-.01em}
+.idx{display:block;margin-bottom:14px;color:var(--signal)}
+
+/* ticker + nav */
+.ticker{background:var(--signal);color:var(--ink);height:32px;overflow:hidden;display:flex;align-items:center;position:relative;z-index:31}
+.ticker .track{display:flex;white-space:nowrap;animation:tick 40s linear infinite}
+.ticker span{padding-right:44px}
+@keyframes tick{to{transform:translateX(-50%)}}
+header.nav{position:sticky;top:0;z-index:30;color:#fff;mix-blend-mode:difference}
+header.nav .wrap{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:64px}
+.navl{display:flex;gap:22px}
+.navl a{position:relative;padding:4px 0}
+.navl a::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.navl a:hover::after,.navl a.on::after{transform:scaleX(1);transform-origin:left}
+.logo{font-stretch:125%;font-weight:900;font-size:19px;letter-spacing:-.02em;text-transform:uppercase;white-space:nowrap}
+.logo sup{font-size:9px;font-weight:500;margin-left:2px}
+.navr{display:flex;justify-content:flex-end;gap:18px;align-items:center}
+.bagbtn{display:inline-flex;gap:6px;align-items:center}
+.bagbtn b{display:inline-grid;place-items:center;min-width:20px;height:20px;border:1px solid currentColor;border-radius:99px;font-weight:500;padding:0 5px}
+.bagbtn b.bump{animation:bump .5s var(--spring)}
+@keyframes bump{40%{transform:translateY(-5px) scale(1.15)}}
+.menubtn{display:none}
+@media (max-width:860px){.navl{display:none}.menubtn{display:inline-flex}.navr .hide-s{display:none}}
+.mnav{position:fixed;inset:0;background:var(--ink);color:#fff;z-index:75;display:flex;flex-direction:column;justify-content:center;padding:0 24px;gap:6px;clip-path:inset(0 0 100% 0);transition:clip-path .7s var(--ease)}
+.mnav.on{clip-path:inset(0 0 0 0)}
+.mnav a{font-stretch:125%;font-weight:900;font-size:48px;text-transform:uppercase;letter-spacing:-.04em;line-height:1}
+.mnav a:hover{color:var(--signal)}
+.mnav button{position:absolute;top:22px;right:22px}
+
+/* page transitions */
+#app{min-height:100vh}
+.page{animation:pin .9s var(--ease) both}
+@keyframes pin{from{opacity:0;transform:translateY(24px)}}
+.wipe{position:fixed;inset:0;z-index:95;background:var(--signal);display:grid;place-items:center;pointer-events:none;clip-path:inset(100% 0 0 0)}
+.wipe b{font-stretch:125%;font-weight:900;font-size:clamp(48px,12vw,180px);letter-spacing:-.05em;text-transform:uppercase;color:var(--ink)}
+.wipe.go{animation:wipe 1s var(--ease) both}
+@keyframes wipe{0%{clip-path:inset(100% 0 0 0)}45%,55%{clip-path:inset(0 0 0 0)}100%{clip-path:inset(0 0 100% 0)}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;height:48px;padding:0 22px;border-radius:99px;font-weight:600;font-size:14px;letter-spacing:.02em;transition:transform .4s var(--spring),background .25s,color .25s,border-color .25s;white-space:nowrap}
+.btn:hover{transform:translateY(-2px)}
+.btn.solid{background:#fff;color:var(--ink)}.btn.solid:hover{background:var(--signal)}
+.btn.ghost{border:1px solid rgba(255,255,255,.6);color:#fff}.btn.ghost:hover{background:#fff;color:var(--ink)}
+.btn.dark{background:var(--ink);color:#fff}.btn.dark:hover{background:var(--signal);color:var(--ink)}
+.btn.line{border:1px solid var(--ink)}.btn.line:hover{background:var(--ink);color:#fff}
+.btn[disabled]{opacity:.45;pointer-events:none}
+
+/* hero */
+.hero{position:relative;height:min(100svh,1000px);min-height:620px;margin-top:-64px;background:var(--ink);color:#fff;overflow:hidden}
+.hero video,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:62% 50%}
+.shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(11,11,12,.72) 0%,rgba(11,11,12,.15) 52%,rgba(11,11,12,0) 70%),linear-gradient(0deg,rgba(11,11,12,.8) 0%,rgba(11,11,12,0) 38%)}
+.scan{position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(255,255,255,.035) 0 1px,transparent 1px 3px);pointer-events:none;mix-blend-mode:overlay}
+.hero-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:40px}
+.meta{display:flex;gap:14px;align-items:center;margin-bottom:18px}
+.live{display:inline-flex;align-items:center;gap:8px;border:1px solid rgba(255,255,255,.5);border-radius:99px;padding:5px 12px}
+.live i{width:7px;height:7px;border-radius:50%;background:var(--signal);animation:ping 1.6s infinite}
+@keyframes ping{0%{box-shadow:0 0 0 0 rgba(255,77,31,.8)}70%{box-shadow:0 0 0 8px rgba(255,77,31,0)}100%{box-shadow:0 0 0 0 rgba(255,77,31,0)}}
+.hero h1{font-stretch:125%;font-weight:900;font-size:clamp(56px,17.5vw,300px);line-height:.78;letter-spacing:-.05em;text-transform:uppercase;margin-left:-.04em;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 6px 30px rgba(0,0,0,.45))}
+.hero-row{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-top:22px;flex-wrap:wrap}
+.lede{max-width:34ch;font-size:18px;line-height:1.45;color:rgba(255,255,255,.86)}
+.lede em{font-family:var(--serif);font-style:italic;font-size:1.25em;color:#fff}
+.ctas{display:flex;gap:10px;flex-wrap:wrap}
+.count{display:flex;gap:2px;font-family:var(--mono);font-variant-numeric:tabular-nums}
+.count div{display:grid;justify-items:center;min-width:58px;padding:8px 6px;border:1px solid rgba(255,255,255,.28);background:rgba(11,11,12,.35);backdrop-filter:blur(6px)}
+.count b{font-size:24px;font-weight:500;line-height:1}
+.count small{font-size:9px;letter-spacing:.12em;opacity:.7;margin-top:4px}
+.corner{position:absolute;top:84px;right:32px;text-align:right;line-height:1.7}
+@media (max-width:700px){.corner{display:none}.hero-in{padding-bottom:24px}.count div{min-width:48px}.meta{font-size:9px;gap:8px}.meta>span:last-child{display:none}}
+
+/* section heads */
+.shead{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:end;padding-top:100px;margin-bottom:40px}
+.shead h2{font-stretch:125%;font-weight:900;font-size:clamp(40px,6.4vw,96px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase}
+.shead h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;letter-spacing:-.02em}
+.shead p{max-width:34ch;color:#3a3a3e}
+.dark .shead p{color:rgba(255,255,255,.66)}
+@media (max-width:760px){.shead{grid-template-columns:1fr;padding-top:72px}}
+
+/* ===== THE RAIL (product carousel) ===== */
+.rail{background:radial-gradient(120% 80% at 50% 38%,#26262b 0%,#111113 46%,#0b0b0c 75%);color:#fff;overflow:hidden;position:relative;padding-bottom:70px}
+.rail .shead{position:relative;z-index:3}
+.ghost{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);white-space:nowrap;font-stretch:125%;font-weight:900;font-size:clamp(90px,17vw,280px);letter-spacing:-.05em;text-transform:uppercase;color:transparent;-webkit-text-stroke:1px rgba(255,255,255,.09);pointer-events:none;z-index:0;transition:opacity .4s}
+.ghost.swap{animation:gswap .9s var(--ease)}
+@keyframes gswap{from{opacity:0;letter-spacing:.05em}}
+.stage{position:relative;height:clamp(440px,52vw,640px);perspective:1800px;touch-action:pan-y;cursor:grab;user-select:none;-webkit-user-select:none;z-index:2}
+.stage.drag{cursor:grabbing}
+.spot{position:absolute;left:50%;top:56%;width:min(820px,90vw);height:min(420px,46vw);transform:translate(-50%,-50%);background:radial-gradient(closest-side,rgba(255,255,255,.14),rgba(255,255,255,0));pointer-events:none}
+.floor{position:absolute;left:0;right:0;top:78%;bottom:-20%;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,0) 60%);border-top:1px solid rgba(255,255,255,.08);pointer-events:none}
+.ring{position:absolute;left:50%;top:44%;width:0;height:0;transform-style:preserve-3d}
+.it{position:absolute;width:var(--cw);height:calc(var(--cw)*1.25);left:calc(var(--cw)/-2);top:calc(var(--cw)*-.625);display:flex;align-items:flex-end;justify-content:center;transform-style:preserve-3d;will-change:transform,opacity}
+.it img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 30px 30px rgba(0,0,0,.55));-webkit-box-reflect:below 6px linear-gradient(transparent 62%,rgba(255,255,255,.18));pointer-events:none;transition:filter .5s}
+.it.front img{filter:drop-shadow(0 34px 34px rgba(0,0,0,.6)) drop-shadow(0 0 40px rgba(255,77,31,.14))}
+.tag{position:absolute;top:8%;right:-4%;background:var(--signal);color:var(--ink);padding:6px 10px;border-radius:2px;font-family:var(--mono);font-size:11px;opacity:0;transform:translateY(8px) rotate(-4deg);transition:opacity .4s,transform .5s var(--spring)}
+.it.front .tag{opacity:1;transform:none}
+.railui{display:grid;grid-template-columns:1fr auto 1fr;align-items:end;gap:20px;position:relative;z-index:3}
+.rname{font-stretch:125%;font-weight:900;font-size:clamp(28px,3.6vw,52px);line-height:.95;letter-spacing:-.04em;text-transform:uppercase}
+.rname small{display:block;font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;letter-spacing:0;font-size:.6em;color:rgba(255,255,255,.62);margin-top:6px}
+.swap{animation:swap .7s var(--ease)}
+@keyframes swap{from{opacity:0;transform:translateY(14px);filter:blur(4px)}}
+.ctl{display:flex;gap:8px;align-items:center}
+.circ{width:52px;height:52px;border-radius:50%;border:1px dashed currentColor;display:grid;place-items:center;transition:background .25s,color .25s,transform .4s var(--spring)}
+.rail .circ:hover{background:#fff;color:var(--ink);transform:scale(1.06)}
+.rr{display:flex;justify-content:flex-end;align-items:center;gap:14px}
+.price{font-family:var(--mono);font-size:15px}
+.prog{display:flex;gap:6px;justify-content:center;margin-top:26px;position:relative;z-index:3}
+.prog button{width:22px;height:3px;background:rgba(255,255,255,.2);transition:background .3s,width .4s var(--ease)}
+.prog button.on{background:#fff;width:40px}
+.hint{position:absolute;top:10px;left:50%;transform:translateX(-50%);color:rgba(255,255,255,.45);z-index:3}
+@media (max-width:760px){.railui{grid-template-columns:1fr;justify-items:center;text-align:center}.rr{justify-content:center}}
+
+/* feature (turntable) */
+.feature{background:#000;color:#fff;position:relative;overflow:hidden}
+.feat{display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,.7fr);min-height:min(92vh,860px);align-items:center}
+.feat .vid{position:relative;height:100%;min-height:440px}
+.feat video,.feat .vid img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.feat .copy{padding:60px 40px 60px 20px}
+.feat h3{font-stretch:125%;font-weight:900;font-size:clamp(40px,5vw,78px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase}
+.specs{list-style:none;margin:26px 0 30px;border-top:1px solid rgba(255,255,255,.18)}
+.specs li{display:flex;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.18);font-size:14px}
+.specs li span:first-child{color:rgba(255,255,255,.55)}
+@media (max-width:900px){.feat{grid-template-columns:1fr}.feat .vid{min-height:56vw}.feat .copy{padding:40px 18px 70px}}
+
+/* shop the look */
+.look{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:40px;padding-bottom:110px;align-items:start}
+.lookimg{position:relative;border-radius:4px;overflow:hidden;background:#e9e8e3}
+.lookimg img{width:100%;height:auto}
+.pin{position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;display:grid;place-items:center}
+.pin span{width:30px;height:30px;border-radius:50%;background:var(--ink);color:#fff;font-family:var(--mono);font-size:11px;display:grid;place-items:center;box-shadow:0 0 0 6px rgba(251,250,247,.55);transition:transform .35s var(--spring),background .25s,color .25s}
+.pin:hover span,.pin.hot span{transform:scale(1.18);background:var(--signal);color:var(--ink)}
+.tip{position:absolute;left:calc(100% - 2px);top:50%;transform:translate(-6px,-50%) scale(.96);opacity:0;pointer-events:none;white-space:nowrap;background:#fff;border:1px solid var(--ink);border-radius:99px;padding:7px 14px;font-size:12px;font-weight:600;font-style:normal;transition:opacity .3s,transform .4s var(--ease)}
+.tip i{font-family:var(--serif);font-weight:400;margin-left:6px}
+.pin:hover .tip,.pin.hot .tip{opacity:1;transform:translate(6px,-50%) scale(1)}
+.pin.flip .tip{left:auto;right:calc(100% - 2px)}
+.pin.flip:hover .tip,.pin.flip.hot .tip{transform:translate(-6px,-50%) scale(1)}
+.receipt{position:sticky;top:84px;background:#fff;padding:30px 28px 44px;box-shadow:0 30px 60px -30px rgba(0,0,0,.25);-webkit-mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/16px 100%;mask:conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) 50%/16px 100%}
+.receipt.print{animation:print 1.4s steps(16,end) both}
+@keyframes print{from{clip-path:inset(0 0 100% 0)}to{clip-path:inset(0 0 0 0)}}
+.rhead{text-align:center;border-bottom:1px dashed #b9b8b4;padding-bottom:16px;margin-bottom:6px}
+.rhead strong{display:block;font-stretch:125%;font-weight:900;font-size:26px;letter-spacing:-.03em;text-transform:uppercase}
+.rline{display:grid;grid-template-columns:28px 1fr auto;grid-template-areas:"n name price" "n kind add";gap:2px 10px;padding:14px 0;border-bottom:1px dashed #d4d3cf;position:relative}
+.rline::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink);transform:scaleX(0);transform-origin:left;transition:transform .7s var(--ease)}
+.rline.hot::after{transform:scaleX(1)}
+.rline .n{grid-area:n;font-family:var(--mono);font-size:11px;padding-top:3px}
+.rline .nm{grid-area:name;font-weight:700;text-transform:uppercase;font-size:13px;letter-spacing:.02em}
+.rline .pr{grid-area:price;font-family:var(--mono);font-size:13px;text-align:right}
+.rline .kd{grid-area:kind;color:var(--mute);font-size:12px}
+.rline .add{grid-area:add;justify-self:end;height:26px;padding:0 12px;border:1px dashed var(--ink);border-radius:99px;font-family:var(--mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;transition:background .2s,color .2s}
+.rline .add:hover,.rline .add.in{background:var(--ink);color:#fff;border-style:solid}
+.sizes{display:flex;gap:6px;flex-wrap:wrap}
+.rline .sizes{grid-column:2/4;display:none;padding-top:10px}
+.rline.open .sizes{display:flex}
+.sizes button{min-width:44px;height:34px;padding:0 10px;border:1px dashed var(--ink);border-radius:99px;font-family:var(--mono);font-size:11px;transition:background .2s,color .2s}
+.sizes button[aria-pressed=true],.sizes button:hover{background:var(--ink);color:#fff;border-style:solid}
+.rsum{padding-top:16px;display:grid;gap:6px;font-size:14px}
+.rsum div{display:flex;justify-content:space-between}
+.rsum .tot{border-top:1px dashed #b9b8b4;padding-top:12px;margin-top:6px;font-stretch:125%;font-weight:900;font-size:30px;letter-spacing:-.03em}
+.rsum .disc{color:var(--signal)}
+.receipt .btn{width:100%;margin-top:18px}
+.barcode{height:38px;margin-top:22px;background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 4px,var(--ink) 4px 5px,transparent 5px 8px,var(--ink) 8px 11px,transparent 11px 12px,var(--ink) 12px 13px,transparent 13px 17px)}
+.thanks{text-align:center;margin-top:10px;color:var(--mute)}
+@media (max-width:900px){.look{grid-template-columns:1fr}.receipt{position:relative;top:0}}
+
+/* film strip */
+.film{background:var(--ink);color:#fff;overflow:hidden;padding-bottom:110px}
+.strip{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 32px 12px;scrollbar-width:none;cursor:grab}
+.strip::-webkit-scrollbar{display:none}
+.strip.drag{cursor:grabbing;scroll-snap-type:none}
+.frame{flex:0 0 clamp(260px,30vw,440px);scroll-snap-align:start;position:relative;display:block}
+.frame:nth-child(even){margin-top:64px}
+.frame .ph{overflow:hidden;border-radius:3px;aspect-ratio:3/4;background:#1a1a1c}
+.frame img{width:100%;height:100%;object-fit:cover;transform:scale(1.04);transition:transform 1.2s var(--ease)}
+.frame:hover img{transform:scale(1.1)}
+.frame figcaption{display:flex;justify-content:space-between;gap:10px;margin-top:12px;align-items:baseline}
+.frame figcaption b{font-stretch:125%;font-weight:800;text-transform:uppercase;letter-spacing:-.02em;font-size:18px}
+.frame figcaption span{color:rgba(255,255,255,.6)}
+.frame .no{position:absolute;top:12px;left:12px;background:rgba(11,11,12,.6);backdrop-filter:blur(6px);padding:4px 8px;border-radius:2px;z-index:1}
+.cur{position:fixed;left:0;top:0;width:86px;height:86px;margin:-43px 0 0 -43px;border-radius:50%;background:var(--signal);color:var(--ink);display:grid;place-items:center;pointer-events:none;z-index:60;transform:scale(0);transition:transform .45s var(--spring)}
+.cur.on{transform:scale(1)}
+@media (hover:none){.cur{display:none}}
+@media (max-width:700px){.strip{padding:0 18px 12px}.frame:nth-child(even){margin-top:0}}
+
+/* categories */
+.cats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding-bottom:110px}
+.cat{position:relative;aspect-ratio:3/4;border-radius:4px;overflow:hidden;background:var(--studio);display:flex;flex-direction:column;justify-content:space-between;padding:18px;isolation:isolate}
+.cat img{position:absolute;inset:12% 10% 18%;width:80%;height:70%;object-fit:contain;z-index:-1;transition:transform .9s var(--ease);filter:drop-shadow(0 20px 22px rgba(0,0,0,.18))}
+.cat:hover img{transform:scale(1.08) rotate(-2deg)}
+.cat::before{content:"";position:absolute;inset:0;background:var(--signal);z-index:-2;clip-path:circle(0% at 50% 100%);transition:clip-path .8s var(--ease)}
+.cat:hover::before{clip-path:circle(150% at 50% 100%)}
+.cat b{font-stretch:125%;font-weight:900;font-size:clamp(20px,2.2vw,30px);text-transform:uppercase;letter-spacing:-.04em;line-height:.9}
+@media (max-width:760px){.cats{grid-template-columns:1fr 1fr}}
+
+/* manifesto */
+.mani{padding:120px 0 110px;background:var(--bone)}
+.mani p.big{font-stretch:112%;font-weight:800;font-size:clamp(30px,4.6vw,68px);line-height:1.02;letter-spacing:-.035em;text-transform:uppercase;max-width:20ch}
+.mani p.big em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;color:var(--signal)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);margin-top:72px;border-top:2px solid var(--ink)}
+.stats div{padding:20px 20px 0 0}
+.stats b{display:block;font-stretch:125%;font-weight:900;font-size:clamp(34px,4vw,56px);letter-spacing:-.04em;line-height:1}
+.stats span{display:block;margin-top:8px;color:#4a4a4e;font-size:14px;max-width:22ch}
+@media (max-width:760px){.stats{grid-template-columns:1fr 1fr;row-gap:24px}}
+
+/* club band */
+.band{background:var(--ink);color:#fff;padding:110px 0}
+.club{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.club h2{font-stretch:125%;font-weight:900;font-size:clamp(40px,5.6vw,84px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+.club h2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;color:var(--signal)}
+.perks{list-style:none;margin:26px 0 30px;display:grid;gap:10px;color:rgba(255,255,255,.8)}
+.perks li::before{content:"→ ";color:var(--signal)}
+form.join{display:flex;gap:8px;max-width:480px;border-bottom:1px solid rgba(255,255,255,.4);padding-bottom:8px}
+form.join input{flex:1;background:none;border:0;color:#fff;font:inherit;font-size:18px;outline:none;min-width:0}
+form.join input::placeholder{color:rgba(255,255,255,.45)}
+.cardwrap{perspective:1000px;display:grid;place-items:center}
+.card{width:min(440px,100%);aspect-ratio:1.586;border-radius:18px;padding:26px;position:relative;overflow:hidden;color:var(--ink);background:var(--chrome);box-shadow:0 40px 80px -30px rgba(0,0,0,.8),inset 0 1px 0 #fff;transform-style:preserve-3d;transition:transform .2s ease-out;display:flex;flex-direction:column;justify-content:space-between}
+.card::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.75) 50%,transparent 60%);transform:translateX(var(--gx,-30%));transition:transform .2s ease-out;mix-blend-mode:overlay}
+.card .top,.card .bot{display:flex;justify-content:space-between;align-items:flex-end}
+.chip{width:42px;height:32px;border-radius:6px;background:linear-gradient(135deg,#d9b56a,#f6e3ae 45%,#b98f3e);box-shadow:inset 0 0 0 1px rgba(0,0,0,.2)}
+.card .num{font-family:var(--mono);font-size:18px;letter-spacing:.18em}
+.card .bot strong{font-stretch:125%;font-weight:900;font-size:22px;letter-spacing:-.03em;text-transform:uppercase;line-height:.9}
+@media (max-width:860px){.club{grid-template-columns:1fr}}
+
+/* ===== SHOP ===== */
+.phead{position:relative;height:clamp(380px,56vh,560px);margin-top:-64px;background:var(--ink);color:#fff;overflow:hidden;display:flex;align-items:flex-end}
+.phead img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.phead .shade{background:linear-gradient(0deg,rgba(11,11,12,.85),rgba(11,11,12,.1) 60%)}
+.phead .in{position:relative;width:100%;padding-bottom:36px}
+.phead h1{font-stretch:125%;font-weight:900;font-size:clamp(56px,11vw,180px);line-height:.8;letter-spacing:-.05em;text-transform:uppercase}
+.phead h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;letter-spacing:-.02em}
+.phead .crumb{margin-bottom:16px;color:rgba(255,255,255,.7)}
+.bar{position:sticky;top:64px;z-index:10;background:rgba(236,235,230,.86);backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+.bar .wrap{display:flex;justify-content:space-between;align-items:center;gap:16px;height:62px;overflow-x:auto;scrollbar-width:none}
+.chips{display:flex;gap:6px}
+.chips button{height:34px;padding:0 14px;border-radius:99px;border:1px solid var(--line);white-space:nowrap;transition:background .25s,color .25s,border-color .25s}
+.chips button:hover{border-color:var(--ink)}
+.chips button[aria-pressed=true]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.chips sup{font-size:9px;margin-left:3px;opacity:.6}
+.sort{display:flex;align-items:center;gap:10px;white-space:nowrap}
+.sort select{font:inherit;font-family:var(--mono);font-size:11px;text-transform:uppercase;letter-spacing:.06em;background:none;border:1px solid var(--line);border-radius:99px;height:34px;padding:0 12px}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px;padding:2px 0 110px}
+.tile{position:relative;background:var(--studio);aspect-ratio:3/4;overflow:hidden;display:block;isolation:isolate;animation:tin .7s var(--ease) both}
+@keyframes tin{from{opacity:0;transform:scale(.97)}}
+.tile .im{position:absolute;inset:10% 12% 22%;display:flex;align-items:center;justify-content:center}
+.tile .im img{max-width:100%;max-height:100%;object-fit:contain;filter:drop-shadow(0 22px 22px rgba(0,0,0,.16));transition:transform .9s var(--ease),opacity .5s}
+.tile .alt{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s var(--ease),transform 1.2s var(--ease);transform:scale(1.06);z-index:0}
+.tile:hover .alt{opacity:1;transform:scale(1)}
+.tile:hover .im img{opacity:0;transform:scale(.94)}
+.tile .info{position:absolute;left:14px;right:14px;bottom:12px;display:flex;justify-content:space-between;align-items:flex-end;gap:10px;z-index:2;transition:color .4s}
+.tile:hover .info{color:#fff}
+.tile .info b{display:block;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.01em}
+.tile .info small{font-family:var(--serif);font-style:italic;font-size:15px;opacity:.8}
+.tile .no{position:absolute;top:12px;left:14px;z-index:2;transition:color .4s}
+.tile:hover .no{color:#fff}
+.tile .badge{position:absolute;top:12px;right:12px;z-index:2;background:var(--signal);color:var(--ink);padding:3px 7px;border-radius:2px}
+.tile .qa{position:absolute;left:12px;right:12px;bottom:56px;z-index:3;display:flex;gap:4px;justify-content:center;flex-wrap:wrap;opacity:0;transform:translateY(10px);transition:opacity .4s,transform .5s var(--ease)}
+.tile:hover .qa,.tile:focus-within .qa{opacity:1;transform:none}
+.tile .qa button{min-width:38px;height:30px;padding:0 8px;border-radius:99px;background:rgba(255,255,255,.92);color:var(--ink);font-family:var(--mono);font-size:10px;transition:background .2s,color .2s}
+.tile .qa button:hover{background:var(--signal)}
+.tile .qa span{width:100%;text-align:center;color:#fff;margin-bottom:4px}
+.tile::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(11,11,12,.65),rgba(11,11,12,0) 45%);opacity:0;transition:opacity .5s;z-index:1}
+.tile:hover::after{opacity:1}
+.ed{grid-column:span 2;aspect-ratio:auto;background:var(--ink);color:#fff;display:flex;align-items:flex-end}
+.ed img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.ed:hover img{transform:scale(1.04)}
+.ed .tx{position:relative;z-index:2;padding:24px}
+.ed .tx b{font-stretch:125%;font-weight:900;font-size:clamp(28px,3.4vw,52px);line-height:.88;text-transform:uppercase;letter-spacing:-.045em;display:block}
+.ed::after{opacity:1}
+.empty{color:var(--mute);text-align:center;padding:80px 0;grid-column:1/-1}
+@media (max-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:700px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.ed{grid-column:1/-1;aspect-ratio:4/3}.tile .qa{display:none}}
+
+/* ===== PRODUCT ===== */
+.pdp{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:0;border-bottom:1px solid var(--line)}
+.gal{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:2px;background:var(--bone)}
+.gal .g{position:relative;background:var(--studio);aspect-ratio:3/4;overflow:hidden}
+.gal .g.big{grid-column:1/-1;aspect-ratio:4/3.4;cursor:zoom-in}
+.gal .g img.cut{position:absolute;inset:8% 12%;width:76%;height:84%;object-fit:contain;filter:drop-shadow(0 30px 30px rgba(0,0,0,.18));transition:transform .2s ease-out}
+.gal .g img.ph{width:100%;height:100%;object-fit:cover}
+.gal .g .lbl{position:absolute;left:14px;bottom:12px;z-index:2}
+.gal .g.dk .lbl{color:#fff}
+.buy{position:sticky;top:64px;align-self:start;padding:40px 36px 50px}
+.buy .crumb{color:var(--mute);margin-bottom:18px}
+.buy .crumb a:hover{color:var(--signal)}
+.buy h1{font-stretch:125%;font-weight:900;font-size:clamp(34px,3.8vw,58px);line-height:.88;letter-spacing:-.045em;text-transform:uppercase}
+.buy .sub{font-family:var(--serif);font-style:italic;font-size:24px;color:#4a4a4e;margin-top:8px}
+.buy .pr{font-family:var(--mono);font-size:18px;margin:18px 0 6px}
+.buy .note{color:var(--mute);font-size:13px}
+.buy .lbl2{display:flex;justify-content:space-between;margin:26px 0 10px}
+.buy .lbl2 button{text-decoration:underline;text-underline-offset:3px}
+.buy .addrow{display:flex;gap:8px;margin-top:22px}
+.buy .addrow .btn{flex:1}
+.qty{display:flex;align-items:center;border:1px solid var(--ink);border-radius:99px;height:48px}
+.qty button{width:40px;height:100%;font-size:18px}
+.qty span{min-width:22px;text-align:center;font-family:var(--mono)}
+.acc{margin-top:30px;border-top:1px solid var(--line)}
+.acc details{border-bottom:1px solid var(--line)}
+.acc summary{list-style:none;display:flex;justify-content:space-between;padding:16px 0;cursor:pointer;font-weight:600;font-size:14px;text-transform:uppercase;letter-spacing:.02em}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";font-family:var(--mono);transition:transform .3s}
+.acc details[open] summary::after{transform:rotate(45deg)}
+.acc .bd{padding:0 0 18px;color:#3a3a3e;font-size:14px}
+.acc table{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:11px}
+.acc td,.acc th{border-bottom:1px dashed #d4d3cf;padding:7px 4px;text-align:left}
+.ship{display:flex;gap:16px;margin-top:20px;flex-wrap:wrap;color:var(--mute)}
+.ship span::before{content:"✦ ";color:var(--signal)}
+.ctl2{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2px}
+.zoom{position:fixed;inset:0;z-index:85;background:var(--studio);display:none;cursor:zoom-out;overflow:hidden}
+.zoom.on{display:block}
+.zoom img{position:absolute;left:50%;top:50%;width:min(140vh,140vw);max-width:none;transform:translate(-50%,-50%)}
+@media (max-width:900px){.pdp{grid-template-columns:1fr}.buy{position:relative;top:0;padding:30px 18px 50px}.ctl2{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ===== LOOKBOOK ===== */
+.lbhero{position:relative;height:min(100svh,980px);min-height:600px;margin-top:-64px;background:var(--ink);color:#fff;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);overflow:hidden}
+.lbhero .l{display:flex;flex-direction:column;justify-content:flex-end;padding:0 32px 44px}
+.lbhero .r{position:relative}
+.lbhero video,.lbhero .r img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.lbhero h1{font-stretch:125%;font-weight:900;font-size:clamp(60px,9.5vw,170px);line-height:.8;letter-spacing:-.05em;text-transform:uppercase}
+.lbhero h1 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none;letter-spacing:-.02em;color:var(--signal)}
+.lbhero p{max-width:40ch;color:rgba(255,255,255,.75);margin-top:22px}
+.toc{display:flex;gap:16px;margin-top:30px;flex-wrap:wrap;color:rgba(255,255,255,.6)}
+.toc a:hover{color:#fff}
+.chap{position:relative;padding:110px 0;border-bottom:1px solid var(--line)}
+.chap.dark{background:var(--ink);color:#fff;border-color:transparent}
+.chap .num{font-stretch:125%;font-weight:900;font-size:clamp(90px,16vw,240px);letter-spacing:-.06em;line-height:.75;color:transparent;-webkit-text-stroke:1px currentColor;opacity:.35}
+.chgrid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:18px;align-items:end}
+.chgrid figure{position:relative;overflow:hidden;border-radius:3px}
+.chgrid figure img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.chgrid figure:hover img{transform:scale(1.04)}
+.chgrid figcaption{margin-top:10px;display:flex;justify-content:space-between;gap:10px}
+.chgrid h3{font-stretch:125%;font-weight:900;font-size:clamp(34px,4.6vw,72px);line-height:.86;letter-spacing:-.045em;text-transform:uppercase}
+.chgrid h3 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;text-transform:none}
+.inlook{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}
+.inlook a{display:flex;align-items:center;gap:8px;border:1px solid currentColor;border-radius:99px;padding:4px 14px 4px 4px;font-size:12px;font-weight:600;transition:background .25s,color .25s}
+.inlook a img{width:30px;height:30px;border-radius:50%;object-fit:contain;background:var(--studio)}
+.inlook a:hover{background:var(--signal);color:var(--ink);border-color:var(--signal)}
+.reveal{opacity:0;transform:translateY(40px);transition:opacity 1s var(--ease),transform 1.2s var(--ease)}
+.reveal.in{opacity:1;transform:none}
+@media (max-width:860px){.lbhero{grid-template-columns:1fr;grid-template-rows:auto 1fr}.lbhero .l{padding:100px 18px 30px;order:2;position:absolute;inset:auto 0 0 0;z-index:2;background:linear-gradient(0deg,rgba(11,11,12,.9),transparent)}.lbhero .r{grid-row:1/-1}.chgrid{grid-template-columns:1fr}.chgrid>*{grid-column:1/-1!important}}
+
+/* ===== STORY ===== */
+.st1{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:50px;padding:80px 0 110px;align-items:center}
+.st1 img{border-radius:3px;width:100%}
+.big2{font-stretch:112%;font-weight:800;font-size:clamp(26px,3.2vw,46px);line-height:1.04;letter-spacing:-.03em}
+.big2 em{font-family:var(--serif);font-style:italic;font-weight:400;font-stretch:100%;color:var(--signal)}
+.body2{color:#3a3a3e;max-width:56ch;margin-top:22px;display:grid;gap:14px}
+.tl{border-top:2px solid var(--ink);margin-bottom:110px}
+.tl .row{display:grid;grid-template-columns:120px 1fr 1.4fr auto;gap:20px;padding:22px 0;border-bottom:1px solid var(--line);align-items:baseline;transition:background .3s,padding .5s var(--ease)}
+.tl .row:hover{background:#fff;padding-left:14px}
+.tl .row b{font-stretch:125%;font-weight:900;font-size:clamp(22px,2.6vw,38px);letter-spacing:-.04em;text-transform:uppercase;line-height:.9}
+.tl .row p{color:#4a4a4e}
+.tl .row.now b{color:var(--signal)}
+@media (max-width:760px){.st1{grid-template-columns:1fr}.tl .row{grid-template-columns:1fr;gap:6px}}
+.vals{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:2px;background:var(--line);margin-bottom:110px}
+.vals div{background:var(--bone);padding:30px 26px 40px}
+.vals b{font-stretch:125%;font-weight:900;font-size:26px;letter-spacing:-.03em;text-transform:uppercase;display:block;margin:14px 0 10px}
+.vals p{color:#4a4a4e;font-size:15px}
+@media (max-width:760px){.vals{grid-template-columns:1fr}}
+.macro{position:relative;height:min(80vh,720px);overflow:hidden;background:#000}
+.macro img{width:100%;height:100%;object-fit:cover}
+.macro .q{position:absolute;left:32px;right:32px;bottom:40px;color:#fff;font-family:var(--serif);font-style:italic;font-size:clamp(28px,4vw,60px);line-height:1.05;max-width:22ch}
+
+/* ===== CLUB PAGE ===== */
+.tiers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;padding-bottom:110px}
+.tier{border:1px solid var(--line);border-radius:6px;padding:28px 24px 30px;background:#fff;display:flex;flex-direction:column;gap:14px;transition:transform .5s var(--spring),box-shadow .5s}
+.tier:hover{transform:translateY(-6px);box-shadow:0 30px 60px -30px rgba(0,0,0,.3)}
+.tier.hot{background:var(--ink);color:#fff;border-color:var(--ink)}
+.tier b{font-stretch:125%;font-weight:900;font-size:34px;letter-spacing:-.04em;text-transform:uppercase;line-height:.9}
+.tier .req{font-family:var(--serif);font-style:italic;font-size:20px;opacity:.75}
+.tier ul{list-style:none;display:grid;gap:8px;font-size:14px;flex:1}
+.tier li::before{content:"✦ ";color:var(--signal)}
+@media (max-width:860px){.tiers{grid-template-columns:1fr}}
+.faq{max-width:860px;padding-bottom:110px}
+
+/* footer */
+footer{background:var(--bone);padding-top:70px;overflow:hidden;border-top:1px solid var(--line)}
+.fcols{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:30px}
+.fcols h4{font-family:var(--mono);font-weight:500;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--mute);margin-bottom:12px}
+.fcols a{display:block;padding:3px 0}
+.fcols a:hover{color:var(--signal)}
+.concept{border:1px solid var(--ink);padding:16px 18px;max-width:420px;font-size:14px}
+.concept b{display:block;margin-bottom:4px}
+.giant{font-stretch:125%;font-weight:900;font-size:clamp(40px,11.4vw,210px);letter-spacing:-.06em;line-height:.8;text-transform:uppercase;white-space:nowrap;margin:70px 0 -.12em -.04em;background:var(--chrome);-webkit-background-clip:text;background-clip:text;color:transparent}
+.legal{display:flex;justify-content:space-between;gap:10px;padding:16px 0 22px;color:var(--mute);flex-wrap:wrap}
+@media (max-width:760px){.fcols{grid-template-columns:1fr 1fr}.fcols>div:first-child{grid-column:1/-1}}
+
+/* drawer */
+.scrim{position:fixed;inset:0;background:rgba(11,11,12,.45);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .5s var(--ease);z-index:70}
+.scrim.on{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;width:min(480px,100%);background:var(--paper);z-index:80;transform:translateX(102%);transition:transform .7s var(--ease);display:flex;flex-direction:column}
+.drawer.on{transform:none}
+.dhead{display:flex;justify-content:space-between;align-items:center;padding:20px 24px;border-bottom:1px solid #dddcd7}
+.dbody{flex:1;overflow:auto;padding:8px 24px 24px}
+.dfoot{padding:20px 24px;border-top:1px solid #dddcd7}
+.dfoot .btn{width:100%}
+.ship-bar{margin:14px 0 6px;font-size:13px}
+.ship-bar i{display:block;height:3px;background:#dddcd7;margin-top:8px;border-radius:2px;overflow:hidden}
+.ship-bar i::after{content:"";display:block;height:100%;width:var(--p,0%);background:var(--signal);transition:width .8s var(--ease)}
+.cline{display:grid;grid-template-columns:72px 1fr auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px dashed #d4d3cf}
+.cline img{width:72px;height:90px;object-fit:contain;background:var(--studio);padding:6px}
+.cline b{display:block;text-transform:uppercase;font-size:13px}
+.cline small{color:var(--mute)}
+.cline .q{display:flex;gap:6px;align-items:center;margin-top:6px;font-family:var(--mono);font-size:11px}
+.cline .q button{width:22px;height:22px;border:1px solid var(--line);border-radius:50%}
+.cline .rm{font-family:var(--mono);font-size:10px;text-decoration:underline}
+.emptyb{color:var(--mute);text-align:center;padding:60px 0}
+.subtot{display:flex;justify-content:space-between;font-weight:700;margin-bottom:14px}
+.upsell{margin-top:20px}
+.upsell .row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.upsell button{background:var(--studio);aspect-ratio:1;padding:10px;position:relative;transition:background .25s}
+.upsell button:hover{background:var(--signal)}
+.upsell img{width:100%;height:100%;object-fit:contain}
+.upsell span{position:absolute;left:6px;bottom:4px;font-family:var(--mono);font-size:9px}
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,240%);visibility:hidden;background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;z-index:90;transition:transform .5s var(--spring);font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+.toast.on{transform:translate(-50%,0);visibility:visible}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="ticker mono" aria-hidden="true"><div class="track" id="tick"></div></div>
+<header class="nav">
+  <div class="wrap">
+    <nav class="navl mono" aria-label="Main">
+      <a href="#/shop" data-nav="shop">Shop</a><a href="#/shop/outerwear" data-nav="shop">Outerwear</a><a href="#/lookbook" data-nav="lookbook">Lookbook</a><a href="#/story" data-nav="story">Story</a><a href="#/club" data-nav="club">Club</a>
+    </nav>
+    <button class="menubtn mono" id="menuBtn" aria-label="Open menu">Menu</button>
+    <a class="logo" href="#/" aria-label="The Matrix Market home">Matrix Market<sup>®</sup></a>
+    <div class="navr mono">
+      <a class="hide-s" href="#/club">Account</a>
+      <button class="bagbtn" id="bagBtn" aria-label="Open bag">Bag <b id="bagN">0</b></button>
+    </div>
+  </div>
+</header>
+<nav class="mnav" id="mnav" aria-label="Mobile"><button class="mono" id="mClose">Close ✕</button><a href="#/">Home</a><a href="#/shop">Shop</a><a href="#/lookbook">Lookbook</a><a href="#/story">Story</a><a href="#/club">Club</a></nav>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <div class="fcols">
+      <div><div class="concept"><b>Concept storefront</b>Designed and built by Kevin Dunn with Claude, MotionSites Studio and Higgsfield. All imagery is AI-generated. Not a live store: no orders are taken or charged.</div></div>
+      <div><h4>Shop</h4><a href="#/shop">All pieces</a><a href="#/shop/outerwear">Outerwear</a><a href="#/shop/tops">Tops</a><a href="#/shop/bottoms">Bottoms</a><a href="#/shop/accessories">Accessories</a></div>
+      <div><h4>Brand</h4><a href="#/lookbook">Lookbook</a><a href="#/story">Story</a><a href="#/club">Matrix Club</a></div>
+      <div><h4>Help</h4><a href="#/club/faq">FAQ</a><a href="#/club/faq">Shipping</a><a href="#/club/faq">Returns</a><a href="#/club/faq">Size guide</a></div>
+    </div>
+    <div class="giant" aria-hidden="true">Matrix Market</div>
+  </div>
+  <div class="wrap legal mono"><span>© 2026 The Matrix Market — concept</span><span>LA / NYC / Online · No real products</span></div>
+</footer>
+
+<div class="wipe" id="wipe" aria-hidden="true"><b id="wipeT"></b></div>
+<div class="cur mono" id="cur">Drag</div>
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="cdrawer" aria-hidden="true" aria-label="Bag">
+  <div class="dhead"><span class="mono">Your bag</span><button class="mono" data-close>Close ✕</button></div>
+  <div class="dbody" id="cBody"></div>
+  <div class="dfoot"><div class="subtot"><span>Subtotal</span><span id="cSub">$0</span></div><button class="btn dark" id="checkout">Checkout →</button></div>
+</aside>
+<div class="zoom" id="zoom"><img alt=""></div>
+<div class="toast" id="toast" role="status"></div>
+
+<script>
+(()=>{
+const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const C='https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/';
+const M={hero:C+'31f0403e-8341-4bf3-91af-b2b1286d74ce.jpg',herovid:C+'81f0a9d4-ac8e-4a11-baf3-57a10456f7f2.mp4',stl:C+'0a71f640-40b5-40d9-8cd2-241da169c21e.jpg',
+ l1:C+'cd0ae164-a67b-459a-93e2-b65a05eff6d3.jpg',l2:C+'36181075-6bfd-4725-bcd6-f1667148320c.jpg',l3:C+'13dc76f1-cdd1-43a5-abe5-1ed04cff95cc.jpg',l4:C+'2d5b61b8-52c4-413f-a434-c44a8673d67c.jpg',
+ tunnel:C+'c8ec5ea1-0e3b-4de6-bef5-83cf40b5bb86.jpg',studio:C+'2dadb1b4-ce9d-428f-a4b5-67354f2ebf9e.jpg',garage:C+'7060a9d9-f854-4168-91b5-54440b5c18a2.jpg',zip:C+'1e19f561-569f-4680-9d76-70076db281af.jpg',gas:C+'3f8b9710-bc26-4b04-9b64-65eeaf2418bf.jpg',store:C+'9c92c6e3-15a5-4ff1-8a49-5925a083f8cd.jpg',
+ tt:'https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/89d4d6f2-0d1e-4f6c-870f-555292aac20d.mp4',sub:'https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/e12a18ea-ed84-47da-9e5a-c592d48f8128.mp4'};
+const cut=id=>C+id+'.webp';
+const P=[
+ {id:'halo',name:'Halo Crop Puffer',sub:'Liquid silver',price:148,cat:'outerwear',img:cut('2fd68a97-fe4c-4e08-a7e3-bbb3753f5336'),wild:M.stl,badge:'Hero piece',desc:'Cropped, boxy puffer in a mirror-finish ripstop with diamond quilting, a two-way chrome zip and a tall stand collar. 120g recycled fill keeps it warm without the bulk.',fab:'Shell: 100% recycled nylon ripstop, mirror coated. Fill: 120g recycled polyester. Lining: matte black taffeta.',fit:'Boxy and cropped to the natural waist. Model is 5\'9" and wears S.',sizes:['XS','S','M','L','XL'],pair:['drift','visor','bead']},
+ {id:'static',name:'Static Heavy Hoodie',sub:'Washed black',price:88,cat:'tops',img:cut('47d176ae-927f-41aa-86c0-70da4f1d1707'),wild:M.l2,desc:'380gsm loopback cotton with dropped shoulders and a double-layer hood. Garment-dyed and stone-washed, so every piece fades a little differently.',fab:'100% organic cotton loopback, 380gsm. Garment dyed, enzyme and stone washed.',fit:'Oversized. Size down for a closer fit. Model is 6\'1" and wears L.',sizes:['S','M','L','XL','XXL'],pair:['drift','beanie','carrier']},
+ {id:'drift',name:'Drift Parachute Cargo',sub:'Fog grey',price:78,cat:'bottoms',img:cut('39abad2d-2528-4ffe-922c-e32958863adf'),wild:M.gas,badge:'Best seller',desc:'Crinkle nylon with a wide leg, bellow cargo pockets and toggle hems you can cinch into a jogger. Drawcord waist sits low.',fab:'100% crinkle nylon taslan, water resistant. Mesh pocket bags.',fit:'Relaxed, wide leg. Long inseam designed to stack. True to size.',sizes:['XS','S','M','L','XL'],pair:['halo','static','boxy']},
+ {id:'relay',name:'Relay Track Jacket',sub:'Black / chrome',price:96,cat:'outerwear',img:cut('90953098-173e-4f15-8526-8f163e1884bf'),wild:M.tunnel,desc:'Glossy tricot track top with silver piping down each sleeve and an oversized chrome zip pull. Elastic cuffs and hem.',fab:'100% recycled polyester tricot with a high-sheen finish.',fit:'Regular through the body, slightly long in the arm. True to size.',sizes:['S','M','L','XL'],pair:['carrier','boxy','visor']},
+ {id:'bead',name:'Bead Chain Baby Tee',sub:'Optic white',price:32,cat:'tops',img:cut('243d231b-93c9-411e-bf8f-5219e8e82650'),wild:M.l3,desc:'Shrunken rib baby tee finished with a removable chrome bead chain along the scoop neckline.',fab:'95% cotton, 5% elastane rib. Chain: nickel-free stainless steel.',fit:'Fitted and cropped. Take your usual size.',sizes:['XS','S','M','L'],pair:['mini','sling','halo']},
+ {id:'visor',name:'Visor Shield Shades',sub:'Mirror chrome',price:28,cat:'accessories',img:cut('41568310-da97-4001-ae53-3e0b4cb30a0d'),wild:M.stl,desc:'One-piece wraparound shield with a mirrored chrome lens and a featherweight frame. UV400 protection.',fab:'Polycarbonate lens with mirror coating. Metal-free frame, 22g.',fit:'One size, fits most.',sizes:['One size'],pair:['halo','relay','sling']},
+ {id:'carrier',name:'Carrier Carpenter Jean',sub:'Light wash',price:92,cat:'bottoms',img:cut('c00b58b8-c276-4e66-a871-26e31b57080c'),wild:M.tunnel,badge:'New',desc:'Baggy carpenter jean in a worn-in light wash with a hammer loop, utility pocket and a wide leg that pools at the hem.',fab:'100% cotton rigid denim, 13oz. Vintage wash with hand sanding.',fit:'Baggy, low rise. Size by your waist. Model is 5\'8" and wears 27.',sizes:['26','28','30','32','34'],pair:['relay','static','beanie']},
+ {id:'boxy',name:'Signal Boxy Tee',sub:'Black / liquid chrome',price:44,cat:'tops',img:cut('ffde658d-64de-41d6-af1a-5b646e54e13e'),wild:M.garage,badge:'New',desc:'Heavyweight boxy tee with a thick ribbed collar and a small liquid-chrome blob printed at the chest. Cropped just above the hip.',fab:'100% cotton jersey, 260gsm. Puff-chrome print.',fit:'Boxy and slightly cropped. True to size.',sizes:['S','M','L','XL','XXL'],pair:['drift','carrier','visor']},
+ {id:'beanie',name:'Static Rib Beanie',sub:'Heather grey',price:26,cat:'accessories',img:cut('9b201483-2299-4dfc-a7a2-caad126f70ef'),wild:M.gas,desc:'Chunky fisherman rib beanie with a deep fold-over cuff. Slouches just enough.',fab:'60% merino wool, 40% recycled acrylic.',fit:'One size.',sizes:['One size'],pair:['static','drift','relay']},
+ {id:'mini',name:'Drift Cargo Mini',sub:'Fog grey',price:58,cat:'bottoms',img:cut('b3447747-d9c2-4a34-a09b-a1698a99b62d'),wild:M.store,badge:'New',desc:'Low-rise parachute mini in crinkle nylon with bellow pockets and toggles at the waist and hem.',fab:'100% crinkle nylon taslan. Built-in shorts.',fit:'Low rise, A-line. True to size.',sizes:['XS','S','M','L'],pair:['mesh','sling','bead']},
+ {id:'mesh',name:'Night Mesh Long Sleeve',sub:'Sheer black',price:54,cat:'tops',img:cut('d6757acf-e8da-4580-8871-cdf71dcea0cb'),wild:M.l1,desc:'Second-skin long sleeve in a fine stretch mesh. Layer it over a bralette or under a tee.',fab:'88% nylon, 12% elastane power mesh.',fit:'Slim and stretchy. Take your usual size.',sizes:['XS','S','M','L'],pair:['mini','carrier','sling']},
+ {id:'sling',name:'Orbit Sling Bag',sub:'Liquid silver',price:42,cat:'accessories',img:cut('7a5e693a-ec95-4b19-8ca0-7cb3812d4aef'),wild:M.store,desc:'Pill-shaped crossbody in a liquid-silver nylon with a chunky zip and an adjustable black strap. Fits a phone, keys and a card holder.',fab:'Coated nylon shell, ripstop lining. 22 × 12 × 7 cm.',fit:'Adjustable strap, 70–130 cm.',sizes:['One size'],pair:['mesh','mini','visor']}
+];
+const byId=id=>P.find(p=>p.id===id);
+const CATS={outerwear:'Outerwear',tops:'Tops',bottoms:'Bottoms',accessories:'Accessories'};
+const money=n=>'$'+(Math.round(n*100)%100?n.toFixed(2):Math.round(n));
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ticker */
+const tk=['Drop 07: Signal — live now','Free shipping over $75','No restocks. Ever.','Club members get 48h early access','Concept storefront by Kevin Dunn'];
+let t='';for(let i=0;i<4;i++)tk.forEach(x=>t+=`<span>${x}</span><span>✦</span>`);$('#tick').innerHTML=t+t;
+
+/* toast */
+let tt;function toast(m){const el=$('#toast');el.textContent=m;el.classList.add('on');clearTimeout(tt);tt=setTimeout(()=>el.classList.remove('on'),2600)}
+
+/* ===== BAG ===== */
+let bag=[];try{bag=JSON.parse(localStorage.getItem('mm_bag')||'[]').filter(b=>byId(b.id))}catch(e){bag=[]}
+function save(){try{localStorage.setItem('mm_bag',JSON.stringify(bag))}catch(e){}}
+const lineTotal=b=>byId(b.id).price*b.q*(b.fit?.9:1);
+function renderBag(bump){const n=bag.reduce((a,b)=>a+b.q,0);const bn=$('#bagN');bn.textContent=n;if(bump){bn.classList.remove('bump');void bn.offsetWidth;bn.classList.add('bump')}
+ const sub=bag.reduce((a,b)=>a+lineTotal(b),0),left=Math.max(0,75-sub);
+ const bar=`<div class="ship-bar">${left>0?`You're <b>${money(left)}</b> away from free shipping`:'<b>Free shipping unlocked</b> ✦'}<i style="--p:${Math.min(100,sub/75*100)}%"></i></div>`;
+ const ups=P.filter(p=>!bag.some(b=>b.id===p.id)&&p.sizes.length===1).slice(0,3);
+ const upH=ups.length?`<div class="upsell"><span class="mono">Add a finisher</span><div class="row">${ups.map(p=>`<button data-up="${p.id}" aria-label="Add ${esc(p.name)}"><img src="${p.img}" alt=""><span>+ ${money(p.price)}</span></button>`).join('')}</div></div>`:'';
+ $('#cBody').innerHTML=bar+(bag.length?bag.map((b,i)=>{const p=byId(b.id);return `<div class="cline"><a href="#/product/${p.id}" data-close-link><img src="${p.img}" alt=""></a><div><b>${esc(p.name)}</b><small>${esc(p.sub)} · ${esc(b.size)}${b.fit?' · Fit −10%':''}</small><div class="q"><button data-dec="${i}" aria-label="Less">−</button>${b.q}<button data-inc="${i}" aria-label="More">+</button></div></div><div style="text-align:right"><div class="mono">${money(lineTotal(b))}</div><button class="rm" data-rm="${i}">Remove</button></div></div>`}).join(''):'<p class="emptyb">Your bag is empty.<br>Go turn the rail.</p>')+upH;
+ $('#cSub').textContent=money(sub)}
+function addBag(id,size,fit,q=1){const ex=bag.find(b=>b.id===id&&b.size===size&&!!b.fit===!!fit);if(ex)ex.q+=q;else bag.push({id,size,q,fit:!!fit});save();renderBag(true)}
+$('#cBody').addEventListener('click',e=>{const d=e.target.dataset;
+ if(d.rm!==undefined){bag.splice(+d.rm,1)}else if(d.inc!==undefined){bag[+d.inc].q++}else if(d.dec!==undefined){const b=bag[+d.dec];b.q--;if(b.q<1)bag.splice(+d.dec,1)}
+ else{const u=e.target.closest('[data-up]');if(u){const p=byId(u.dataset.up);addBag(p.id,p.sizes[0]);toast(p.name+' added');return}if(e.target.closest('[data-close-link]'))close();return}
+ save();renderBag(true);if(typeof syncReceipt==='function')syncReceipt()});
+$('#checkout').onclick=()=>toast(bag.length?'Concept site — checkout is switched off':'Your bag is empty');
+
+/* drawers */
+const scrim=$('#scrim');let openD=null,lastFocus=null;
+function open(d){lastFocus=document.activeElement;openD=d;d.classList.add('on');d.setAttribute('aria-hidden','false');scrim.classList.add('on');setTimeout(()=>{const c=d.querySelector('[data-close]');c&&c.focus()},50)}
+function close(){if(!openD)return;openD.classList.remove('on');openD.setAttribute('aria-hidden','true');scrim.classList.remove('on');openD=null;lastFocus&&lastFocus.focus&&lastFocus.focus()}
+scrim.onclick=close;$$('[data-close]').forEach(b=>b.onclick=close);
+addEventListener('keydown',e=>{if(e.key==='Escape'){close();$('#zoom').classList.remove('on');$('#mnav').classList.remove('on')}});
+$('#bagBtn').onclick=()=>{renderBag();open($('#cdrawer'))};
+$('#menuBtn').onclick=()=>$('#mnav').classList.add('on');$('#mClose').onclick=()=>$('#mnav').classList.remove('on');
+$$('#mnav a').forEach(a=>a.addEventListener('click',()=>$('#mnav').classList.remove('on')));
+
+/* cursor */
+const cur=$('#cur');addEventListener('pointermove',e=>{cur.style.left=e.clientX+'px';cur.style.top=e.clientY+'px'},{passive:true});
+
+/* reveal */
+let io;function reveals(){io&&io.disconnect();io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});$$('.reveal').forEach(el=>io.observe(el))}
+
+/* shared bits */
+const foot=`<section class="band"><div class="wrap club">
+  <div><span class="idx mono">Matrix Club</span><h2>Get the <em>signal</em> first.</h2><ul class="perks"><li>48-hour early access to every drop</li><li>Members-only colorways, twice a year</li><li>Birthday credit and free express shipping</li></ul>
+  <form class="join" data-join><label class="mono" style="position:absolute;left:-9999px" for="em1">Email</label><input id="em1" type="email" required placeholder="you@email.com" autocomplete="email"><button class="btn solid" type="submit" style="height:40px">Join →</button></form></div>
+  <div class="cardwrap" data-tilt><div class="card"><div class="top"><span class="chip"></span><span class="mono">Member</span></div><span class="num">0007 2026 SIGN 4L00</span><div class="bot"><strong>Matrix<br>Market®</strong><span class="mono">Since 23</span></div></div></div>
+</div></section>`;
+function bindShared(root){
+ $$('[data-join]',root).forEach(f=>f.addEventListener('submit',e=>{e.preventDefault();toast('You’re on the list (concept — nothing was sent)');f.reset()}));
+ $$('[data-tilt]',root).forEach(w=>{const c=$('.card',w);w.addEventListener('pointermove',e=>{if(RM)return;const r=c.getBoundingClientRect();const x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;c.style.transform=`rotateY(${x*18}deg) rotateX(${-y*14}deg)`;c.style.setProperty('--gx',(x*120)+'%')});w.addEventListener('pointerleave',()=>{c.style.transform='';c.style.setProperty('--gx','-30%')})});
+ $$('.strip',root).forEach(strip=>{let sd=false,sx=0,sl=0,mv=0;
+  strip.addEventListener('pointerdown',e=>{if(e.pointerType!=='mouse')return;sd=true;mv=0;sx=e.clientX;sl=strip.scrollLeft;strip.classList.add('drag')});
+  addEventListener('pointermove',e=>{if(sd){const dx=e.clientX-sx;mv=Math.max(mv,Math.abs(dx));strip.scrollLeft=sl-dx}});
+  addEventListener('pointerup',()=>{if(sd){sd=false;strip.classList.remove('drag')}});
+  strip.addEventListener('pointerenter',()=>cur.classList.add('on'));strip.addEventListener('pointerleave',()=>cur.classList.remove('on'));
+  strip.addEventListener('click',e=>{if(mv>5){e.preventDefault();e.stopPropagation()}},true)});
+}
+let cleanups=[];
+const onClean=f=>cleanups.push(f);
+
+/* ===== HOME ===== */
+function nextDrop(){const now=new Date();const d=new Date(now);d.setUTCDate(d.getUTCDate()+((5-d.getUTCDay()+7)%7));d.setUTCHours(17,0,0,0);if(d<=now)d.setUTCDate(d.getUTCDate()+7);return d}
+function home(){
+ const RAIL=['halo','static','drift','relay','carrier','boxy','mini','sling'].map(byId);
+ const LOOK=[{pid:'visor',x:51,y:10},{pid:'halo',x:66,y:33},{pid:'drift',x:58,y:62}];
+ return {title:'Signal',html:`
+<section class="hero" aria-label="Drop 07: Signal">
+  <img class="poster" src="${M.hero}" alt="Three models in a silver puffer, washed black hoodies and parachute cargos on a concrete rooftop at blue hour" fetchpriority="high">
+  ${RM?'':`<video id="heroVid" muted loop playsinline autoplay preload="auto" poster="${M.hero}" aria-hidden="true"><source src="${M.herovid}" type="video/mp4"></video>`}
+  <div class="shade"></div><div class="scan"></div>
+  <div class="corner mono">FW—26<br>Shot after dark<br>LA / NYC / Online</div>
+  <div class="hero-in"><div class="wrap">
+    <div class="meta mono"><span class="live"><i></i>Drop 07 · Live now</span><span>142 pieces · No restocks</span></div>
+    <h1>Signal</h1>
+    <div class="hero-row">
+      <p class="lede">Y2K-born streetwear for the <em>after-hours.</em> Chrome, nylon and heavyweight cotton, cut loose and built to be lived in.</p>
+      <div style="display:grid;gap:14px;justify-items:end">
+        <div class="count" id="count" aria-label="Time until Drop 08"><div><b>00</b><small>Days</small></div><div><b>00</b><small>Hrs</small></div><div><b>00</b><small>Min</small></div><div><b>00</b><small>Sec</small></div></div>
+        <div class="ctas"><a class="btn solid" href="#/shop">Shop the drop →</a><a class="btn ghost" href="#/lookbook">View lookbook</a></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="rail" aria-label="Drop 07 product rail">
+  <div class="wrap"><div class="shead"><div><span class="idx mono">01 — The rail</span><h2>Spin the <em>drop.</em></h2></div><p>Eight pieces on one rail. Drag, swipe or use the arrows. Tap the piece out front to see it up close.</p></div></div>
+  <div class="ghost" id="ghost" aria-hidden="true"></div>
+  <div class="stage" id="stage" tabindex="0" aria-roledescription="carousel" aria-label="Drop 07 pieces. Arrow keys rotate, Enter opens.">
+    <span class="hint mono">← Drag to rotate →</span>
+    <div class="spot"></div><div class="floor"></div>
+    <div class="ring" id="ring">${RAIL.map((p,i)=>`<div class="it" data-i="${i}"><img src="${p.img}" alt="${esc(p.name)}" draggable="false"><span class="tag">${money(p.price)}</span></div>`).join('')}</div>
+  </div>
+  <div class="wrap">
+    <div class="railui">
+      <div class="rname" id="rName" aria-live="polite"></div>
+      <div class="ctl"><button class="circ" id="prev" aria-label="Previous piece">←</button><button class="circ" id="next" aria-label="Next piece">→</button></div>
+      <div class="rr"><span class="price" id="rPrice"></span><a class="btn solid" id="rOpen" href="#/shop">View piece →</a></div>
+    </div>
+    <div class="prog" id="prog">${RAIL.map(p=>`<button aria-label="Go to ${esc(p.name)}"></button>`).join('')}</div>
+  </div>
+</section>
+
+<section class="feature" aria-label="Hero piece">
+  <div class="feat">
+    <div class="vid">${M.tt.startsWith('http')&&!RM?`<video muted loop playsinline autoplay preload="metadata" poster="${byId('halo').img}" aria-hidden="true"><source src="${M.tt}" type="video/mp4"></video>`:`<img src="${M.zip}" alt="">`}</div>
+    <div class="copy">
+      <span class="idx mono">02 — Hero piece</span>
+      <h3>Halo <span class="s">crop</span><br>puffer</h3>
+      <ul class="specs"><li><span>Shell</span><span>Mirror ripstop</span></li><li><span>Fill</span><span>120g recycled</span></li><li><span>Zip</span><span>Two-way chrome</span></li><li><span>Run</span><span>400 pieces</span></li></ul>
+      <div class="ctas"><a class="btn solid" href="#/product/halo">Shop Halo — $148</a></div>
+    </div>
+  </div>
+</section>
+
+<section style="background:var(--paper)" aria-label="Shop the look">
+  <div class="wrap">
+    <div class="shead"><div><span class="idx mono">03 — Shop the look</span><h2>The whole <em>fit,</em> itemised.</h2></div><p>Tap a dot to find the piece. Take the full look and we knock 10% off the receipt.</p></div>
+    <div class="look">
+      <div class="lookimg" id="lookImg"><img src="${M.stl}" alt="Model in a silver cropped puffer, white tank, grey parachute cargos and shield sunglasses on a grey studio backdrop" loading="lazy">
+        ${LOOK.map((l,i)=>{const p=byId(l.pid);return `<button class="pin${l.x>58?' flip':''}" data-pid="${l.pid}" style="left:${l.x}%;top:${l.y}%" aria-label="${esc(p.name)}, ${money(p.price)}"><span>0${i+1}</span><em class="tip">${esc(p.name)}<i>${money(p.price)}</i></em></button>`}).join('')}</div>
+      <aside class="receipt" id="receipt" aria-label="Look receipt">
+        <div class="rhead"><strong>Matrix Market®</strong><span class="mono">Look 07/A · Till 0007 · Los Angeles</span></div>
+        <div id="rlines"></div>
+        <div class="rsum"><div><span>Subtotal</span><span id="sub">$0</span></div><div class="disc"><span>Whole fit −10%</span><span id="disc">−$0</span></div><div class="tot"><span>Total</span><span id="tot">$0</span></div></div>
+        <button class="btn dark" id="addFit">Add whole fit to bag →</button>
+        <div class="barcode"></div><p class="thanks mono">Thanks for tuning in.</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" aria-label="Categories">
+  <div class="shead"><div><span class="idx mono">04 — Departments</span><h2>Pick a <em>lane.</em></h2></div><p>Outerwear that reflects light, bottoms built to stack, and the finishers that pull it together.</p></div>
+  <div class="cats">${[['outerwear','halo'],['tops','static'],['bottoms','carrier'],['accessories','sling']].map(([c,id])=>`<a class="cat" href="#/shop/${c}"><span class="mono">${P.filter(p=>p.cat===c).length} pieces</span><img src="${byId(id).img}" alt="" loading="lazy"><b>${CATS[c]} →</b></a>`).join('')}</div>
+</section>
+
+<section class="film dark" aria-label="Lookbook preview">
+  <div class="wrap"><div class="shead"><div><span class="idx mono">05 — Lookbook</span><h2>Night <em>shift.</em></h2></div><p>Shot between sundown and last train. Drag to scroll, tap a frame for the full story.</p></div></div>
+  <div class="strip">
+    ${[[M.l1,'Last train','Mesh LS · $54','Loc. 01'],[M.l2,'Spin cycle','Static Hoodie · $88','Loc. 02'],[M.store,'24/7','Cargo Mini · $58','Loc. 03'],[M.l3,'Mile 0','Bead Tee · $32','Loc. 04'],[M.gas,'Pump 4','Drift Cargo · $78','Loc. 05'],[M.l4,'Full court','Relay Track · $96','Loc. 06']].map(f=>`<a class="frame" href="#/lookbook" draggable="false"><span class="no mono">${f[3]}</span><div class="ph"><img src="${f[0]}" alt="${f[1]} lookbook image" loading="lazy" draggable="false"></div><figcaption><b>${f[1]}</b><span class="mono">${f[2]}</span></figcaption></a>`).join('')}
+  </div>
+</section>
+
+<section class="mani" aria-label="About the brand"><div class="wrap">
+  <span class="idx mono">06 — Transmission</span>
+  <p class="big">We make clothes for the hours <em>after</em> the plan falls apart. Limited runs. Real fabrics. Never restocked.</p>
+  <div class="stats"><div><b>07</b><span>drops this year, each one gone for good</span></div><div><b>380gsm</b><span>heavyweight cotton on every hoodie</span></div><div><b>48h</b><span>Club early access before public release</span></div><div><b>$0</b><span>shipping over $75, returns within 30 days</span></div></div>
+  <div style="margin-top:40px"><a class="btn line" href="#/story">Read the story →</a></div>
+</div></section>
+${foot}`,
+ init(root){
+  const hv=$('#heroVid',root);if(hv){hv.style.opacity=0;hv.style.transition='opacity .8s';hv.addEventListener('canplay',()=>hv.style.opacity=1,{once:true});hv.play().catch(()=>{})}
+  const target=nextDrop(),cb=$$('#count b',root);
+  function tc(){let s=Math.max(0,Math.floor((target-new Date())/1000));[Math.floor(s/86400),Math.floor(s%86400/3600),Math.floor(s%3600/60),s%60].forEach((x,i)=>cb[i].textContent=String(x).padStart(2,'0'))}
+  tc();const ci=setInterval(tc,1000);onClean(()=>clearInterval(ci));
+  /* rail */
+  const stage=$('#stage',root),ring=$('#ring',root),items=$$('.it',root),dots=$$('#prog button',root),N=RAIL.length,step=360/N;
+  let rot=0,goal=0,raf=null,active=-1,autoT,auto=!RM,dragging=false;
+  const R=()=>Math.max(240,Math.min(620,stage.clientWidth*.4)),CW=()=>Math.max(170,Math.min(340,stage.clientWidth*.22));
+  function layout(){const r=R();stage.style.setProperty('--cw',CW()+'px');
+   items.forEach((el,i)=>{const a=((((i*step-rot)%360)+540)%360)-180;const rad=a*Math.PI/180;const z=Math.cos(rad),x=Math.sin(rad)*r;
+    const s=.55+.45*((z+1)/2);el.style.transform=`translate3d(${x}px,${(1-z)*-18}px,${(z-1)*r*.6}px) scale(${s.toFixed(3)})`;
+    el.style.opacity=(z<-.2?Math.max(0,.25+(z+1)*.5):.35+.65*((z+1)/2)).toFixed(2);el.style.zIndex=Math.round((z+1)*100);el.classList.toggle('front',Math.abs(a)<step/2)})}
+  function setActive(){const a=((Math.round(goal/step)%N)+N)%N;if(a===active)return;active=a;const p=RAIL[a];
+   const n=$('#rName',root);n.innerHTML=`${esc(p.name)}<small>${esc(p.sub)} · ${CATS[p.cat]}</small>`;n.classList.remove('swap');void n.offsetWidth;n.classList.add('swap');
+   const g=$('#ghost',root);g.textContent=p.name.split(' ')[0];g.classList.remove('swap');void g.offsetWidth;g.classList.add('swap');
+   $('#rPrice',root).textContent=money(p.price);$('#rOpen',root).href='#/product/'+p.id;dots.forEach((d,i)=>d.classList.toggle('on',i===a))}
+  function tick(){rot+=(goal-rot)*(RM?1:.11);if(Math.abs(goal-rot)<.03)rot=goal;layout();raf=(rot!==goal||dragging)?requestAnimationFrame(tick):null}
+  function go(g){goal=g;setActive();if(!raf)raf=requestAnimationFrame(tick)}
+  const stopAuto=()=>{auto=false;clearInterval(autoT)};
+  const nudge=d=>{stopAuto();go((Math.round(goal/step)+d)*step)};
+  function toIndex(i){stopAuto();const c=Math.round(goal/step),ca=((c%N)+N)%N;let d=i-ca;if(d>N/2)d-=N;if(d<-N/2)d+=N;go((c+d)*step)}
+  $('#prev',root).onclick=()=>nudge(-1);$('#next',root).onclick=()=>nudge(1);dots.forEach((d,i)=>d.onclick=()=>toIndex(i));
+  stage.addEventListener('keydown',e=>{if(e.key==='ArrowRight')nudge(1);if(e.key==='ArrowLeft')nudge(-1);if(e.key==='Enter')location.hash='#/product/'+RAIL[active].id});
+  let sx=0,sg=0,moved=0,lx=0,lt=0,v=0;const k=()=>step/Math.max(140,stage.clientWidth*.2);
+  stage.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragging=true;moved=0;sx=lx=e.clientX;lt=performance.now();sg=goal;stage.setPointerCapture(e.pointerId);stage.classList.add('drag');stopAuto();if(!raf)raf=requestAnimationFrame(tick)});
+  stage.addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-sx;moved=Math.max(moved,Math.abs(dx));const now=performance.now();v=(e.clientX-lx)/Math.max(1,now-lt);lx=e.clientX;lt=now;goal=sg-dx*k();setActive()});
+  const end=e=>{if(!dragging)return;dragging=false;stage.classList.remove('drag');go(Math.round((goal-v*110*k())/step)*step);
+   if(moved<6){const el=document.elementFromPoint(e.clientX,e.clientY),it=el&&el.closest('.it');if(it){const i=+it.dataset.i;i===active?location.hash='#/product/'+RAIL[i].id:toIndex(i)}}};
+  stage.addEventListener('pointerup',end);stage.addEventListener('pointercancel',end);
+  let wa=0,wl=0;stage.addEventListener('wheel',e=>{if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;e.preventDefault();if(performance.now()<wl)return;wa+=e.deltaX;if(Math.abs(wa)>40){nudge(Math.sign(wa));wa=0;wl=performance.now()+480}},{passive:false});
+  const ro=new ResizeObserver(layout);ro.observe(stage);onClean(()=>ro.disconnect());
+  rot=-step*1.3;go(0);layout();
+  const sio=new IntersectionObserver(es=>es.forEach(e=>{clearInterval(autoT);if(e.isIntersecting&&auto)autoT=setInterval(()=>{if(!document.hidden&&!openD)go(goal+step)},3600)}),{threshold:.3});sio.observe(stage);
+  onClean(()=>{sio.disconnect();clearInterval(autoT);raf&&cancelAnimationFrame(raf)});
+  /* look */
+  const lk={};LOOK.forEach(l=>{const p=byId(l.pid);lk[l.pid]={size:p.sizes.length===1?p.sizes[0]:null,in:false,open:false}});
+  window.syncReceipt=function(){const rl=$('#rlines');if(!rl)return;
+   rl.innerHTML=LOOK.map((l,i)=>{const p=byId(l.pid),s=lk[l.pid];return `<div class="rline${s.open&&!s.in?' open':''}" data-pid="${l.pid}"><span class="n">0${i+1}</span><span class="nm">${esc(p.name)}</span><span class="pr">${money(p.price)}</span><span class="kd">${CATS[p.cat]} · ${esc(p.sub)}</span><button class="add${s.in?' in':''}">${s.in?'In bag':'Add'}</button>${p.sizes.length>1?`<div class="sizes">${p.sizes.map(z=>`<button aria-pressed="${z===s.size}">${z}</button>`).join('')}</div>`:''}</div>`}).join('');
+   const sub=LOOK.reduce((a,l)=>a+byId(l.pid).price,0);$('#sub').textContent=money(sub);$('#disc').textContent='−'+money(sub*.1);$('#tot').textContent=money(sub*.9);
+   $('#addFit').textContent=LOOK.every(l=>lk[l.pid].in)?'Whole fit in your bag ✓':'Add whole fit to bag →'};
+  syncReceipt();onClean(()=>{window.syncReceipt=null});
+  const rl=$('#rlines',root);
+  rl.addEventListener('click',e=>{const line=e.target.closest('.rline');if(!line)return;const pid=line.dataset.pid,p=byId(pid),s=lk[pid];
+   if(e.target.classList.contains('add')){if(s.in)return;if(s.size){s.in=true;addBag(pid,s.size);toast(p.name+' added to bag');syncReceipt()}else{s.open=!s.open;syncReceipt()}}
+   else if(e.target.closest('.sizes')&&e.target.tagName==='BUTTON'){s.size=e.target.textContent;s.in=true;addBag(pid,s.size);toast(`${p.name} · ${s.size} added`);syncReceipt()}});
+  const hot=(pid,on)=>{$$(`.pin[data-pid="${pid}"]`,root).forEach(x=>x.classList.toggle('hot',on));$$(`.rline[data-pid="${pid}"]`,root).forEach(x=>x.classList.toggle('hot',on))};
+  $('#lookImg',root).addEventListener('pointerover',e=>{const p=e.target.closest('.pin');LOOK.forEach(l=>hot(l.pid,false));if(p)hot(p.dataset.pid,true)});
+  $('#lookImg',root).addEventListener('click',e=>{const p=e.target.closest('.pin');if(!p)return;const l=$(`.rline[data-pid="${p.dataset.pid}"]`,root);l.scrollIntoView({block:'nearest',behavior:'smooth'});hot(p.dataset.pid,true)});
+  rl.addEventListener('pointerover',e=>{const l=e.target.closest('.rline');LOOK.forEach(x=>hot(x.pid,false));if(l)hot(l.dataset.pid,true)});
+  $('#addFit',root).onclick=()=>{const need=LOOK.filter(l=>!lk[l.pid].in&&!lk[l.pid].size);
+   if(need.length){need.forEach(l=>lk[l.pid].open=true);syncReceipt();toast('Pick a size for '+need.map(l=>byId(l.pid).name.split(' ')[0]).join(', '));return}
+   let n=0;LOOK.forEach(l=>{const s=lk[l.pid];if(!s.in){s.in=true;addBag(l.pid,s.size,true);n++}});syncReceipt();if(n)toast('Whole fit added · 10% off applied')};
+  const pio=new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$('#receipt').classList.add('print');o.disconnect()}}),{threshold:.25});pio.observe($('#receipt',root));onClean(()=>pio.disconnect());
+ }}}
+
+/* ===== SHOP ===== */
+function tileHTML(p,i){return `<a class="tile" href="#/product/${p.id}" style="animation-delay:${Math.min(i,10)*40}ms"><span class="no mono">${String(P.indexOf(p)+1).padStart(2,'0')}</span>${p.badge?`<span class="badge mono">${p.badge}</span>`:''}<img class="alt" src="${p.wild}" alt="" loading="lazy"><div class="im"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy"></div>
+ <div class="qa" data-qa="${p.id}"><span class="mono">Quick add</span>${p.sizes.map(z=>`<button data-sz="${z}">${z}</button>`).join('')}</div>
+ <div class="info"><div><b>${esc(p.name)}</b><small>${esc(p.sub)}</small></div><span class="mono">${money(p.price)}</span></div></a>`}
+function shop(cat){
+ const t=cat&&CATS[cat]?CATS[cat]:'All pieces';
+ return {title:cat?CATS[cat]||'Shop':'Shop',html:`
+<section class="phead"><img src="${M.tunnel}" alt="Model walking through a concrete underpass at night in carpenter jeans and a track jacket"><div class="shade"></div>
+ <div class="wrap in"><div class="crumb mono"><a href="#/">Home</a> / Shop${cat?' / '+t:''}</div><h1>${cat?esc(t):'Drop <em>07</em>'}</h1></div></section>
+<div class="bar"><div class="wrap"><div class="chips" id="chips">${[['','All'],...Object.entries(CATS)].map(([k,v])=>`<button data-cat="${k}" aria-pressed="${(cat||'')===k}">${v}<sup>${k?P.filter(p=>p.cat===k).length:P.length}</sup></button>`).join('')}</div>
+ <label class="sort mono">Sort<select id="sort"><option value="feat">Featured</option><option value="lo">Price: low</option><option value="hi">Price: high</option><option value="new">New first</option></select></label></div></div>
+<section class="grid" id="grid" aria-live="polite"></section>
+${foot}`,
+ init(root){
+  let c=cat&&CATS[cat]?cat:'',s='feat';
+  function draw(){let list=P.filter(p=>!c||p.cat===c);
+   if(s==='lo')list=[...list].sort((a,b)=>a.price-b.price);if(s==='hi')list=[...list].sort((a,b)=>b.price-a.price);if(s==='new')list=[...list].sort((a,b)=>(b.badge==='New')-(a.badge==='New'));
+   let h='';list.forEach((p,i)=>{h+=tileHTML(p,i);if(!c&&s==='feat'&&i===4)h+=`<a class="tile ed" href="#/lookbook"><img src="${M.garage}" alt="Friends in Matrix Market pieces in a parking garage at night" loading="lazy"><div class="tx"><span class="mono">Lookbook</span><b>Night<br>shift →</b></div></a>`;if(!c&&s==='feat'&&i===9)h+=`<a class="tile ed" href="#/club"><img src="${M.store}" alt="" loading="lazy" style="object-position:50% 30%"><div class="tx"><span class="mono">Matrix Club</span><b>48h early<br>access →</b></div></a>`});
+   $('#grid',root).innerHTML=h||'<p class="empty">Nothing here yet.</p>'}
+  $('#chips',root).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;c=b.dataset.cat;$$('#chips button',root).forEach(x=>x.setAttribute('aria-pressed',x===b));history.replaceState(null,'',c?'#/shop/'+c:'#/shop');draw()});
+  $('#sort',root).onchange=e=>{s=e.target.value;draw()};
+  $('#grid',root).addEventListener('click',e=>{const z=e.target.closest('[data-sz]');if(!z)return;e.preventDefault();e.stopPropagation();const id=z.closest('[data-qa]').dataset.qa,p=byId(id);addBag(id,z.dataset.sz);toast(`${p.name} · ${z.dataset.sz} added`)});
+  draw();
+ }}}
+
+/* ===== PRODUCT ===== */
+function product(id){
+ const p=byId(id);if(!p)return notFound();
+ const pair=p.pair.map(byId),more=P.filter(x=>x.cat===p.cat&&x.id!==p.id).concat(P.filter(x=>x.cat!==p.cat&&!p.pair.includes(x.id)&&x.id!==p.id)).slice(0,4);
+ const sizeTable=p.sizes.length>1&&!/^\d/.test(p.sizes[0])?`<table><tr><th>Size</th>${p.sizes.map(s=>`<th>${s}</th>`).join('')}</tr><tr><td>Chest (in)</td>${p.sizes.map((s,i)=>`<td>${38+i*3}</td>`).join('')}</tr><tr><td>Length (in)</td>${p.sizes.map((s,i)=>`<td>${(p.cat==='bottoms'?40:22)+i}</td>`).join('')}</tr></table>`:'<p>See product details for measurements.</p>';
+ return {title:p.name.split(' ')[0],html:`
+<section class="pdp">
+  <div class="gal">
+    <div class="g big" id="gBig" title="Click to zoom"><img class="cut" id="gCut" src="${p.img}" alt="${esc(p.name)} in ${esc(p.sub)}"><span class="lbl mono">01 · Studio</span></div>
+    <div class="g dk"><img class="ph" src="${p.wild}" alt="${esc(p.name)} styled on model" loading="lazy"><span class="lbl mono">02 · In the wild</span></div>
+    <div class="g dk"><img class="ph" src="${p.cat==='outerwear'?M.zip:p.cat==='bottoms'?M.gas:p.cat==='accessories'?M.store:M.garage}" alt="Campaign detail" loading="lazy"><span class="lbl mono">03 · Campaign</span></div>
+  </div>
+  <div class="buy">
+    <div class="crumb mono"><a href="#/shop">Shop</a> / <a href="#/shop/${p.cat}">${CATS[p.cat]}</a></div>
+    ${p.badge?`<span class="mono" style="color:var(--signal)">${p.badge}</span>`:''}
+    <h1>${esc(p.name)}</h1><div class="sub">${esc(p.sub)}</div>
+    <div class="pr">${money(p.price)}</div><div class="note">or 4 payments of ${money(p.price/4)} · Drop 07, no restocks</div>
+    <div class="lbl2 mono"><span>Size${p.sizes.length>1?'':' · One size'}</span>${p.sizes.length>1?'<button class="mono" id="sg">Size guide</button>':''}</div>
+    <div class="sizes" id="szs">${p.sizes.map(s=>`<button aria-pressed="${p.sizes.length===1}">${s}</button>`).join('')}</div>
+    <div class="addrow"><div class="qty"><button id="qm" aria-label="Less">−</button><span id="qn">1</span><button id="qp" aria-label="More">+</button></div><button class="btn dark" id="add">${p.sizes.length===1?'Add to bag — '+money(p.price):'Select a size'}</button></div>
+    <div class="ship mono"><span>Ships in 2–4 days</span><span>Free returns, 30 days</span><span>Free over $75</span></div>
+    <div class="acc">
+      <details open><summary>Details</summary><div class="bd">${esc(p.desc)}</div></details>
+      <details><summary>Fabric &amp; care</summary><div class="bd">${esc(p.fab)} Wash cold, inside out. Hang dry.</div></details>
+      <details id="sgd"><summary>Fit &amp; sizing</summary><div class="bd"><p style="margin-bottom:10px">${esc(p.fit)}</p>${sizeTable}</div></details>
+      <details><summary>Shipping &amp; returns</summary><div class="bd">Free standard shipping over $75 (2–4 business days). Express available at checkout. Returns are free within 30 days, unworn with tags.</div></details>
+    </div>
+  </div>
+</section>
+<section class="wrap"><div class="shead"><div><span class="idx mono">Complete the look</span><h2>Wear it <em>with.</em></h2></div><p>Picked by the studio to finish the fit.</p></div></section>
+<section class="ctl2">${pair.map((x,i)=>tileHTML(x,i)).join('')}<a class="tile ed" href="#/lookbook" style="grid-column:span 1;aspect-ratio:3/4"><img src="${p.wild}" alt="" loading="lazy"><div class="tx"><span class="mono">Seen in</span><b>Lookbook →</b></div></a></section>
+<section class="wrap"><div class="shead"><div><span class="idx mono">More from the drop</span><h2>Keep <em>looking.</em></h2></div></div></section>
+<section class="ctl2" style="padding-bottom:110px">${more.map((x,i)=>tileHTML(x,i)).join('')}</section>
+${foot}`,
+ init(root){
+  let size=p.sizes.length===1?p.sizes[0]:null,q=1;const add=$('#add',root);
+  const upd=()=>{add.textContent=size?`Add to bag — ${money(p.price*q)}`:'Select a size';add.classList.toggle('dark',true)};
+  $('#szs',root).addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;size=b.textContent;$$('#szs button',root).forEach(x=>x.setAttribute('aria-pressed',x===b));upd()});
+  $('#qm',root).onclick=()=>{q=Math.max(1,q-1);$('#qn',root).textContent=q;upd()};$('#qp',root).onclick=()=>{q=Math.min(9,q+1);$('#qn',root).textContent=q;upd()};
+  add.onclick=()=>{if(!size){$('#szs',root).animate([{transform:'translateX(0)'},{transform:'translateX(-6px)'},{transform:'translateX(6px)'},{transform:'translateX(0)'}],{duration:300});toast('Pick a size first');return}addBag(p.id,size,false,q);toast(`${p.name} · ${size} added`);renderBag();open($('#cdrawer'))};
+  const sg=$('#sg',root);if(sg)sg.onclick=()=>{const d=$('#sgd',root);d.open=true;d.scrollIntoView({behavior:'smooth',block:'center'})};
+  const big=$('#gBig',root),ci=$('#gCut',root);
+  big.addEventListener('pointermove',e=>{if(RM)return;const r=big.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;ci.style.transform=`perspective(900px) rotateY(${x*10}deg) rotateX(${-y*8}deg) scale(1.03)`});
+  big.addEventListener('pointerleave',()=>ci.style.transform='');
+  big.onclick=()=>{const z=$('#zoom');$('img',z).src=p.img;z.classList.add('on')};
+  $$('.ctl2',root).forEach(g=>g.addEventListener('click',e=>{const z=e.target.closest('[data-sz]');if(!z)return;e.preventDefault();e.stopPropagation();const id=z.closest('[data-qa]').dataset.qa;addBag(id,z.dataset.sz);toast(`${byId(id).name} · ${z.dataset.sz} added`)}));
+ }}}
+$('#zoom').onclick=()=>$('#zoom').classList.remove('on');
+$('#zoom').addEventListener('pointermove',e=>{const i=$('#zoom img');const x=e.clientX/innerWidth-.5,y=e.clientY/innerHeight-.5;i.style.transform=`translate(${-50-x*30}%,${-50-y*30}%)`});
+
+/* ===== LOOKBOOK ===== */
+function chips(ids,dk){return `<div class="inlook">${ids.map(id=>{const p=byId(id);return `<a href="#/product/${id}"><img src="${p.img}" alt="">${esc(p.name)} · ${money(p.price)}</a>`}).join('')}</div>`}
+function lookbook(){return {title:'Lookbook',html:`
+<section class="lbhero">
+  <div class="l"><span class="mono" style="color:rgba(255,255,255,.6)">Lookbook · Drop 07</span><h1>Night<br><em>shift.</em></h1><p>Six locations, one drop. Shot on the city's off-hours — last trains, all-night pumps, and the parking level nobody uses after midnight.</p>
+   <div class="toc mono"><a href="#ch1" data-jump>01 Last train</a><a href="#ch2" data-jump>02 Rooftop</a><a href="#ch3" data-jump>03 Level P4</a><a href="#ch4" data-jump>04 Open 24h</a><a href="#ch5" data-jump>05 Mile 0</a></div></div>
+  <div class="r">${M.sub.startsWith('http')&&!RM?`<video muted loop playsinline autoplay preload="auto" poster="${M.l1}" aria-hidden="true"><source src="${M.sub}" type="video/mp4"></video>`:`<img src="${M.l1}" alt="">`}</div>
+</section>
+<section class="chap" id="ch1"><div class="wrap chgrid">
+  <div style="grid-column:1/6" class="reveal"><div class="num">01</div><h3>Last <em>train</em></h3><p style="margin-top:16px;color:#4a4a4e;max-width:36ch">Mesh, denim and nothing else. Flash on, 12:40am, the platform to ourselves.</p>${chips(['mesh','carrier','sling'])}</div>
+  <figure style="grid-column:6/10" class="reveal"><img src="${M.l1}" alt="Woman in a sheer mesh top and baggy jeans on a subway platform" loading="lazy" style="aspect-ratio:3/4"></figure>
+  <figure style="grid-column:10/13" class="reveal"><img src="${byId('mesh').img}" alt="" loading="lazy" style="aspect-ratio:3/4;object-fit:contain;background:var(--studio);padding:18px"></figure>
+</div></section>
+<section class="chap dark" id="ch2"><div class="wrap chgrid">
+  <figure style="grid-column:1/9" class="reveal"><img src="${M.hero}" alt="Three models on a rooftop at blue hour" loading="lazy" style="aspect-ratio:16/10"></figure>
+  <div style="grid-column:9/13" class="reveal"><div class="num">02</div><h3>The <em>roof</em></h3><p style="margin-top:16px;color:rgba(255,255,255,.7);max-width:36ch">Blue hour on the roof, where the campaign started. Chrome against concrete.</p>${chips(['halo','static','drift'])}</div>
+</div></section>
+<section class="chap" id="ch3"><div class="wrap chgrid">
+  <div style="grid-column:1/5" class="reveal"><div class="num">03</div><h3>Level <em>P4</em></h3><p style="margin-top:16px;color:#4a4a4e;max-width:36ch">Four friends, one flash, a borrowed hatchback. The whole drop in one frame.</p>${chips(['halo','static','carrier','visor'])}</div>
+  <figure style="grid-column:5/10" class="reveal"><img src="${M.garage}" alt="Four friends in Matrix Market pieces leaning on a silver car in a parking garage" loading="lazy" style="aspect-ratio:3/4"></figure>
+  <figure style="grid-column:10/13" class="reveal"><img src="${M.l2}" alt="Man in a washed black hoodie in a laundromat" loading="lazy" style="aspect-ratio:3/4"></figure>
+</div></section>
+<section class="chap dark" id="ch4"><div class="wrap chgrid">
+  <figure style="grid-column:1/5" class="reveal"><img src="${M.gas}" alt="Man in a hoodie and beanie sitting on a car at a gas station at night" loading="lazy" style="aspect-ratio:3/4"></figure>
+  <figure style="grid-column:5/9" class="reveal"><img src="${M.store}" alt="Woman in a mesh top and cargo mini skirt in a convenience store" loading="lazy" style="aspect-ratio:3/4"></figure>
+  <div style="grid-column:9/13" class="reveal"><div class="num">04</div><h3>Open <em>24h</em></h3><p style="margin-top:16px;color:rgba(255,255,255,.7);max-width:36ch">Pump 4 and aisle 6. The fluorescent hours.</p>${chips(['static','beanie','drift','mini','mesh','sling'])}</div>
+</div></section>
+<section class="chap" id="ch5"><div class="wrap chgrid">
+  <div style="grid-column:1/5" class="reveal"><div class="num">05</div><h3>Mile <em>0</em></h3><p style="margin-top:16px;color:#4a4a4e;max-width:36ch">Drove until the city ran out. Then the court on the way back.</p>${chips(['bead','drift','relay'])}</div>
+  <figure style="grid-column:5/9" class="reveal"><img src="${M.l3}" alt="Woman in a baby tee on a silver car on a desert highway" loading="lazy" style="aspect-ratio:3/4"></figure>
+  <figure style="grid-column:9/13" class="reveal"><img src="${M.l4}" alt="Two friends on a basketball court at dusk" loading="lazy" style="aspect-ratio:3/4"></figure>
+</div></section>
+<section class="film dark"><div class="wrap"><div class="shead"><div><span class="idx mono">Every piece</span><h2>Shop the <em>shoot.</em></h2></div><p>Everything you just saw, in one rail.</p></div></div>
+ <div class="strip">${P.map(p=>`<a class="frame" href="#/product/${p.id}" draggable="false"><div class="ph" style="background:var(--studio);display:flex;align-items:center;justify-content:center;padding:28px"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy" draggable="false" style="object-fit:contain;transform:none"></div><figcaption><b>${esc(p.name)}</b><span class="mono">${money(p.price)}</span></figcaption></a>`).join('')}</div></section>
+${foot}`,
+ init(root){$$('[data-jump]',root).forEach(a=>a.onclick=e=>{e.preventDefault();$(a.getAttribute('href'),root).scrollIntoView({behavior:RM?'auto':'smooth'})})}}}
+
+/* ===== STORY ===== */
+function story(){return {title:'Story',html:`
+<section class="phead"><img src="${M.studio}" alt="Design studio at night with silver nylon and patterns on a cutting table"><div class="shade"></div>
+ <div class="wrap in"><div class="crumb mono"><a href="#/">Home</a> / Story</div><h1>Trans<em>mission</em></h1></div></section>
+<section class="wrap st1">
+  <div class="reveal"><img src="${M.zip}" alt="Macro of a chrome zipper on a silver puffer" loading="lazy"></div>
+  <div class="reveal"><span class="idx mono">Est. 2023 · Los Angeles</span><p class="big2">The Matrix Market started as a <em>side door</em> — a pop-up rail in a friend's garage, stocked with whatever we could cut and sew in a weekend.</p>
+   <div class="body2"><p>We grew up on Y2K catalogues, mall culture and late-night TV, and wanted clothes that felt like that era looked: shiny, a bit too big, built for going out and staying out.</p><p>Every drop is a short run designed around one idea, made once and never restocked. When it's gone, we move on to the next signal.</p></div></div>
+</section>
+<section class="macro"><img src="${M.studio}" alt="" loading="lazy"><p class="q">“Make it once, make it right, then let it go.”</p></section>
+<section class="wrap"><div class="shead"><div><span class="idx mono">The drops</span><h2>Seven <em>signals.</em></h2></div><p>Every drop since the garage. Hover to scan the archive.</p></div>
+ <div class="tl">${[['01','Static','Washed fleece and the first heavyweight hoodie.','2023'],['02','Dial-up','Tracksuits in dial-tone grey.','2023'],['03','Screensaver','Graphic tees printed in liquid chrome.','2024'],['04','Food court','Cargo everything. The one that sold out in nine minutes.','2024'],['05','Ringtone','Baby tees, bead chains, the first accessories.','2025'],['06','Buffering','Denim, finally done right.','2025'],['07','Signal','Mirror puffers and the night-shift campaign.','Now']].map(r=>`<div class="row${r[3]==='Now'?' now':''}"><span class="mono">Drop ${r[0]}</span><b>${r[1]}</b><p>${r[2]}</p><span class="mono">${r[3]}</span></div>`).join('')}</div></section>
+<section class="wrap"><div class="vals">${[['01','Short runs','Most pieces are made in runs of a few hundred. No restocks, no endless sale rack.'],['02','Heavier fabric','380gsm hoodies, 13oz denim and nylon that holds its shape. Built to be worn hard.'],['03','After dark','We shoot at night because that is when the clothes are worn. Every campaign starts after sundown.']].map(v=>`<div class="reveal"><span class="mono" style="color:var(--signal)">${v[0]}</span><b>${v[1]}</b><p>${v[2]}</p></div>`).join('')}</div></section>
+${foot}`,init(){}}}
+
+/* ===== CLUB ===== */
+function club(sub){return {title:'Club',html:`
+<section class="phead" style="height:clamp(460px,70vh,700px)"><img src="${M.garage}" alt="Friends in a parking garage at night" style="object-position:50% 35%"><div class="shade"></div>
+ <div class="wrap in"><div class="crumb mono"><a href="#/">Home</a> / Matrix Club</div><h1>Matrix <em>Club</em></h1><p style="max-width:46ch;color:rgba(255,255,255,.8);margin-top:16px">Free to join. Earn a point for every dollar, unlock earlier access as you go.</p></div></section>
+<section class="wrap"><div class="shead"><div><span class="idx mono">Tiers</span><h2>Three <em>levels.</em></h2></div><p>Points never expire. Your tier resets each January.</p></div>
+ <div class="tiers">
+  <div class="tier reveal"><span class="mono">Tier 01</span><b>Signal</b><span class="req">Free to join</span><ul><li>24h early access</li><li>Birthday credit, $10</li><li>Members-only drop alerts</li></ul><a class="btn line" href="#join">Join free</a></div>
+  <div class="tier hot reveal"><span class="mono" style="color:var(--signal)">Tier 02 · Most members</span><b>Frequency</b><span class="req">500 points a year</span><ul><li>48h early access</li><li>Free express shipping</li><li>Members-only colorways</li><li>Birthday credit, $20</li></ul><a class="btn solid" href="#join">Start earning</a></div>
+  <div class="tier reveal"><span class="mono">Tier 03</span><b>Broadcast</b><span class="req">1,500 points a year</span><ul><li>72h early access</li><li>Invites to sample sales and shoots</li><li>One free alteration per piece</li><li>Personal stylist line</li></ul><a class="btn line" href="#join">See how</a></div>
+ </div></section>
+${foot.replace('<section class="band">','<section class="band" id="join">')}
+<section class="wrap faq" id="faq"><div class="shead"><div><span class="idx mono">Help</span><h2>Good <em>questions.</em></h2></div></div>
+ <div class="acc">${[['Is this a real store?','No. The Matrix Market is a concept storefront built by Kevin Dunn to show brand, design and AI production work. Nothing on this site can be bought, and no emails or orders are sent.'],['How long does shipping take?','Standard shipping is 2–4 business days and free on orders over $75. Express arrives next business day.'],['What is the return policy?','Free returns within 30 days on unworn pieces with tags attached. Final-sale items are marked on the product page.'],['Will a sold-out piece come back?','No. Every drop is a single run. Join the Club to get access before pieces sell through.'],['How do the sizes run?','Most tops are cut oversized and bottoms are wide and long. Each product page has a fit note and a size table.']].map((f,i)=>`<details${i===0?' open':''}><summary>${f[0]}</summary><div class="bd">${f[1]}</div></details>`).join('')}</div></section>`,
+ init(root){if(sub==='faq')setTimeout(()=>$('#faq',root).scrollIntoView(),60);$$('a[href="#join"]',root).forEach(a=>a.onclick=e=>{e.preventDefault();$('#join',root).scrollIntoView({behavior:RM?'auto':'smooth'});setTimeout(()=>$('#join input',root).focus(),500)})}}}
+
+function notFound(){return {title:'404',html:`<section class="phead"><img src="${M.l1}" alt=""><div class="shade"></div><div class="wrap in"><h1>Lost <em>signal</em></h1><p style="margin-top:18px"><a class="btn solid" href="#/">Back home</a></p></div></section>`,init(){}}}
+
+/* ===== ROUTER ===== */
+const app=$('#app');let first=true,current='';
+function parse(){const h=location.hash.replace(/^#\/?/,'');const [a,b]=h.split('/');return {a:a||'',b:b||''}}
+function route(){const {a,b}=parse();const key=a+'/'+b;if(key===current)return;current=key;
+ let v;if(a==='')v=home();else if(a==='shop')v=shop(b);else if(a==='product')v=product(b);else if(a==='lookbook')v=lookbook();else if(a==='story')v=story();else if(a==='club')v=club(b);else v=notFound();
+ const swap=()=>{cleanups.forEach(f=>{try{f()}catch(e){}});cleanups=[];cur.classList.remove('on');
+  app.innerHTML=`<div class="page">${v.html}</div>`;scrollTo(0,0);bindShared(app);v.init&&v.init(app);reveals();
+  document.title=(a===''?'The Matrix Market — Drop 07: Signal':v.title+' — The Matrix Market');
+  $$('[data-nav]').forEach(n=>n.classList.toggle('on',n.dataset.nav===a))};
+ if(first||RM){first=false;swap();return}
+ const w=$('#wipe');$('#wipeT').textContent=v.title;w.classList.remove('go');void w.offsetWidth;w.classList.add('go');setTimeout(swap,430)}
+addEventListener('hashchange',route);
+renderBag();route();
+})();
+</script>
+</body>
+</html>
