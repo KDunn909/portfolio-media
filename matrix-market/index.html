@@ -489,21 +489,21 @@ const LOOK=[
 const lk={};LOOK.forEach(l=>{const p=P.find(x=>x.id===l.pid);lk[l.pid]={size:p.sizes.length===1?p.sizes[0]:null,in:false}});
 $('#lookImg').insertAdjacentHTML('beforeend',LOOK.map((l,i)=>{const p=P.find(x=>x.id===l.pid);return `<button class="pin${l.x>58?' flip':''}" data-pid="${l.pid}" style="left:${l.x}%;top:${l.y}%" aria-label="${p.name}, ${money(p.price)}"><span>0${i+1}</span><em class="tip">${p.name}<i>${money(p.price)}</i></em></button>`}).join(''));
 function syncReceipt(){
- $('#rlines').innerHTML=LOOK.map((l,i)=>{const p=P.find(x=>x.id===l.pid),s=lk[l.pid];return `<div class="rline" data-pid="${l.pid}"><span class="n">0${i+1}</span><span class="nm">${p.name}</span><span class="pr">${money(p.price)}</span><span class="kd">${p.kind} · ${p.sub}</span><button class="add${s.in?' in':''}">${s.in?'In bag':'Add'}</button>${p.sizes.length>1?`<div class="sizes">${p.sizes.map(z=>`<button aria-pressed="${z===s.size}">${z}</button>`).join('')}</div>`:''}</div>`}).join('');
+ $('#rlines').innerHTML=LOOK.map((l,i)=>{const p=P.find(x=>x.id===l.pid),s=lk[l.pid];return `<div class="rline${s.open&&!s.in?' open':''}" data-pid="${l.pid}"><span class="n">0${i+1}</span><span class="nm">${p.name}</span><span class="pr">${money(p.price)}</span><span class="kd">${p.kind} · ${p.sub}</span><button class="add${s.in?' in':''}">${s.in?'In bag':'Add'}</button>${p.sizes.length>1?`<div class="sizes">${p.sizes.map(z=>`<button aria-pressed="${z===s.size}">${z}</button>`).join('')}</div>`:''}</div>`}).join('');
  const sub=LOOK.reduce((a,l)=>a+P.find(x=>x.id===l.pid).price,0);$('#sub').textContent=money(sub);$('#disc').textContent='−'+money(sub*.1);$('#tot').textContent=money(sub*.9);
  const all=LOOK.every(l=>lk[l.pid].in);const af=$('#addFit');af.textContent=all?'Whole fit in your bag ✓':'Add whole fit to bag →';
 }
 syncReceipt();
 const rl=$('#rlines');
 rl.addEventListener('click',e=>{const line=e.target.closest('.rline');if(!line)return;const pid=line.dataset.pid,p=P.find(x=>x.id===pid),s=lk[pid];
- if(e.target.classList.contains('add')){if(s.in)return;if(p.sizes.length===1||s.size){s.in=true;addBag(pid,s.size);toast(`${p.name} added to bag`);syncReceipt()}else{line.classList.toggle('open')}}
+ if(e.target.classList.contains('add')){if(s.in)return;if(p.sizes.length===1||s.size){s.in=true;addBag(pid,s.size);toast(`${p.name} added to bag`);syncReceipt()}else{s.open=!s.open;syncReceipt()}}
  else if(e.target.closest('.sizes')&&e.target.tagName==='BUTTON'){s.size=e.target.textContent;s.in=true;addBag(pid,s.size);toast(`${p.name} · ${s.size} added`);syncReceipt()}});
 function hot(pid,on){$$(`.pin[data-pid="${pid}"]`).forEach(x=>x.classList.toggle('hot',on));$$(`.rline[data-pid="${pid}"]`).forEach(x=>x.classList.toggle('hot',on))}
 $('#lookImg').addEventListener('pointerover',e=>{const p=e.target.closest('.pin');$$('.pin').forEach(x=>hot(x.dataset.pid,false));if(p)hot(p.dataset.pid,true)});
 $('#lookImg').addEventListener('click',e=>{const p=e.target.closest('.pin');if(!p)return;const line=$(`.rline[data-pid="${p.dataset.pid}"]`);line.scrollIntoView({block:'nearest',behavior:'smooth'});hot(p.dataset.pid,true)});
 rl.addEventListener('pointerover',e=>{const l=e.target.closest('.rline');$$('.rline').forEach(x=>hot(x.dataset.pid,false));if(l)hot(l.dataset.pid,true)});
 $('#addFit').onclick=()=>{const need=LOOK.filter(l=>!lk[l.pid].in&&!lk[l.pid].size&&P.find(x=>x.id===l.pid).sizes.length>1);
- if(need.length){need.forEach(l=>$(`.rline[data-pid="${l.pid}"]`).classList.add('open'));toast('Pick a size for '+need.map(l=>P.find(x=>x.id===l.pid).name.split(' ')[0]).join(', '));return}
+ if(need.length){need.forEach(l=>lk[l.pid].open=true);syncReceipt();toast('Pick a size for '+need.map(l=>P.find(x=>x.id===l.pid).name.split(' ')[0]).join(', '));return}
  let n=0;LOOK.forEach(l=>{const s=lk[l.pid];if(!s.in){s.in=true;addBag(l.pid,s.size,true);n++}});syncReceipt();if(n)toast('Whole fit added · 10% off applied')};
 new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$('#receipt').classList.add('print');o.disconnect()}}),{threshold:.25}).observe($('#receipt'));
 
