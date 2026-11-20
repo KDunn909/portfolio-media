@@ -231,14 +231,6 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 @media (max-width:900px) and (max-height:640px){.card .sub{display:none}}
 
 
-@media (max-width:760px){
-.gi figcaption{left:8px;bottom:8px;right:auto;font-size:11px;line-height:1.3;padding:4px 8px;border-radius:7px;max-width:calc(100% - 16px)}
-.gi .badge{top:8px;left:8px;font-size:9px;padding:2px 7px}
-.card .cr img{object-position:50% 16%}
-.live{aspect-ratio:9/15}
-.vp{height:auto;aspect-ratio:9/15}
-.siterow .browser .bar .livetag{display:none}
-}
 /* ===== case sheet ===== */
 .sheet{position:fixed;inset:0;z-index:90;pointer-events:none}
 .sheet .sc{position:absolute;inset:0;background:rgba(5,6,9,.6);backdrop-filter:blur(6px);opacity:0;transition:opacity .6s}
@@ -367,7 +359,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .browser .bar i:nth-child(1){background:#ff6058}.browser .bar i:nth-child(2){background:#ffbd2e}.browser .bar i:nth-child(3){background:#28c940}
 .browser .bar .u{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-left:12px;background:#fff;border-radius:7px;padding:5px 12px;font-size:12px;color:#555;font-family:var(--mono);max-width:320px}
 .vp{height:clamp(300px,34vw,500px);overflow:hidden;position:relative}
-.vp img{width:100%;transition:transform 7s cubic-bezier(.45,0,.55,1)}
+.vp picture{display:block}.vp img{display:block;width:100%;transition:transform 7s cubic-bezier(.45,0,.55,1)}
 .browser:hover .vp img{transform:translateY(calc(-1 * var(--scroll,0px)))}
 .phone{position:absolute;right:0;bottom:-30px;width:clamp(120px,13vw,190px);aspect-ratio:9/19.5;border-radius:26px;border:6px solid var(--ink);overflow:hidden;background:#fff;box-shadow:0 30px 60px -20px rgba(14,17,23,.5);transform:rotate(3deg);transition:transform .8s var(--ease)}
 .siterow:hover .phone{transform:rotate(0) translateY(-10px)}
@@ -522,7 +514,16 @@ footer a:hover{color:var(--lime)}
 [data-for]{transition:opacity .4s}
 body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire].lens-only{display:none}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.ln>span,.rv-up,.step{transform:none!important;opacity:1!important}}
-</style>
+
+@media (max-width:760px){
+.gi figcaption{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;left:8px;bottom:8px;right:auto;font-size:11px;line-height:1.3;padding:4px 8px;border-radius:7px;max-width:calc(100% - 16px)}
+.gi:has(.snd) figcaption{max-width:calc(100% - 62px)}
+.gi .badge{top:8px;left:8px;font-size:9px;padding:2px 7px}
+.card .cr img{object-position:50% 16%}
+.live{aspect-ratio:9/15}
+.vp{height:auto;aspect-ratio:9/15}
+.siterow .browser .bar .livetag{display:none}
+}</style>
 </head>
 <body data-lens="hire">
 
@@ -896,7 +897,7 @@ const G=[
   ['p',MM.hero,0,'Campaign hero · rooftop','wide'],['v',MM.tt,MM.halo,'360° product turntable','wide'],
   ['v',MM.sub,MM.store,'Lookbook clip · last train','r34'],['p',MM.garage,0,'Lookbook · Level P4','r34'],['p',MM.store,0,'Lookbook · open 24h','r34'],['c',MM.halo,0,'Product cutout · Halo puffer','r34']]},
  {k:'hd',l:'Funnel Hood Hoodie',s:'AI fashion ads · tap the speaker for sound',cls:'p-hd',it:[
-  ['a','hoodie-fan-swap',hv('hoodie-fan-swap.jpg'),'Viral format remake · ceiling-fan outfit swap','r916'],['a','hoodie-studio',hv('hoodie-studio.jpg'),'Studio product ad','r916'],['a','hoodie-closeups',hv('hoodie-closeups.jpg'),'Close-up detail ad','r916'],['a','hoodie-stairwell',hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad','r916']]},
+  ['a','hoodie-fan-swap',hv('hoodie-fan-swap.jpg'),'Viral remake · fan outfit swap','r916'],['a','hoodie-studio',hv('hoodie-studio.jpg'),'Studio product ad','r916'],['a','hoodie-closeups',hv('hoodie-closeups.jpg'),'Close-up detail ad','r916'],['a','hoodie-stairwell',hv('hoodie-stairwell.jpg'),'Stairwell lifestyle ad','r916']]},
  {k:'fa',l:'Fashion brand',s:'AI website imagery',cls:'p-fa',it:[['fashion-denim-street','Denim jacket, golden hour'],['fashion-leather-studio','Patent leather, studio'],['fashion-aviator-overhead','Aviators, overhead'],['fashion-linen-studio','Linen set, studio'],['fashion-knit-night','Knit set, night street'],['fashion-pink-harbor','Pink dress, harbor']].map(([k,c])=>['p',sh(k+'.jpg'),0,c,'r45'])},
  {k:'fl',l:'Product flat lays',s:'AI product photography',cls:'p-fl',it:[['flatlay-sherpa-coat','Sherpa coat'],['flatlay-crinkle-set','Crinkle set'],['flatlay-fur-crop','Faux fur crop'],['flatlay-monaco-hoodie','Embroidered hoodie']].map(([k,c])=>['p',fl(k+'.jpg'),0,c,'r45'])}
 ];
