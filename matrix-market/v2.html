@@ -498,6 +498,7 @@ const M={hero:C+'31f0403e-8341-4bf3-91af-b2b1286d74ce.jpg',herovid:C+'81f0a9d4-a
  tunnel:C+'c8ec5ea1-0e3b-4de6-bef5-83cf40b5bb86.jpg',studio:C+'2dadb1b4-ce9d-428f-a4b5-67354f2ebf9e.jpg',garage:C+'7060a9d9-f854-4168-91b5-54440b5c18a2.jpg',zip:C+'1e19f561-569f-4680-9d76-70076db281af.jpg',gas:C+'3f8b9710-bc26-4b04-9b64-65eeaf2418bf.jpg',store:C+'9c92c6e3-15a5-4ff1-8a49-5925a083f8cd.jpg',
  tt:'https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/89d4d6f2-0d1e-4f6c-870f-555292aac20d.mp4',sub:'https://d2ol7oe51mr4n9.cloudfront.net/user_3LvGpjnXJZkPYPHH9P8kqBAQV0q/e12a18ea-ed84-47da-9e5a-c592d48f8128.mp4'};
 const cut=id=>C+id+'.webp';
+const pos=u=>u===M.tunnel?' style="object-position:62% 50%"':'';
 const P=[
  {id:'halo',name:'Halo Crop Puffer',sub:'Liquid silver',price:148,cat:'outerwear',img:cut('2fd68a97-fe4c-4e08-a7e3-bbb3753f5336'),wild:M.stl,badge:'Hero piece',desc:'Cropped, boxy puffer in a mirror-finish ripstop with diamond quilting, a two-way chrome zip and a tall stand collar. 120g recycled fill keeps it warm without the bulk.',fab:'Shell: 100% recycled nylon ripstop, mirror coated. Fill: 120g recycled polyester. Lining: matte black taffeta.',fit:'Boxy and cropped to the natural waist. Model is 5\'9" and wears S.',sizes:['XS','S','M','L','XL'],pair:['drift','visor','bead']},
  {id:'static',name:'Static Heavy Hoodie',sub:'Washed black',price:88,cat:'tops',img:cut('47d176ae-927f-41aa-86c0-70da4f1d1707'),wild:M.l2,desc:'380gsm loopback cotton with dropped shoulders and a double-layer hood. Garment-dyed and stone-washed, so every piece fades a little differently.',fab:'100% organic cotton loopback, 380gsm. Garment dyed, enzyme and stone washed.',fit:'Oversized. Size down for a closer fit. Model is 6\'1" and wears L.',sizes:['S','M','L','XL','XXL'],pair:['drift','beanie','carrier']},
@@ -724,7 +725,7 @@ ${foot}`,
  }}}
 
 /* ===== SHOP ===== */
-function tileHTML(p,i){return `<a class="tile" href="#/product/${p.id}" style="animation-delay:${Math.min(i,10)*40}ms"><span class="no mono">${String(P.indexOf(p)+1).padStart(2,'0')}</span>${p.badge?`<span class="badge mono">${p.badge}</span>`:''}<img class="alt" src="${p.wild}" alt="" loading="lazy"><div class="im"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy"></div>
+function tileHTML(p,i){return `<a class="tile" href="#/product/${p.id}" style="animation-delay:${Math.min(i,10)*40}ms"><span class="no mono">${String(P.indexOf(p)+1).padStart(2,'0')}</span>${p.badge?`<span class="badge mono">${p.badge}</span>`:''}<img class="alt" src="${p.wild}" alt="" loading="lazy"${pos(p.wild)}><div class="im"><img src="${p.img}" alt="${esc(p.name)}" loading="lazy"></div>
  <div class="qa" data-qa="${p.id}"><span class="mono">Quick add</span>${p.sizes.map(z=>`<button data-sz="${z}">${z}</button>`).join('')}</div>
  <div class="info"><div><b>${esc(p.name)}</b><small>${esc(p.sub)}</small></div><span class="mono">${money(p.price)}</span></div></a>`}
 function shop(cat){
@@ -757,7 +758,7 @@ function product(id){
 <section class="pdp">
   <div class="gal">
     <div class="g big" id="gBig" title="Click to zoom"><img class="cut" id="gCut" src="${p.img}" alt="${esc(p.name)} in ${esc(p.sub)}"><span class="lbl mono">01 · Studio</span></div>
-    <div class="g dk"><img class="ph" src="${p.wild}" alt="${esc(p.name)} styled on model" loading="lazy"><span class="lbl mono">02 · In the wild</span></div>
+    <div class="g dk"><img class="ph" src="${p.wild}" alt="${esc(p.name)} styled on model" loading="lazy"${pos(p.wild)}><span class="lbl mono">02 · In the wild</span></div>
     <div class="g dk"><img class="ph" src="${({outerwear:[M.zip,M.garage],bottoms:[M.garage,M.gas],accessories:[M.store,M.gas],tops:[M.garage,M.gas]})[p.cat].find(x=>x!==p.wild)}" alt="Campaign detail" loading="lazy"><span class="lbl mono">03 · Campaign</span></div>
   </div>
   <div class="buy">
@@ -778,7 +779,7 @@ function product(id){
   </div>
 </section>
 <section class="wrap"><div class="shead"><div><span class="idx mono">Complete the look</span><h2>Wear it <em>with.</em></h2></div><p>Picked by the studio to finish the fit.</p></div></section>
-<section class="ctl2">${pair.map((x,i)=>tileHTML(x,i)).join('')}<a class="tile ed" href="#/lookbook" style="grid-column:span 1;aspect-ratio:3/4"><img src="${p.wild}" alt="" loading="lazy"><div class="tx"><span class="mono">Seen in</span><b>Lookbook →</b></div></a></section>
+<section class="ctl2">${pair.map((x,i)=>tileHTML(x,i)).join('')}<a class="tile ed" href="#/lookbook" style="grid-column:span 1;aspect-ratio:3/4"><img src="${p.wild}" alt="" loading="lazy"${pos(p.wild)}><div class="tx"><span class="mono">Seen in</span><b>Lookbook →</b></div></a></section>
 <section class="wrap"><div class="shead"><div><span class="idx mono">More from the drop</span><h2>Keep <em>looking.</em></h2></div></div></section>
 <section class="ctl2" style="padding-bottom:110px">${more.map((x,i)=>tileHTML(x,i)).join('')}</section>
 ${foot}`,
