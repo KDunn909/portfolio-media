@@ -520,6 +520,7 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
 .gi:has(.snd) figcaption{max-width:calc(100% - 62px)}
 .gi .badge{top:8px;left:8px;font-size:9px;padding:2px 7px}
 .card .cr img{object-position:50% 16%}
+.card[data-case="2"] .cr img{object-position:50% 28%}
 .live{aspect-ratio:9/15}
 .vp{height:auto;aspect-ratio:9/15}
 .siterow .browser .bar .livetag{display:none}
@@ -865,7 +866,7 @@ const CASES=[
   kpis:[['NFL','former players as coaches',1],['Coming','soon',1],['90-day','launch plan'],['30%','recurring affiliate program']],
   chips:['Partnerships','Financial modeling','Pitch decks','Community']}
 ];
-const META={mm:['t-ink','6 pages','built in one afternoon',['i',MM.hero,'The Matrix Market · live']],eco:['t-paper','$222K','gross profit in the first 90 days',['i',ECO.full,'ecosmarthomeservices.com']],cat:['t-ink','160+','photos in one session, zero photoshoots',['i',sh('fashion-leather-studio.jpg'),'AI fashion photography']],px:['t-paper','Live','store shipping orders worldwide',['i',PX.hero,'pixelhaven.store · live']],tt:['t-blue','10/day','posted by a system that runs itself',['wf']],auto:['t-lime','4 jobs','handled automatically, every day',['ba']],fb:['t-ink','Coming soon','partnering with former NFL players',['plan']]};
+const META={mm:['t-ink','6 pages','built in one afternoon',['i',MM.hero,'The Matrix Market · live']],eco:['t-paper','$222K','gross profit in the first 90 days',['i',ECO.full,'ecosmarthomeservices.com']],cat:['t-ink','160+','photos in one session, zero photoshoots',['i',sh('fashion-aviator-overhead.jpg'),'AI fashion photography']],px:['t-paper','Live','store shipping orders worldwide',['i',PX.hero,'pixelhaven.store · live']],tt:['t-blue','10/day','posted by a system that runs itself',['wf']],auto:['t-lime','4 jobs','handled automatically, every day',['ba']],fb:['t-ink','Coming soon','partnering with former NFL players',['plan']]};
 const visH=(v,c)=>v[0]==='i'?`<img src="${v[1]}" alt="" loading="lazy" style="object-position:${c.id==='mm'||c.id==='cat'?'center':'top'}"><span class="ttl mono">${esc(v[2])}</span>`:
  v[0]==='wf'?wfH(true):v[0]==='flow'?`<div class="vis">${[['01','Find what sells'],['02','Make the video'],['03','Check the rules'],['04','Post every day']].map(x=>`<div class="vstep"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`:
  v[0]==='ba'?`<div class="vis">${[['A lead comes in after hours','Reply and booking link sent right away'],['Finding new clients','Outreach goes out automatically'],['Social clips','Cut and captioned for approval'],['Weekly numbers','AI flags what to fix']].map(x=>`<div class="vrow"><div class="vb" style="background:rgba(14,17,23,.08)"><span>Task</span>${x[0]}</div><div class="vb" style="background:var(--ink);color:var(--paper)"><span style="color:var(--lime);opacity:1">Now</span>${x[1]}</div></div>`).join('')}</div>`:
