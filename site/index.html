@@ -294,6 +294,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 /* ===== sites ===== */
 .siterow{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:60px;align-items:center;padding:60px 0;border-top:1px solid var(--line)}
 .siterow:nth-child(even) .sm{order:2}
+.siterow>*{min-width:0}.browser{min-width:0}
+@media (max-width:760px){.livetag{font-size:0;gap:0}.livetag i{width:8px;height:8px}}
 .sm{position:relative;padding-right:70px}
 .browser{border-radius:14px;overflow:hidden;background:#fff;box-shadow:0 50px 100px -40px rgba(14,17,23,.45),0 0 0 1px var(--line)}
 .browser .bar{display:flex;align-items:center;gap:7px;padding:12px 14px;background:#ececea;border-bottom:1px solid var(--line)}
