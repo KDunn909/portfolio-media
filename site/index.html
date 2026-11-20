@@ -409,6 +409,75 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .cbox ul{list-style:none;display:grid;gap:8px;color:var(--dim);font-size:15px;margin-bottom:22px}
 .cbox li::before{content:"✳ ";color:var(--lime)}
 @media (max-width:860px){.cgrid{grid-template-columns:1fr}}
+
+/* ===== autonomous workflow ===== */
+.wf{position:relative;border-radius:20px;overflow:hidden;background:radial-gradient(120% 90% at 50% 50%,#1a2040 0%,#0d1018 55%,#0b0d12 100%);color:var(--paper);aspect-ratio:1000/560;isolation:isolate}
+.wf svg{position:absolute;inset:0;width:100%;height:100%}
+.wf .track0{fill:none;stroke:rgba(242,241,236,.12);stroke-width:2;stroke-dasharray:4 8}
+.wf .track1{fill:none;stroke:url(#wfg);stroke-width:2.5;stroke-linecap:round}
+.wf .pt{fill:var(--lime);filter:drop-shadow(0 0 8px rgba(214,255,75,.9))}
+.wf .pt.b{fill:#8fa2ff;filter:drop-shadow(0 0 8px rgba(143,162,255,.9))}
+.wf .nd{position:absolute;transform:translate(-50%,-50%);width:clamp(120px,17%,190px);padding:12px 14px;border-radius:14px;background:rgba(18,21,28,.78);border:1px solid rgba(242,241,236,.14);backdrop-filter:blur(8px);transition:border-color .4s,box-shadow .4s,transform .5s var(--spring),background .4s;text-align:left}
+.wf .nd .ic{display:inline-grid;place-items:center;width:28px;height:28px;border-radius:8px;background:rgba(242,241,236,.08);font-size:14px;margin-bottom:8px;transition:background .4s,color .4s}
+.wf .nd b{display:block;font-family:var(--disp);font-weight:700;font-size:clamp(14px,1.4vw,18px);letter-spacing:-.02em;line-height:1.1}
+.wf .nd span.d{display:block;font-size:12px;color:var(--dim);margin-top:4px;line-height:1.35}
+.wf .nd .st{position:absolute;top:10px;right:10px;width:7px;height:7px;border-radius:50%;background:rgba(242,241,236,.25);transition:background .3s,box-shadow .3s}
+.wf .nd.on{border-color:var(--lime);box-shadow:0 0 0 4px rgba(214,255,75,.12),0 20px 40px -20px rgba(214,255,75,.5);transform:translate(-50%,-50%) scale(1.06);background:rgba(28,33,22,.9)}
+.wf .nd.on .ic{background:var(--lime);color:var(--ink)}
+.wf .nd.on .st{background:var(--lime);box-shadow:0 0 0 4px rgba(214,255,75,.25)}
+.wf .core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:36%}
+.wf .core .ring{position:absolute;left:50%;top:50%;width:150px;height:150px;margin:-75px 0 0 -75px;border-radius:50%;border:1px solid rgba(214,255,75,.25);animation:wfr 3s ease-out infinite;z-index:-1}
+.wf .core .ring:nth-child(2){animation-delay:1.5s}
+@keyframes wfr{from{transform:scale(.6);opacity:1}to{transform:scale(1.6);opacity:0}}
+.wf .core .lbl{color:var(--lime)}
+.wf .core b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(30px,4.2vw,62px);letter-spacing:-.05em;line-height:.9;margin:8px 0 6px;font-variant-numeric:tabular-nums}
+.wf .core small{display:block;color:var(--dim);font-size:13px}
+.wf .log{position:absolute;left:18px;right:18px;bottom:14px;display:flex;justify-content:space-between;gap:12px;color:var(--dim)}
+.wf .log .now{color:var(--paper)}
+.wf .log .now::before{content:"▸ ";color:var(--lime)}
+.wf .live2{display:inline-flex;align-items:center;gap:8px}
+.wf .live2 i{width:7px;height:7px;border-radius:50%;background:var(--lime);animation:ping 1.8s infinite}
+.wf.mini .nd{width:clamp(92px,23%,130px);padding:8px 10px}.wf.mini .nd span.d{display:none}.wf.mini .nd .ic{width:22px;height:22px;font-size:12px;margin-bottom:5px}.wf.mini .nd b{font-size:13px}
+.wf.mini .core b{font-size:clamp(26px,3vw,44px)}.wf.mini .log{display:none}
+.card .cr .wf{position:absolute;inset:0;aspect-ratio:auto;border-radius:0}
+.cs-media.wfwrap{aspect-ratio:auto;background:none;overflow:visible}
+@media (max-width:700px){.wf:not(.mini){aspect-ratio:auto;padding:22px 16px 60px}.wf:not(.mini) svg{display:none}.wf:not(.mini) .nd{position:relative;left:auto!important;top:auto!important;transform:none!important;width:100%;margin-bottom:8px}.wf:not(.mini) .nd.on{transform:none!important}.wf:not(.mini) .core{position:relative;left:auto;top:auto;transform:none;width:100%;margin:6px 0 16px}.wf:not(.mini) .core .ring{display:none}}
+
+/* ===== contact form ===== */
+.cwrap{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr);gap:26px;margin-top:60px;align-items:start}
+.cform{border:1px solid var(--faint);border-radius:22px;padding:30px;background:rgba(18,21,28,.6);backdrop-filter:blur(10px)}
+.cform .q2{font-family:var(--disp);font-weight:700;font-size:22px;letter-spacing:-.02em;margin-bottom:14px}
+.intent{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px}
+.intent label{position:relative;cursor:pointer}
+.intent input{position:absolute;opacity:0;pointer-events:none}
+.intent span{display:inline-flex;align-items:center;height:44px;padding:0 18px;border-radius:99px;border:1px solid var(--faint);color:var(--dim);transition:background .3s,color .3s,border-color .3s;font-size:15px}
+.intent input:checked+span{background:var(--lime);color:var(--ink);border-color:var(--lime);font-weight:600}
+.intent input:focus-visible+span{outline:2px solid var(--lime);outline-offset:3px}
+.fgrid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld.full{grid-column:1/-1}
+.fld label{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;color:var(--dim)}
+.fld input,.fld textarea{font:inherit;font-size:16px;color:var(--paper);background:rgba(242,241,236,.05);border:1px solid var(--faint);border-radius:12px;padding:14px 16px;outline:none;transition:border-color .3s,background .3s;width:100%}
+.fld textarea{min-height:110px;resize:vertical}
+.fld input:focus,.fld textarea:focus{border-color:var(--lime);background:rgba(242,241,236,.08)}
+.fld input::placeholder,.fld textarea::placeholder{color:rgba(242,241,236,.35)}
+.send{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:18px;flex-wrap:wrap}
+.send button{height:56px;padding:0 28px;border-radius:99px;background:var(--lime);color:var(--ink);font-weight:700;font-size:16px;display:inline-flex;align-items:center;gap:10px;transition:transform .4s var(--spring),opacity .3s}
+.send button:hover{transform:translateY(-2px)}
+.send button[disabled]{opacity:.6;pointer-events:none}
+.send small{color:var(--dim);font-size:13px}
+.cdone{display:none;text-align:left;padding:10px 0}
+.cdone b{display:block;font-family:var(--disp);font-weight:800;font-size:clamp(34px,4vw,56px);letter-spacing:-.05em;line-height:.9;color:var(--lime)}
+.cdone p{color:var(--dim);margin-top:12px;max-width:40ch}
+.cform.ok form{display:none}.cform.ok .cdone{display:block}
+.cerr{display:none;margin-top:14px;color:#ffb199;font-size:14px}
+.cside{display:grid;gap:12px}
+.cside .tile2{border:1px solid var(--faint);border-radius:18px;padding:22px 22px 24px}
+.cside .tile2 .mono{color:var(--dim)}
+.cside .em{display:block;font-family:var(--disp);font-weight:700;font-size:clamp(18px,1.7vw,24px);letter-spacing:-.02em;margin:8px 0 14px;word-break:break-all}
+.cside .tile2 ul{list-style:none;display:grid;gap:7px;color:var(--dim);font-size:14px;margin:10px 0 0}
+.cside .tile2 li::before{content:"✳ ";color:var(--lime)}
+@media (max-width:860px){.cwrap{grid-template-columns:1fr}.fgrid{grid-template-columns:1fr}.cform{padding:22px 18px}}
 footer{border-top:1px solid var(--faint);padding:26px 0 30px}
 footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:var(--dim)}
 footer a:hover{color:var(--lime)}
@@ -563,11 +632,33 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
   <div class="wrap">
     <div class="kick mono"><b>07</b><span>Contact</span></div>
     <h2>Let's build<br><span class="it">something.</span></h2>
-    <a class="mail" id="mailBig" href="mailto:kevindunn123@yahoo.com">kevindunn123@yahoo.com <span aria-hidden="true">↗</span></a>
-    <div class="crow"><button class="cta" id="copyMail">Copy email</button><a class="cta ghost" href="https://www.linkedin.com/in/kevin-dunn-742977210/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
-    <div class="cgrid">
-      <div class="cbox" data-box="hire"><span class="mono" style="color:var(--lime)">For hiring managers</span><h3>What I'd bring to your team</h3><ul><li>Paid media judged on profit, with attribution I can defend</li><li>A creative department's output from one seat</li><li>Automation for repetitive work in weeks, not quarters</li><li>Open to marketing, ecommerce growth and AI roles, especially in sports, DTC and apparel</li></ul><a class="cta" href="mailto:kevindunn123@yahoo.com?subject=Resume%20request">Request my resume →</a></div>
-      <div class="cbox" data-box="biz"><span class="mono" style="color:var(--lime)">For business owners</span><h3>What I can do for your brand</h3><ul><li>AI product photos and model shots that look like a real shoot</li><li>Short-form product videos for TikTok, Reels and ads</li><li>Shopify stores and landing pages built to convert</li><li>Paid ads for home-services and DTC brands</li></ul><a class="cta" href="mailto:kevindunn123@yahoo.com?subject=Project%20inquiry">Start a project →</a></div>
+    <p style="color:var(--dim);font-size:18px;max-width:46ch;margin-top:26px">Tell me what you need. It comes straight to my inbox, and I'll reply personally.</p>
+    <div class="cwrap">
+      <div class="cform" id="cformBox">
+        <form id="cform" novalidate>
+          <div class="q2">What brings you here?</div>
+          <div class="intent" role="radiogroup" aria-label="What brings you here">
+            <label><input type="radio" name="intent" value="Hiring: please send your resume" checked><span>I'm hiring, send your resume</span></label>
+            <label><input type="radio" name="intent" value="Project inquiry"><span>I have a project</span></label>
+            <label><input type="radio" name="intent" value="Something else"><span>Something else</span></label>
+          </div>
+          <div class="fgrid">
+            <div class="fld"><label for="fn">Your name</label><input id="fn" name="name" autocomplete="name" placeholder="Jordan Smith" required></div>
+            <div class="fld"><label for="fe">Your email</label><input id="fe" name="email" type="email" autocomplete="email" placeholder="you@company.com" required></div>
+            <div class="fld full"><label for="fc">Company or brand <span style="opacity:.6">(optional)</span></label><input id="fc" name="company" autocomplete="organization" placeholder="Company name"></div>
+            <div class="fld full"><label for="fm">Anything I should know? <span style="opacity:.6">(optional)</span></label><textarea id="fm" name="message" placeholder="The role, the project, a timeline or just a hello."></textarea></div>
+            <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+          </div>
+          <div class="send"><button type="submit" id="fsend">Send it <span aria-hidden="true">→</span></button><small>No email app needed. Takes ten seconds.</small></div>
+          <div class="cerr" id="cerr" role="alert"></div>
+        </form>
+        <div class="cdone" id="cdone" role="status"><b>Got it. Thank you.</b><p id="cdoneP">Your message is in my inbox. I'll get back to you at the email you gave me.</p></div>
+      </div>
+      <div class="cside">
+        <div class="tile2"><span class="mono">Prefer email?</span><span class="em">kevindunn123@yahoo.com</span><button class="cta" id="copyMail">Copy email address</button></div>
+        <div class="tile2"><span class="mono">Elsewhere</span><div class="crow" style="margin-top:12px"><a class="cta ghost" href="https://www.linkedin.com/in/kevin-dunn-742977210/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a></div>
+          <ul><li data-for="hire" class="lens-only">Open to marketing, ecommerce growth and AI roles, especially in sports, DTC and apparel</li><li data-for="biz" class="lens-only">AI product photos, video ads, Shopify stores, landing pages and paid ads</li><li>Based in Farmington, Connecticut</li></ul></div>
+      </div>
     </div>
   </div>
 </section>
@@ -646,7 +737,7 @@ const nav=$('#nav');let ly=0;addEventListener('scroll',()=>{const y=scrollY;nav.
 /* ===== lens ===== */
 function setLens(l,announce){document.body.dataset.lens=l;$$('#lens button').forEach(b=>b.setAttribute('aria-pressed',b.dataset.lens===l));
  const on=$(`#lens button[data-lens="${l}"]`),pill=$('#pill');if(on){pill.style.left=on.offsetLeft+'px';pill.style.width=on.offsetWidth+'px'}
- $$('.door').forEach(d=>d.classList.toggle('sel',d.dataset.pick===l));$$('.cbox').forEach(c=>c.classList.toggle('sel',c.dataset.box===l));
+ $$('.door').forEach(d=>d.classList.toggle('sel',d.dataset.pick===l));$$('.cbox').forEach(c=>c.classList.toggle('sel',c.dataset.box===l));if(window.__pickIntent)window.__pickIntent(l);
  try{localStorage.setItem('kd_lens',l)}catch(e){}if(announce)toast(l==='hire'?'Hiring view on':'Client view on')}
 $$('#lens button').forEach(b=>b.onclick=()=>setLens(b.dataset.lens,true));
 $$('.door').forEach(d=>d.onclick=()=>{setLens(d.dataset.pick,true);$('#work').scrollIntoView({behavior:RM?'auto':'smooth'})});
@@ -668,6 +759,35 @@ function wireLive(root=document){fitLive(root);$$('.live',root).forEach(l=>{if(l
 function wireShots(root=document){$$('.vp',root).forEach(vp=>{const i=$('img',vp);const set=()=>vp.style.setProperty('--scroll',Math.max(0,i.offsetHeight-vp.offsetHeight)+'px');i.addEventListener('load',set);set()})}
 addEventListener('resize',()=>{fitLive();wireShots()});
 
+
+/* ===== autonomous workflow diagram ===== */
+const WF=[['⌕','Research','Finds products already selling'],['✦','Generate','AI makes the scenes and video'],['T','Edit','Adds text, captions and hooks'],['✓','Compliance','Checks AI labels, claims and text zones'],['↑','Publish','Posts on schedule, 10 a day'],['◎','Learn','Reads views and sales, picks the next winners']];
+const WF_LOG=['Pulling top-selling products','Rendering scenes for video','Adding captions and on-screen text','Running the compliance check','Posting to TikTok','Reading results, ranking next products'];
+const WCX=500,WCY=270,WRX=395,WRY=200;
+function wfH(mini){const pos=WF.map((n,i)=>{const a=(-90+i*60)*Math.PI/180;return [WCX+WRX*Math.cos(a),WCY+WRY*Math.sin(a)]});
+ return `<div class="wf${mini?' mini':''}" data-wf aria-label="Diagram: an automated loop of six steps that runs on its own">
+ <svg viewBox="0 0 1000 560" aria-hidden="true"><defs><linearGradient id="wfg" x1="0" x2="1"><stop offset="0" stop-color="#d6ff4b" stop-opacity="0"/><stop offset="1" stop-color="#d6ff4b"/></linearGradient></defs>
+ <path class="track0" d="M${WCX},${WCY-WRY} A${WRX},${WRY} 0 0 1 ${WCX},${WCY+WRY} A${WRX},${WRY} 0 0 1 ${WCX},${WCY-WRY}"/>
+ <path class="track1" data-trail d=""/>
+ <circle class="pt" r="6"/><circle class="pt b" r="4"/><circle class="pt b" r="4"/></svg>
+ ${WF.map((n,i)=>`<div class="nd" data-n="${i}" style="left:${pos[i][0]/10}%;top:${pos[i][1]/5.6}%"><span class="st"></span><span class="ic">${n[0]}</span><b>${n[1]}</b><span class="d">${n[2]}</span></div>`).join('')}
+ <div class="core"><span class="ring"></span><span class="ring"></span><span class="mono lbl">Running on its own</span><b data-cnt>0/10</b><small>videos posted today</small></div>
+ <div class="log mono"><span class="now" data-log>${WF_LOG[0]}</span><span class="live2"><i></i>Live loop</span></div></div>`}
+const wfs=[];
+function wireWF(root=document){$$('[data-wf]',root).forEach(w=>{if(w.dataset.on)return;w.dataset.on=1;const svg=$('svg',w),path=$('.track0',svg),trail=$('[data-trail]',svg),pts=$$('.pt',svg),nds=$$('.nd',w),L=path.getTotalLength(),N=WF.length;
+  wfs.push({w,path,trail,pts,nds,L,N,last:-1,count:Math.floor(Math.random()*4)+3,lap:0,cnt:$('[data-cnt]',w),log:$('[data-log]',w)})})}
+let wfT0=performance.now();
+function wfTick(t){const P=10500;wfs.forEach(o=>{if(!o.w.isConnected)return;const r=o.w.getBoundingClientRect();if(r.bottom<0||r.top>innerHeight)return;
+  const p=((t-wfT0)%P)/P,lap=Math.floor((t-wfT0)/P);
+  const at=f=>{const q=o.path.getPointAtLength(((f%1)+1)%1*o.L);return q};
+  const a=at(p);o.pts[0].setAttribute('cx',a.x);o.pts[0].setAttribute('cy',a.y);
+  [p-.33,p-.66].forEach((f,k)=>{const q=at(f);o.pts[k+1].setAttribute('cx',q.x);o.pts[k+1].setAttribute('cy',q.y)});
+  let d='';for(let k=0;k<=24;k++){const q=at(p-.16+k*.16/24);d+=(k?'L':'M')+q.x.toFixed(1)+','+q.y.toFixed(1)}o.trail.setAttribute('d',d);
+  const idx=Math.floor(((p+1/(o.N*2))%1)*o.N)%o.N;
+  if(idx!==o.last){o.last=idx;o.nds.forEach((n,i)=>n.classList.toggle('on',i===idx));if(o.log)o.log.textContent=WF_LOG[idx]+(idx===4?` · video ${String(Math.min(o.count+1,10)).padStart(2,'0')}`:'');
+   if(idx===4){o.count=o.count>=10?1:o.count+1;o.cnt.textContent=o.count+'/10'}}});
+ requestAnimationFrame(wfTick)}
+if(!RM)requestAnimationFrame(wfTick);
 /* ===== CASES ===== */
 const CASES=[
  {id:'mm',flag:1,t:'The Matrix Market',sub:'A multi-page streetwear storefront, designed and built in one afternoon',tags:['Web design','AI imagery','Concept'],res:'6 pages · 1 day',peek:['i',MM.hero],
@@ -677,8 +797,7 @@ const CASES=[
   kpis:[['6','pages with a shared bag',1],['18','AI images for the build',1],['4','AI videos, including a 360° turntable'],['$1.06','spent on image generation']],
   chips:['Claude','MotionSites','Higgsfield','Seedance','Lovable'],note:'Concept only: no real products are sold.'},
  {id:'eco',t:'EcoSmart Home Services',sub:'Built a home-services marketing department from zero',tags:['Paid media','Lead generation','Landing pages'],res:'$222K / 90 days',peek:['i',ECO.full],
-  h:'From zero to <span class="it">$222K</span> in 90 days.',lede:'EcoSmart hired me as Marketing Director with no team, no tracking and no paid advertising. I built all of it and owned the whole path from ad to booked job. Below is the landing page I built, live.',
-  media:()=>`<div class="cs-media frame">${liveH('https://ecosmarthomeservices.com/','ecosmarthomeservices.com','EcoSmart Home Services')}<a class="openfull" href="https://ecosmarthomeservices.com/" target="_blank" rel="noopener">Open it full screen ↗</a></div>`,
+  h:'From zero to <span class="it">$222K</span> in 90 days.',lede:'EcoSmart hired me as Marketing Director with no team, no tracking and no paid advertising. I built all of it and owned the whole path from ad to booked job.',
   film:[['Situation','No marketing team, no way to see which ads brought in jobs, and leads that depended on word of mouth.'],['The call','Judge everything by profit per lead, not clicks. I set up call tracking myself so every number could be backed up.'],['Execution','Google, Meta and Yelp ads, landing pages that were tested and improved every week, and automatic lead booking and follow-up.'],['Adjustment','Three months in, the numbers showed most of the profit came from a few services. I moved the ad budget there.']],
   kpis:[['$222K','gross profit, first 90 days',1],['568%','return on ad spend and costs',1],['140','qualified leads, first 90 days'],['$40K → $103K','monthly profit after moving budget']],
   chips:['Google Ads','Meta Ads','Yelp','Call tracking','Landing pages']},
@@ -694,33 +813,33 @@ const CASES=[
   film:[['Situation','Testing new products quickly needs stores that launch quickly and still sell.'],['The call','Standardise everything: one intake form, one tested page layout, and one checklist before launch.'],['Execution','AI sets up the products, sizes and colors, bundle discounts, shipping and store policies. The store is designed phone-first, with ad tracking and fast page loads built in.'],['Live example','PixelHaven sells the PixelGlow Lantern and ships orders internationally.']],
   checks:['Product, options and photos set up','Bundle offer: buy 2 save 15%, buy 3 save 20%','Free gift added to bundles','Free worldwide shipping','Store policies drafted for review','Test order and ad tracking checked before launch'],
   chips:['Shopify','Lovable','Claude','DSers']},
- {id:'tt',t:'TikTok Shop content engine',sub:'A content system that produces and posts 10 videos a day',tags:['Short-form','Content system'],res:'10 videos / day',peek:['g','10/day'],
-  h:'Ten videos a day, <span class="it">by design.</span>',lede:'Selling on TikTok Shop takes a lot of videos, and most brands can\'t make enough. I built a system that goes from picking the product to posting the finished video, while staying inside TikTok\'s rules.',
-  media:()=>`<div class="flow">${[['01','Find what sells','A research tool shows which products are already selling, so every video starts with proven demand.'],['02','Make the video','AI creates the scenes and video from templates that keep the quality consistent.'],['03','Check the rules','A checklist I wrote after testing what TikTok flags: AI labels, price claims, and where text can go.'],['04','Post every day','Ten videos a day, tracked so the winners get more budget.']].map(s=>`<div class="fc"><span class="n">${s[0]}</span><b>${s[1]}</b><p>${s[2]}</p></div>`).join('')}</div>`,
-  film:[['Situation','Winning on TikTok Shop takes daily volume, and the platform punishes sloppy content.'],['The call','Run it like a factory: data picks the products, and fixed templates keep quality consistent.'],['Result','Accepted into TikTok Shop\'s Affiliate Creator Pilot Program and moved up to unlimited daily posting.']],
-  kpis:[['10/day','videos in production',1],['Unlimited','daily posting after the pilot']],
-  chips:['TikTok Shop','Kalodata','Higgsfield','CapCut']},
+ {id:'tt',t:'Autonomous content engine',sub:'A self-running system that finds products, makes videos and posts 10 a day',tags:['Short-form','Automation','AI video'],res:'10 videos / day',peek:['g','10/day'],
+  h:'A content team that <span class="it">runs itself.</span>',lede:'Selling on TikTok Shop takes a constant stream of videos, and most brands can\'t keep up. I built a system that loops on its own: it finds what\'s selling, makes the video, checks it against the rules, posts it, then learns from the results and starts again.',
+  media:()=>`<div class="cs-media wfwrap">${wfH(false)}</div>`,
+  film:[['Situation','Winning on TikTok Shop takes daily volume, and the platform punishes sloppy content.'],['The call','Build it as one connected loop instead of a to-do list, so every step feeds the next and nothing waits on a person.'],['How it runs','Research picks products already selling, AI makes the scenes and video, text and captions are added, a compliance check catches what TikTok flags, and posts go out on schedule. Results feed back into the next round of research.'],['Result','Accepted into TikTok Shop\'s Affiliate Creator Pilot Program and moved up to unlimited daily posting.']],
+  kpis:[['10/day','videos posted',1],['6','connected steps in the loop',1],['Unlimited','daily posting after the pilot'],['24/7','runs without a manual hand-off']],
+  chips:['TikTok Shop','Kalodata','Higgsfield','Kling','CapCut']},
  {id:'auto',t:'Automation for small teams',sub:'The repetitive work, handled automatically',tags:['Automation','AI'],res:'Hours back',peek:['g','On autopilot'],
   h:'The busywork, <span class="it">automated.</span>',lede:'Most small businesses lose hours every week to the same tasks: chasing leads, building lists, editing content, digging through reports. I set up systems that handle that work, so the team spends its time on customers.',
   media:()=>`<div class="ba">${[['A lead comes in after hours','Sits in the inbox until someone checks it the next morning, and often books with a competitor.','Gets an automatic reply and a link to book right away. The team gets the details before they start their day.'],['Finding new clients','Hours spent building lists and sending emails one at a time.','A system finds the right local businesses and sends the first outreach, so the team only talks to people who reply.'],['Keeping up with social media','Every clip is found, cut and captioned by hand.','Clips are found, cut and captioned automatically. A person approves each one before it posts.'],['Knowing what to fix','Digging through spreadsheets and ad dashboards.','A simple dashboard with an AI advisor that flags what to fix and what to spend more on.']].map(r=>`<div class="row"><div class="q">${r[0]}</div><div class="bf"><span>Before</span>${r[1]}</div><div class="af"><span>After</span>${r[2]}</div></div>`).join('')}</div>`,
   film:[['At EcoSmart','Automatic lead booking and follow-up got back to new leads faster and lowered the cost of each new customer.'],['For my agency','Workflows that found and contacted roofing and HVAC contractors.'],['Why I\'m careful','As a Generalist AI Specialist at Mercor, I\'ve completed hundreds of tasks evaluating AI output for AI labs. I know where these tools are reliable and where they need a person checking.']],
   chips:['n8n','Claude','GPT','Dashboards']},
- {id:'fb',t:'Football coaching platform',sub:'A subscription sports-education venture, from idea to launch plan',tags:['Strategy','Business plan'],res:'In development',peek:['g','90 days'],
-  h:'Blank page to <span class="it">yes.</span>',lede:'I\'m the operator on an in-development football coaching community being built with former NFL players. I built the full business case to bring partners on board.',
-  film:[['Deliverables','Business plan, three-scenario financial model, curriculum, community design, answers to partner objections, a pitch deck and a 90-day launch plan.'],['Go-to-market','Four ways to find members, a 30% recurring creator-affiliate program, and team plans sold to high school programs.'],['Why it matters','I can take a business from a blank page to numbers, positioning and a plan partners say yes to.']],
-  kpis:[['3','financial model scenarios',1],['90-day','launch plan'],['4','member acquisition channels'],['30%','recurring affiliate program']],
-  chips:['Financial modeling','Pitch decks','Pricing','Community']}
+ {id:'fb',soon:1,t:'Football coaching platform',sub:'A subscription coaching community built with former NFL players. Coming soon.',tags:['Coming soon','Partnership','Strategy'],res:'Coming soon',peek:['g','Soon'],
+  h:'Coached by <span class="it">NFL</span> players.',lede:'Coming soon. I\'m partnering with former NFL players to launch a subscription football coaching community, where young athletes learn the game straight from people who played it at the highest level. I\'m the operator who built the business behind it.',
+  film:[['The partnership','Former NFL players as the coaches and the faces of the platform. I bring the business, the marketing and the systems.'],['What it is','A members-only community with structured coaching, film breakdowns and team plans for high school programs.'],['What I built','Business plan, three-scenario financial model, curriculum, community design, a pitch deck for partners and a 90-day launch plan.'],['Go-to-market','Four ways to find members, a 30% recurring creator-affiliate program, and team plans sold to high school programs.']],
+  kpis:[['NFL','former players as coaches',1],['Coming','soon',1],['90-day','launch plan'],['30%','recurring affiliate program']],
+  chips:['Partnerships','Financial modeling','Pitch decks','Community']}
 ];
-const META={mm:['t-ink','6 pages','built in one afternoon',['i',MM.hero,'The Matrix Market · live']],eco:['t-paper','$222K','gross profit in the first 90 days',['i',ECO.full,'ecosmarthomeservices.com']],cat:['t-ink','160+','photos in one session, zero photoshoots',['i',sh('fashion-leather-studio.jpg'),'AI fashion photography']],px:['t-paper','Live','store shipping orders worldwide',['i',PX.hero,'pixelhaven.store · live']],tt:['t-blue','10/day','videos in production',['flow']],auto:['t-lime','4 jobs','handled automatically, every day',['ba']],fb:['t-ink','90 days','from blank page to launch plan',['plan']]};
+const META={mm:['t-ink','6 pages','built in one afternoon',['i',MM.hero,'The Matrix Market · live']],eco:['t-paper','$222K','gross profit in the first 90 days',['i',ECO.full,'ecosmarthomeservices.com']],cat:['t-ink','160+','photos in one session, zero photoshoots',['i',sh('fashion-leather-studio.jpg'),'AI fashion photography']],px:['t-paper','Live','store shipping orders worldwide',['i',PX.hero,'pixelhaven.store · live']],tt:['t-blue','10/day','posted by a system that runs itself',['wf']],auto:['t-lime','4 jobs','handled automatically, every day',['ba']],fb:['t-ink','Coming soon','partnering with former NFL players',['plan']]};
 const visH=(v,c)=>v[0]==='i'?`<img src="${v[1]}" alt="" loading="lazy" style="object-position:${c.id==='mm'||c.id==='cat'?'center':'top'}"><span class="ttl mono">${esc(v[2])}</span>`:
- v[0]==='flow'?`<div class="vis">${[['01','Find what sells'],['02','Make the video'],['03','Check the rules'],['04','Post every day']].map(x=>`<div class="vstep"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`:
+ v[0]==='wf'?wfH(true):v[0]==='flow'?`<div class="vis">${[['01','Find what sells'],['02','Make the video'],['03','Check the rules'],['04','Post every day']].map(x=>`<div class="vstep"><b>${x[0]}</b><span>${x[1]}</span></div>`).join('')}</div>`:
  v[0]==='ba'?`<div class="vis">${[['A lead comes in after hours','Reply and booking link sent right away'],['Finding new clients','Outreach goes out automatically'],['Social clips','Cut and captioned for approval'],['Weekly numbers','AI flags what to fix']].map(x=>`<div class="vrow"><div class="vb" style="background:rgba(14,17,23,.08)"><span>Task</span>${x[0]}</div><div class="vb" style="background:var(--ink);color:var(--paper)"><span style="color:var(--lime);opacity:1">Now</span>${x[1]}</div></div>`).join('')}</div>`:
- `<div class="vis"><div class="vday">${[['3','model scenarios'],['4','growth channels'],['30%','affiliate program']].map(x=>`<div style="background:rgba(242,241,236,.06)"><b>${x[0]}</b><span style="font-size:13px;opacity:.7">${x[1]}</span></div>`).join('')}</div><div class="vb" style="background:var(--lime);color:var(--ink)"><span>Built for partners</span>Business plan, financial model, curriculum, pitch deck and a 90-day launch plan.</div></div>`;
+ `<div class="vis" style="background:radial-gradient(90% 80% at 70% 20%,rgba(67,97,255,.35),transparent 60%)"><span class="mono" style="display:inline-flex;align-self:flex-start;background:var(--lime);color:var(--ink);padding:5px 12px;border-radius:99px">Coming soon</span><b style="font-family:var(--disp);font-weight:800;font-size:clamp(44px,5vw,84px);letter-spacing:-.06em;line-height:.85">Built with<br><span style="font-family:var(--serif);font-style:italic;font-weight:400;color:var(--lime)">NFL</span> players.</b><span style="opacity:.7;max-width:34ch">A subscription football coaching community, coached by people who played at the highest level.</span></div>`;
 $('#deck').innerHTML=CASES.map((c,i)=>{const m=META[c.id];return `<article class="card ${m[0]}" data-case="${i}" style="top:${96+i*14}px" data-cur="Open case" tabindex="0" role="button" aria-label="Open case study: ${esc(c.t)}">
- <div class="cl"><div><div class="top mono"><span>Case ${String(i+1).padStart(2,'0')}${c.flag?' · New':''}</span><span>${esc(c.tags.join(' · '))}</span></div><h3>${esc(c.t)}</h3><p class="sub">${esc(c.sub)}</p></div>
+ <div class="cl"><div><div class="top mono"><span>Case ${String(i+1).padStart(2,'0')}${c.flag?' · New':''}${c.soon?' · Coming soon':''}</span><span>${esc(c.tags.join(' · '))}</span></div><h3>${esc(c.t)}</h3><p class="sub">${esc(c.sub)}</p></div>
  <div><div class="met"><b>${m[1]}</b><span>${esc(m[2])}</span></div>${c.id==='px'?`<span class="open">Visit the live store <span aria-hidden="true">↗</span></span> <button class="open alt" data-case-open>Case study</button>`:`<span class="open">Open the case study <span aria-hidden="true">→</span></span>`}</div></div>
  <div class="cr">${visH(m[3],c)}</div></article>`}).join('');
-const cards=$$('#deck .card');
+const cards=$$('#deck .card');wireWF($('#deck'));
 function deckFx(){if(innerWidth<=900||RM)return;cards.forEach((c,i)=>{const n=cards[i+1];if(!n){c.style.transform='';c.style.filter='';return}const top=parseFloat(c.style.top),nt=n.getBoundingClientRect().top,ct=c.getBoundingClientRect().top;const over=Math.max(0,Math.min(1,(ct+c.offsetHeight*.6-nt)/(c.offsetHeight*.6)));c.style.transform=`scale(${1-over*.05})`;c.style.filter=`brightness(${1-over*.35})`})}
 addEventListener('scroll',deckFx,{passive:true});deckFx();
 // sheet
@@ -732,7 +851,7 @@ function openCase(i){curCase=i;const c=CASES[i],nx=CASES[(i+1)%CASES.length];las
  <div class="cs-body"><div><ul class="film">${c.film.map(f=>`<li><span>${f[0]}</span><p>${f[1]}</p></li>`).join('')}</ul></div>
  <div>${c.kpis?`<div class="kpis">${c.kpis.map(k=>`<div class="${k[2]?'hot':''}"><b>${k[0]}</b><span>${k[1]}</span></div>`).join('')}</div>`:''}${c.checks?`<span class="mono" style="color:var(--blue2)">What the system sets up</span><ul class="checks">${c.checks.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}<div class="chips">${c.chips.map(x=>`<span>${x}</span>`).join('')}</div>${c.note?`<div class="note">${c.note}</div>`:''}</div></div>
  <div class="cs-next"><span class="mono">Next case</span><button data-next>${esc(nx.t)} <span>→</span></button></div>`;
- pn.scrollTop=0;sheet.classList.add('on');sheet.setAttribute('aria-hidden','false');document.body.classList.add('lock');requestAnimationFrame(()=>{wireLive(pn);wireShots(pn)});setTimeout(()=>$('.x',pn).focus(),60)}
+ pn.scrollTop=0;sheet.classList.add('on');sheet.setAttribute('aria-hidden','false');document.body.classList.add('lock');requestAnimationFrame(()=>{wireLive(pn);wireShots(pn);wireWF(pn)});setTimeout(()=>$('.x',pn).focus(),60)}
 function closeCase(){sheet.classList.remove('on');sheet.setAttribute('aria-hidden','true');document.body.classList.remove('lock');setTimeout(()=>{if(!sheet.classList.contains('on'))pn.innerHTML=''},900);lastF&&lastF.focus&&lastF.focus()}
 $('#deck').addEventListener('click',e=>{const r=e.target.closest('.card');if(!r)return;const c=CASES[+r.dataset.case];if(c.id==='px'&&!e.target.closest('[data-case-open]')){window.open(PX.url,'_blank','noopener');return}openCase(+r.dataset.case)});$('#deck').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.classList.contains('card')){e.preventDefault();openCase(+e.target.dataset.case)}});
 sheet.addEventListener('click',e=>{if(e.target.closest('[data-x]'))closeCase();else if(e.target.closest('[data-next]'))openCase((curCase+1)%CASES.length)});
@@ -780,6 +899,23 @@ $('#siteList').innerHTML=SITES.map(s=>`<article class="siterow rv-up"><div class
  <div class="st"><span class="mono" style="color:var(--blue2)">${esc(s.k)}</span><h3>${esc(s.t)}</h3><p>${esc(s.p)}</p><dl>${s.dl.map(d=>`<div><dt>${d[0]}</dt><dd>${esc(d[1])}</dd></div>`).join('')}</dl><a class="cta" href="${s.url}" target="_blank" rel="noopener noreferrer">${s.cta} ↗</a></div></article>`).join('');
 wireLive($('#siteList'));wireShots($('#siteList'));
 
+
+/* ===== contact form ===== */
+(function(){const f=$('#cform'),box=$('#cformBox'),btn=$('#fsend'),err=$('#cerr');
+ const pick=v=>{const r=$$('#cform input[name=intent]').find(x=>x.value.startsWith(v));if(r)r.checked=true};
+ window.__pickIntent=l=>pick(l==='biz'?'Project':'Hiring');
+ f.addEventListener('submit',async e=>{e.preventDefault();err.style.display='none';
+  const d=Object.fromEntries(new FormData(f));if(d._honey)return;
+  if(!d.name.trim()){err.textContent='Please add your name.';err.style.display='block';$('#fn').focus();return}
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){err.textContent='Please add a valid email so I can reply.';err.style.display='block';$('#fe').focus();return}
+  btn.disabled=true;btn.firstChild.textContent='Sending… ';
+  try{const r=await fetch('https://formsubmit.co/ajax/kevindunn123@yahoo.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify({name:d.name,email:d.email,company:d.company||'—',reason:d.intent,message:d.message||'—',_subject:`Portfolio: ${d.intent} — ${d.name}`,_replyto:d.email,_template:'table',_captcha:'false'})});
+   const j=await r.json().catch(()=>({}));if(!r.ok||j.success==='false'||j.success===false)throw new Error(j.message||'send failed');
+   $('#cdoneP').textContent=d.intent.startsWith('Hiring')?'Your request is in my inbox. I\'ll send my resume to '+d.email+'.':'Your message is in my inbox. I\'ll reply to '+d.email+'.';box.classList.add('ok');toast('Message sent')}
+  catch(x){err.innerHTML='That didn\'t send. Please email me directly at <b>kevindunn123@yahoo.com</b>, or tap "Copy email address".';err.style.display='block'}
+  finally{btn.disabled=false;btn.firstChild.textContent='Send it '}});
+})();
 /* ===== reveals ===== */
 const rio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');rio.unobserve(e.target)}}),{threshold:.15});
 $$('.rv-up,.step').forEach(el=>rio.observe(el));
