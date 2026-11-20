@@ -647,7 +647,7 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
             <div class="fld"><label for="fe">Your email</label><input id="fe" name="email" type="email" autocomplete="email" placeholder="you@company.com" required></div>
             <div class="fld full"><label for="fc">Company or brand <span style="opacity:.6">(optional)</span></label><input id="fc" name="company" autocomplete="organization" placeholder="Company name"></div>
             <div class="fld full"><label for="fm">Anything I should know? <span style="opacity:.6">(optional)</span></label><textarea id="fm" name="message" placeholder="The role, the project, a timeline or just a hello."></textarea></div>
-            <input type="text" name="_honey" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
+            <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-9999px" aria-hidden="true">
           </div>
           <div class="send"><button type="submit" id="fsend">Send it <span aria-hidden="true">→</span></button><small>No email app needed. Takes ten seconds.</small></div>
           <div class="cerr" id="cerr" role="alert"></div>
@@ -905,15 +905,15 @@ wireLive($('#siteList'));wireShots($('#siteList'));
  const pick=v=>{const r=$$('#cform input[name=intent]').find(x=>x.value.startsWith(v));if(r)r.checked=true};
  window.__pickIntent=l=>pick(l==='biz'?'Project':'Hiring');
  f.addEventListener('submit',async e=>{e.preventDefault();err.style.display='none';
-  const d=Object.fromEntries(new FormData(f));if(d._honey)return;
+  const d=Object.fromEntries(new FormData(f));if(d.website)return;
   if(!d.name.trim()){err.textContent='Please add your name.';err.style.display='block';$('#fn').focus();return}
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){err.textContent='Please add a valid email so I can reply.';err.style.display='block';$('#fe').focus();return}
   btn.disabled=true;btn.firstChild.textContent='Sending… ';
-  try{const r=await fetch('https://formsubmit.co/ajax/kevindunn123@yahoo.com',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-    body:JSON.stringify({name:d.name,email:d.email,company:d.company||'—',reason:d.intent,message:d.message||'—',_subject:`Portfolio: ${d.intent} — ${d.name}`,_replyto:d.email,_template:'table',_captcha:'false'})});
-   const j=await r.json().catch(()=>({}));if(!r.ok||j.success==='false'||j.success===false)throw new Error(j.message||'send failed');
+  try{const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
+    body:JSON.stringify({name:d.name,email:d.email,company:d.company||null,reason:d.intent,message:d.message||null,page:location.pathname+location.hash,website:d.website||''})});
+   const j=await r.json().catch(()=>({}));if(r.status===429)throw new Error('rate');if(!r.ok||!j.ok)throw new Error(j.error||'send failed');
    $('#cdoneP').textContent=d.intent.startsWith('Hiring')?'Your request is in my inbox. I\'ll send my resume to '+d.email+'.':'Your message is in my inbox. I\'ll reply to '+d.email+'.';box.classList.add('ok');toast('Message sent')}
-  catch(x){err.innerHTML='That didn\'t send. Please email me directly at <b>kevindunn123@yahoo.com</b>, or tap "Copy email address".';err.style.display='block'}
+  catch(x){if(x.message==='rate'){err.textContent='You\'ve sent a few already. Please try again in a few minutes, or email me directly.';err.style.display='block';return}if(x.message&&x.message!=='send failed'&&!/fetch/i.test(x.message)){err.textContent=x.message+'.';err.style.display='block';return}err.innerHTML='That didn\'t send. Please email me directly at <b>kevindunn123@yahoo.com</b>, or tap "Copy email address".';err.style.display='block'}
   finally{btn.disabled=false;btn.firstChild.textContent='Send it '}});
 })();
 /* ===== reveals ===== */
