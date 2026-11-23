@@ -109,6 +109,10 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 .fade{position:absolute;inset:auto 0 0 0;height:45%;z-index:-1;background:linear-gradient(0deg,var(--night) 8%,rgba(11,13,18,0))}
 .hero-in{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:36px;pointer-events:none}
 .hero-in a,.hero-in button{pointer-events:auto}
+.forpill{display:flex;align-items:center;gap:10px;width:max-content;max-width:100%;margin-bottom:12px;padding:7px 14px 7px 8px;border-radius:99px;background:var(--lime);color:var(--ink);font-family:var(--mono);font-size:12px;letter-spacing:.06em;text-transform:uppercase;font-weight:500;animation:fpin .9s var(--ease) both .9s}
+.forpill b{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--ink);color:var(--lime);font-size:11px}
+.forpill span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+@keyframes fpin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
 .status{display:inline-flex;align-items:center;gap:10px;padding:7px 14px 7px 10px;border:1px solid var(--faint);border-radius:99px;background:rgba(11,13,18,.5);backdrop-filter:blur(10px);margin-bottom:26px}
 .status i{width:8px;height:8px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 0 rgba(214,255,75,.7);animation:ping 1.8s infinite}
 @keyframes ping{70%{box-shadow:0 0 0 9px rgba(214,255,75,0)}100%{box-shadow:0 0 0 0 rgba(214,255,75,0)}}
@@ -562,6 +566,7 @@ body[data-lens=hire] [data-for=biz].lens-only,body[data-lens=biz] [data-for=hire
   <div class="wall" aria-hidden="true"><div class="wall-in" id="wall"></div></div>
   <div class="dark" id="dark"></div><div class="grain"></div><div class="fade"></div>
   <div class="hero-in"><div class="wrap">
+    <div class="forpill" id="forpill" hidden><b>↗</b><span></span></div>
     <div class="status mono"><i></i><span data-for="hire" class="lens-only">Open to marketing, ecommerce &amp; AI roles</span><span data-for="biz" class="lens-only">Taking new client projects</span></div>
     <h1 class="h1" id="h1"><span class="ln"><span>One operator.</span></span><span class="ln"><span><span class="it">A whole</span></span></span><span class="ln"><span>marketing dept.</span></span></h1>
     <div class="hero-row">
@@ -786,6 +791,14 @@ function setLens(l,announce){document.body.dataset.lens=l;$$('#lens button').for
 $$('#lens button').forEach(b=>b.onclick=()=>setLens(b.dataset.lens,true));
 $$('.door').forEach(d=>d.onclick=()=>{setLens(d.dataset.pick,true);$('#work').scrollIntoView({behavior:RM?'auto':'smooth'})});
 let saved='hire';try{saved=localStorage.getItem('kd_lens')||'hire'}catch(e){}
+/* personal outreach links: ?for=Company&t=h|b&n=FirstName */
+const QS=new URLSearchParams(location.search),clip=(v,re,n)=>(v||'').replace(re,'').replace(/\s+/g,' ').trim().slice(0,n);
+const REF={co:clip(QS.get('for'),/[^A-Za-z0-9 &.,'()\-]/g,80),t:QS.get('t')==='b'?'b':QS.get('t')==='h'?'h':'',n:clip(QS.get('n'),/[^A-Za-z '\-]/g,40)};
+if(REF.t)saved=REF.t==='b'?'biz':'hire';
+if(REF.co){const fp=$('#forpill');$('span',fp).textContent=(REF.n?`Hi ${REF.n}, `:'')+`put together for ${REF.co}`;fp.hidden=false;
+ const fc=$('#fc');if(fc&&!fc.value)fc.value=REF.co;
+ const k='kd_v_'+REF.co.toLowerCase();let seen=false;try{seen=sessionStorage.getItem(k)}catch(e){}
+ if(!seen){try{sessionStorage.setItem(k,'1')}catch(e){}fetch('/api/visit',{method:'POST',keepalive:true,headers:{'Content-Type':'application/json'},body:JSON.stringify({company:REF.co,track:REF.t||null,first_name:REF.n||null,page:location.pathname+location.search})}).catch(()=>{})}}
 requestAnimationFrame(()=>setLens(saved));addEventListener('resize',()=>setLens(document.body.dataset.lens));
 // lazy door bgs
 new IntersectionObserver((es,o)=>es.forEach(e=>{if(e.isIntersecting){$$('img[data-src]',e.target).forEach(i=>i.src=i.dataset.src);o.disconnect()}}),{rootMargin:'400px'}).observe($('.doors'));
@@ -956,7 +969,7 @@ wireLive($('#siteList'));wireShots($('#siteList'));
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(d.email.trim())){err.textContent='Please add a valid email so I can reply.';err.style.display='block';$('#fe').focus();return}
   btn.disabled=true;btn.firstChild.textContent='Sending… ';
   try{const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json',Accept:'application/json'},
-    body:JSON.stringify({name:d.name,email:d.email,company:d.company||null,reason:d.intent,message:d.message||null,page:location.pathname+location.hash,website:d.website||''})});
+    body:JSON.stringify({name:d.name,email:d.email,company:d.company||null,reason:d.intent,message:d.message||null,page:location.pathname+location.search+location.hash,website:d.website||''})});
    const j=await r.json().catch(()=>({}));if(r.status===429)throw new Error('rate');if(!r.ok||!j.ok)throw new Error(j.error||'send failed');
    $('#cdoneP').textContent=d.intent.startsWith('Hiring')?'Your request is in my inbox. I\'ll send my resume to '+d.email+'.':'Your message is in my inbox. I\'ll reply to '+d.email+'.';box.classList.add('ok');toast('Message sent')}
   catch(x){if(x.message==='rate'){err.textContent='You\'ve sent a few already. Please try again in a few minutes, or email me directly.';err.style.display='block';return}if(x.message&&x.message!=='send failed'&&!/fetch/i.test(x.message)){err.textContent=x.message+'.';err.style.display='block';return}err.innerHTML='That didn\'t send. Please email me directly at <b>kevindunn123@yahoo.com</b>, or tap "Copy email address".';err.style.display='block'}
